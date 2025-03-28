@@ -1,0 +1,25 @@
+// TODO: This folder will contain API services:
+// 1. api/
+//    - authService.js (login, register, logout endpoints)
+//    - productService.js (product CRUD operations)
+//    - userService.js (user profile, settings management)
+//    - orderService.js (order creation, history, tracking)
+//    - cartService.js (cart operations)
+//    - categoryService.js (product categories management)
+//    - reviewService.js (product reviews and ratings)
+//    - searchService.js (product search and filtering)
+//    - paymentService.js (payment processing)
+//    - addressService.js (shipping/billing addresses)
+//    - wishlistService.js (user wishlist management)
+//    - notificationService.js (user notifications)
+//
+// 2. utils/
+//    - apiClient.js (axios instance configuration)
+//    - errorHandler.js (global error handling)
+//    - tokenManager.js (JWT token management)
+//    - validators.js (request/response validation)
+//
+// 3. interceptors/
+//    - authInterceptor.js (token injection)
+//    - errorInterceptor.js (error handling)
+//    - loaderInterceptor.js (loading states)

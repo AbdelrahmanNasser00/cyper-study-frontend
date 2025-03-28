@@ -1,0 +1,23 @@
+// TODO:This file will create:
+// - ThemeContext: for managing light/dark theme
+// - AuthContext: for managing user authentication
+// - LanguageContext: for managing application language
+// - NotificationContext: for managing global notifications/alerts
+
+import { createContext, useContext, useState } from 'react';
+
+// Theme Context
+export const ThemeContext = createContext();
+export const useTheme = () => useContext(ThemeContext);
+
+// Auth Context
+export const AuthContext = createContext();
+export const useAuth = () => useContext(AuthContext);
+
+// Language Context
+export const LanguageContext = createContext();
+export const useLanguage = () => useContext(LanguageContext);
+
+// Notification Context
+export const NotificationContext = createContext();
+export const useNotification = () => useContext(NotificationContext);

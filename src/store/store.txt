@@ -1,0 +1,8 @@
+// TODO: This folder will contain:
+// 1. store.js - Main Redux store configuration
+// 2. api.js - RTK Query API endpoints setup
+// 3. slices/ folder:
+//    - authSlice.js (user authentication state)
+//    - cartSlice.js (shopping cart state)
+//    - uiSlice.js (UI state like theme, sidebar, etc.)
+// 4. hooks.js - Custom Redux hooks (useAppDispatch, useAppSelector)

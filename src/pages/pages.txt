@@ -1,0 +1,43 @@
+// TODO: This folder structure will be:
+// 1. auth/
+//    ├── login/
+//    │   ├── Login.jsx (main page)
+//    │   └── components/
+//    │       ├── LoginForm.jsx
+//    │       └── SocialLogin.jsx
+//    ├── register/
+//    │   ├── Register.jsx (main page)
+//    │   └── components/
+//    │       ├── RegisterForm.jsx
+//    │       └── TermsAndConditions.jsx
+//    └── forgot-password/
+//        ├── ForgotPassword.jsx (main page)
+//        └── components/
+//            └── ResetForm.jsx
+//
+// 2. products/
+//    ├── list/
+//    │   ├── ProductList.jsx (main page)
+//    │   └── components/
+//    │       ├── ProductCard.jsx
+//    │       ├── FilterSidebar.jsx
+//    │       └── ProductGrid.jsx
+//    └── detail/
+//        ├── ProductDetail.jsx (main page)
+//        └── components/
+//            ├── ImageGallery.jsx
+//            ├── ProductInfo.jsx
+//            └── RelatedProducts.jsx
+//
+// 3. user/
+//    ├── profile/
+//    │   ├── Profile.jsx (main page)
+//    │   └── components/
+//    │       ├── ProfileInfo.jsx
+//    │       └── ActivityHistory.jsx
+//    └── settings/
+//        ├── Settings.jsx (main page)
+//        └── components/
+//            ├── SecuritySettings.jsx
+//            └── PreferencesForm.jsx
+//

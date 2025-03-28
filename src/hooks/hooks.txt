@@ -1,0 +1,39 @@
+// TODO: This folder will contain custom hooks (not require use all of these hooks but for future work if needed):
+// 1. api/
+//    ├── useApi.js (base API hook)
+//    ├── useQuery.js (data fetching)
+//    └── useMutation.js (data updates)
+//
+// 2. auth/
+//    ├── useAuth.js (authentication state)
+//    ├── usePermissions.js (user permissions)
+//    └── useProtectedRoute.js (route protection)
+//
+// 3. form/
+//    ├── useForm.js (form handling)
+//    ├── useValidation.js (input validation)
+//    └── useFormSubmit.js (form submission)
+//
+// 4. ui/
+//    ├── useModal.js (modal state)
+//    ├── useToast.js (notifications)
+//    ├── useTheme.js (theme switching)
+//    └── useMediaQuery.js (responsive design)
+//
+// 5. utils/
+//    ├── useDebounce.js (debounced values)
+//    ├── useLocalStorage.js (persistent storage)
+//    ├── useClickOutside.js (click detection)
+//    └── useWindowSize.js (viewport dimensions)
+//
+// 6. data/
+//    ├── usePagination.js (page handling)
+//    ├── useSort.js (sorting data)
+//    └── useFilter.js (filtering data)
+//
+// Each hook will:
+// - Follow the use prefix convention
+// - Have a single responsibility
+// - Include proper TypeScript types
+// - Include documentation and examples
+// - Have associated tests
