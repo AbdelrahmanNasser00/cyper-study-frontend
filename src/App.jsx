@@ -1,11 +1,23 @@
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
-import { Button } from "./components/ui/button";
+import Layout from "./Layout";
+import Login from "./pages/auth/login/Login";
+import Register from "./pages/auth/register/Register";
+import Home from "./pages/Home/Home";
+import NotFound from "./pages/NotFound";
 
 function App() {
   return (
-    <div>
-      <h1 class="text-3xl font-bold text-indigo-600">Hello world!</h1>{" "}
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route element={<Layout />}>
+          <Route path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="*" element={<NotFound />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
   );
 }
 
