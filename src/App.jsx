@@ -6,6 +6,7 @@ import Register from "./pages/auth/register/Register";
 import Home from "./pages/Home/Home";
 import NotFound from "./pages/NotFound";
 import GuestRoute from "./components/GuestRoute";
+import CourseDetails from "./pages/CourseDetails";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
       </Route>
+      <Route path="/details" element={<CourseDetails></CourseDetails>}></Route>
     </Routes>
   );
 }

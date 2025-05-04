@@ -3,6 +3,14 @@
 
 @custom-variant dark (&:is(.dark *));
 
+@utility container {
+  width: 90%;
+  padding-left: 10px;
+  padding-right: 10px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
 @theme inline {
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
