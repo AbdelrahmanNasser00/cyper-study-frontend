@@ -15,13 +15,13 @@ function App() {
       <Route element={<Layout />}>
         <Route path="/" element={<Home />} />
         <Route path="*" element={<NotFound />} />
-        <Route path="/wishlist" element={<WishList />} />
       </Route>
       <Route element={<GuestRoute />}>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
       </Route>
       <Route path="/details" element={<CourseDetails></CourseDetails>}></Route>
+      <Route path="/wishlist" element={<WishList />} />
     </Routes>
   );
 }
