@@ -1,9 +1,8 @@
-// WishlistPage.jsx
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { toggleItem } from "@/store/Slices/wishListSlice"; // adjust the import path
+import { toggleItem } from "@/store/Slices/wishListSlice";
 import { Heart } from "lucide-react";
-import { Button } from "@/components/ui/button"; // adjust to your UI library if needed
+import { Button } from "@/components/ui/button";
 
 const Wishlist = () => {
   const dispatch = useDispatch();
@@ -23,14 +22,12 @@ const Wishlist = () => {
           {items.map((course) => (
             <div
               key={course.id}
-              className="relative border p-4 rounded-lg shadow hover:shadow-md bg-white"
-            >
+              className="relative border p-4 rounded-lg shadow hover:shadow-md bg-white">
               <Button
                 onClick={() => handleRemove(course)}
                 variant="ghost"
                 size="icon"
-                className="absolute top-2 right-2 bg-white/80 backdrop-blur-sm hover:bg-white rounded-full h-8 w-8"
-              >
+                className="absolute top-2 right-2 bg-white/80 backdrop-blur-sm hover:bg-white rounded-full h-8 w-8">
                 <Heart className="h-5 w-5 fill-red-500 text-red-500" />
               </Button>
 

@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import HeroSection from "./Hero-sections/HeroSection";
-import StatsSection from "./Stats-section/StatsSection";
-import CategoriesSection from "./Categories-section/CategoriesSection";
-import FeaturedCoursesSection from "./Featured-courses-section/FeaturedCoursesSection";
-import BecomeInstructorSection from "./Become-instructor-Section/BecomeInstructorSection";
-import TestimonialsSection from "./Testimonials-section/TestimonialsSection";
-import NewsletterSection from "./Newsletter-section/NewsletterSection";
+import HeroSection from "./Components/Hero-sections/HeroSection";
+import StatsSection from "./Components/Stats-section/StatsSection";
+import CategoriesSection from "./Components/Categories-section/CategoriesSection";
+import FeaturedCoursesSection from "./Components/Featured-courses-section/FeaturedCoursesSection";
+import BecomeInstructorSection from "./Components/Become-instructor-Section/BecomeInstructorSection";
+import TestimonialsSection from "./Components/Testimonials-section/TestimonialsSection";
+import NewsletterSection from "./Components/Newsletter-section/NewsletterSection";
 
 const Home = () => {
   // useEffect(() => {
@@ -220,7 +220,7 @@ const Home = () => {
       />
       <BecomeInstructorSection />
       <TestimonialsSection testimonials={testimonials} />
-      <NewsletterSection/>
+      <NewsletterSection />
     </div>
   );
 };

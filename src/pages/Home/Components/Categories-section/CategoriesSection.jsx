@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
-import { Button } from "@/components/ui/button"; 
+import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
-import CategoryCard from "@/components/CategoryCard";
+import CategoryCard from "@/components/common/CategoryCard";
 function CategoriesSection({ categories }) {
   return (
     <section className="py-16 bg-gray-50">

@@ -1,5 +1,5 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import instructorImage from "../../public/instructor-removebg-preview.png";
+import instructorImage from "/instructor-removebg-preview.png";
 
 import {
   BookOpen,
@@ -10,7 +10,6 @@ import {
   User,
   Users,
 } from "lucide-react";
-import { Button } from "./ui/button";
 import {
   Accordion,
   AccordionContent,
@@ -18,7 +17,8 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { useState } from "react";
-import { Progress } from "./ui/progress";
+import { Progress } from "@/components/ui/progress";
+import { Button } from "@/components/ui/button";
 
 function TabsInCourseDetails() {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -40,26 +40,22 @@ function TabsInCourseDetails() {
         <TabsList className="mb-3 grid mx-auto lg:mx-0 grid-cols-1 sm:grid-cols-4">
           <TabsTrigger
             className="text-lg p-2 w-[350px] sm:w-full"
-            value="content"
-          >
+            value="content">
             Course Content
           </TabsTrigger>
           <TabsTrigger
             className="text-lg p-2 w-[350px] sm:w-full"
-            value="description"
-          >
+            value="description">
             Description
           </TabsTrigger>
           <TabsTrigger
             className="text-lg p-2 w-[350px] sm:w-full"
-            value="reviews"
-          >
+            value="reviews">
             Reviews
           </TabsTrigger>
           <TabsTrigger
             className="text-lg p-2 w-[350px] sm:w-full"
-            value="instructor"
-          >
+            value="instructor">
             Instructor
           </TabsTrigger>
         </TabsList>
@@ -72,13 +68,13 @@ function TabsInCourseDetails() {
                 <span>412 lessons</span>
                 <span className="flex gap-1">
                   {" "}
-                  <Dot></Dot>65 hours
+                  <Dot />
+                  65 hours
                 </span>
               </div>
               <Button
                 onClick={handleExpandAll}
-                className="bg-mainColor hover:bg-white hover:text-black hover:border-gray-100 hover:border"
-              >
+                className="bg-mainColor hover:bg-white hover:text-black hover:border-gray-100 hover:border">
                 {isExpanded ? "Collapse All" : "Expand All"}
               </Button>
             </div>
@@ -88,12 +84,10 @@ function TabsInCourseDetails() {
             <Accordion
               type="multiple"
               value={expandedSections}
-              onValueChange={setExpandedSections}
-            >
+              onValueChange={setExpandedSections}>
               <AccordionItem
                 data-state={isExpanded ? "open" : "closed"}
-                value="section-1"
-              >
+                value="section-1">
                 <AccordionTrigger className="text-lg">
                   Section 1: Getting Started
                 </AccordionTrigger>
@@ -128,8 +122,7 @@ function TabsInCourseDetails() {
               </AccordionItem>
               <AccordionItem
                 value="section-2"
-                data-state={isExpanded ? "open" : "closed"}
-              >
+                data-state={isExpanded ? "open" : "closed"}>
                 <AccordionTrigger className="text-lg">
                   Section 1: Getting Started
                 </AccordionTrigger>
