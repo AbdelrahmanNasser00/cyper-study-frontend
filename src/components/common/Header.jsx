@@ -1,4 +1,3 @@
-// Header.jsx
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
@@ -26,6 +25,8 @@ import {
 
 const Header = () => {
   const wishlistCount = useSelector((state) => state.wishlist.items.length);
+  const cartItems = useSelector((state) => state.cart.items);
+  const cartCount = cartItems.reduce((total, item) => total + item.quantity, 0);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const isLoggedIn = true;
 
@@ -82,9 +83,11 @@ const Header = () => {
 
               <Link to="/cart" className="relative">
                 <ShoppingCart className="h-5 w-5" />
-                <span className="absolute -top-2 -right-2 bg-[#3a57e8] text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">
-                  3
-                </span>
+                {cartCount > 0 && (
+                  <span className="absolute -top-2 -right-2 bg-[#3a57e8] text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">
+                    {cartCount}
+                  </span>
+                )}
               </Link>
 
               <DropdownMenu>
@@ -266,7 +269,7 @@ const Header = () => {
                 </Link>
                 <Link to="/cart" className="flex items-center gap-2 py-2">
                   <ShoppingCart className="h-4 w-4" />
-                  <span className="text-sm">Cart (3)</span>
+                  <span className="text-sm">Cart ({cartCount})</span>
                 </Link>
                 <Link
                   to="/notifications"

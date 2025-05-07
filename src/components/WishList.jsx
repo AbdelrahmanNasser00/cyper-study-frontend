@@ -1,6 +1,7 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { toggleItem } from "@/store/Slices/wishListSlice";
+import { addToCart } from "@/store/Slices/cartSlice"; // <-- ✅ add this
 import { Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
@@ -10,6 +11,10 @@ const Wishlist = () => {
 
   const handleRemove = (course) => {
     dispatch(toggleItem(course));
+  };
+
+  const handleAddToCart = (course) => {
+    dispatch(addToCart(course)); 
   };
 
   return (
@@ -22,12 +27,14 @@ const Wishlist = () => {
           {items.map((course) => (
             <div
               key={course.id}
-              className="relative border p-4 rounded-lg shadow hover:shadow-md bg-white">
+              className="relative border p-4 rounded-lg shadow hover:shadow-md bg-white"
+            >
               <Button
                 onClick={() => handleRemove(course)}
                 variant="ghost"
                 size="icon"
-                className="absolute top-2 right-2 bg-white/80 backdrop-blur-sm hover:bg-white rounded-full h-8 w-8">
+                className="absolute top-2 right-2 bg-white/80 backdrop-blur-sm hover:bg-white rounded-full h-8 w-8"
+              >
                 <Heart className="h-5 w-5 fill-red-500 text-red-500" />
               </Button>
 
@@ -43,7 +50,10 @@ const Wishlist = () => {
                 ${course.price}
               </p>
 
-              <Button className="mt-4 w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition">
+              <Button
+                onClick={() => handleAddToCart(course)}
+                className="mt-4 w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition"
+              >
                 Add to cart
               </Button>
             </div>

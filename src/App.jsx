@@ -8,6 +8,7 @@ import NotFound from "./pages/NotFound";
 import GuestRoute from "./components/GuestRoute";
 import WishList from "./components/WishList";
 import CourseDetails from "./pages/CourseDetails/CourseDetails";
+import Cart from "./components/common/Cart";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/courseDetails" element={<CourseDetails />} />
         <Route path="/wishlist" element={<WishList />} />
+        <Route path="/cart" element={<Cart />} />
         <Route path="*" element={<NotFound />} />
       </Route>
       <Route element={<GuestRoute />}>
