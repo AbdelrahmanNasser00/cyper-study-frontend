@@ -11,7 +11,7 @@ function StatsSection() {
           <div className="p-6">
             <p className="font-bold text-3xl md:text-4xl text-[#3a57e8] mb-2">
               {inView && (
-                <CountUp end={1500000} duration={3} separator="," suffix="+" />
+                <CountUp end={1500000} duration={7} separator="," suffix="+" />
               )}
             </p>
             <p className="text-muted-foreground">Students</p>
@@ -19,7 +19,7 @@ function StatsSection() {
           <div className="p-6">
             <p className="font-bold text-3xl md:text-4xl text-[#00c1d4] mb-2">
               {inView && (
-                <CountUp end={10000} duration={3} separator="," suffix="+" />
+                <CountUp end={10000} duration={7} separator="," suffix="+" />
               )}
             </p>
             <p className="text-muted-foreground">Courses</p>
@@ -27,7 +27,7 @@ function StatsSection() {
           <div className="p-6">
             <p className="font-bold text-3xl md:text-4xl text-[#f9b15e] mb-2">
               {inView && (
-                <CountUp end={7500} duration={3} separator="," suffix="+" />
+                <CountUp end={7500} duration={7} separator="," suffix="+" />
               )}
             </p>
             <p className="text-muted-foreground">Instructors</p>
@@ -35,7 +35,7 @@ function StatsSection() {
           <div className="p-6">
             <p className="font-bold text-3xl md:text-4xl text-[#a855f7] mb-2">
               {inView && (
-                <CountUp end={4.8} duration={3} decimals={1} suffix="/5" />
+                <CountUp end={4.8} duration={7} decimals={1} suffix="/5" />
               )}
             </p>
             <p className="text-muted-foreground">Avg. Rating</p>
