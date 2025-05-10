@@ -1,10 +1,9 @@
-import { Link } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { Star, Heart } from 'lucide-react';
-import { Button } from './ui/button';
-import { Badge } from './ui/badge';
-import { toggleItem } from '@/store/Slices/wishListSlice';
-
+import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { Star, Heart } from "lucide-react";
+import { Button } from "../ui/button";
+import { Badge } from "../ui/badge";
+import { toggleItem } from "@/store/Slices/wishListSlice";
 
 const CourseCard = ({
   id,
@@ -22,14 +21,15 @@ const CourseCard = ({
   bestseller = false,
   isBestseller = false,
   level,
-  studentsCount
+  studentsCount,
 }) => {
   const dispatch = useDispatch();
   const wishlistItems = useSelector((state) => state.wishlist.items);
   const isWishlisted = wishlistItems.some((item) => item.id === id);
 
   // Calculate price and discount
-  const finalOriginalPrice = originalPrice || (discountPrice ? price : undefined);
+  const finalOriginalPrice =
+    originalPrice || (discountPrice ? price : undefined);
   const finalPrice = discountPrice || price;
   const finalReviewsCount = reviewsCount || ratingCount || 0;
   const finalBestseller = bestseller || isBestseller;
@@ -71,10 +71,11 @@ const CourseCard = ({
           }}
           variant="ghost"
           size="icon"
-          className="absolute top-2 right-2 bg-white/80 backdrop-blur-sm hover:bg-white rounded-full h-8 w-8"
-        >
+          className="absolute top-2 right-2 bg-white/80 backdrop-blur-sm hover:bg-white rounded-full h-8 w-8">
           <Heart
-            className={`h-5 w-5 ${isWishlisted ? 'fill-red-500 text-red-500' : 'text-gray-700'}`}
+            className={`h-5 w-5 ${
+              isWishlisted ? "fill-red-500 text-red-500" : "text-gray-700"
+            }`}
           />
         </Button>
 
@@ -118,8 +119,8 @@ const CourseCard = ({
                 size={14}
                 className={`${
                   star <= Math.round(rating)
-                    ? 'fill-[#f9b15e] text-[#f9b15e]'
-                    : 'text-gray-300'
+                    ? "fill-[#f9b15e] text-[#f9b15e]"
+                    : "text-gray-300"
                 }`}
               />
             ))}

@@ -22,8 +22,7 @@ function SmallCardDetails() {
       </Button>
       <div
         className="flex gap-2 my-5 justify-center cursor-pointer"
-        onClick={handleWishlist}
-      >
+        onClick={handleWishlist}>
         <Heart className={addWishlist ? "fill-red-400" : ""}></Heart>
         <span>{addWishlist ? "Remove from Whislist" : "add to Whislist"}</span>
       </div>

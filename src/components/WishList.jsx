@@ -1,9 +1,9 @@
-// WishlistPage.jsx
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { toggleItem } from "@/store/Slices/wishListSlice"; // adjust the import path
+import { toggleItem } from "@/store/Slices/wishListSlice";
+import { addToCart } from "@/store/Slices/cartSlice"; // <-- ✅ add this
 import { Heart } from "lucide-react";
-import { Button } from "@/components/ui/button"; // adjust to your UI library if needed
+import { Button } from "@/components/ui/button";
 
 const Wishlist = () => {
   const dispatch = useDispatch();
@@ -11,6 +11,10 @@ const Wishlist = () => {
 
   const handleRemove = (course) => {
     dispatch(toggleItem(course));
+  };
+
+  const handleAddToCart = (course) => {
+    dispatch(addToCart(course)); 
   };
 
   return (
@@ -46,7 +50,10 @@ const Wishlist = () => {
                 ${course.price}
               </p>
 
-              <Button className="mt-4 w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition">
+              <Button
+                onClick={() => handleAddToCart(course)}
+                className="mt-4 w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition"
+              >
                 Add to cart
               </Button>
             </div>
