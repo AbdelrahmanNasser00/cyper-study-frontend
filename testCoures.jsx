@@ -1,10 +1,64 @@
+import { useState, useEffect } from "react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { ChevronRight, Star } from "lucide-react";
 import { Slider } from "@/components/ui/slider";
-import CourseCard from "@/components/common/CourseCard";
 import { Button } from "@/components/ui/button";
-import { useEffect, useState } from "react";
+
+// Simple CourseCard component for demonstration
+const CourseCard = ({
+  title,
+  instructor,
+  price,
+  originalPrice,
+  rating,
+  reviewsCount,
+  bestseller,
+}) => (
+  <div className="border rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow">
+    <div className="bg-gray-200 h-40 relative">
+      {bestseller && (
+        <span className="absolute top-2 left-2 bg-yellow-400 text-xs font-semibold px-2 py-1 rounded">
+          Bestseller
+        </span>
+      )}
+    </div>
+    <div className="p-4">
+      <h3 className="font-bold text-lg mb-1 truncate">{title}</h3>
+      <p className="text-gray-600 text-sm mb-2">{instructor}</p>
+      <div className="flex items-center mb-2">
+        <span className="font-bold text-amber-500 mr-1">{rating}</span>
+        <div className="flex">
+          {[1, 2, 3, 4, 5].map((star) => (
+            <Star
+              key={star}
+              className={`h-3 w-3 ${
+                star <= Math.floor(rating)
+                  ? "text-yellow-400 fill-yellow-400"
+                  : "text-gray-300"
+              }`}
+            />
+          ))}
+        </div>
+        <span className="text-xs text-gray-500 ml-1">
+          ({reviewsCount.toLocaleString()})
+        </span>
+      </div>
+      <div className="flex items-center">
+        {price === 0 ? (
+          <span className="font-bold">Free</span>
+        ) : (
+          <>
+            <span className="font-bold">${price.toFixed(2)}</span>
+            <span className="text-gray-500 line-through text-sm ml-2">
+              ${originalPrice.toFixed(2)}
+            </span>
+          </>
+        )}
+      </div>
+    </div>
+  </div>
+);
 
 function Courses() {
   const dummyCourses = [
@@ -71,6 +125,7 @@ function Courses() {
       bestseller: true,
     },
   ];
+
   const [filteredCourses, setFilteredCourses] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
   const [selectedRatings, setSelectedRatings] = useState([]);
@@ -114,34 +169,32 @@ function Courses() {
 
   function applyFilters() {
     const filtered = dummyCourses.filter((course) => {
-      // Handle ratings - check if rating meets or exceeds selected rating
-      const matchesRating =
+      // Rating filter - match if course rating is equal to or higher than any selected rating
+      const ratingMatch =
         selectedRatings.length === 0 ||
         selectedRatings.some((rating) => course.rating >= rating);
 
-      // Handle level - case insensitive comparison
-      const matchesLevel =
+      // Level filter - case insensitive comparison
+      const levelMatch =
         selectedLevels.length === 0 ||
         selectedLevels.some(
           (level) => course.level?.toLowerCase() === level.toLowerCase()
         );
 
-      // Handle price type (free/paid)
-      const matchesPriceType =
+      // Price type filter (free/paid)
+      const priceTypeMatch =
         selectedPriceTypes.length === 0 ||
         (selectedPriceTypes.includes("free") && course.price === 0) ||
         (selectedPriceTypes.includes("paid") && course.price > 0);
 
-      // Handle price range
-      const matchesPriceRange =
+      // Price range filter - apply only to paid courses
+      const priceRangeMatch =
         course.price === 0 || // Free courses always pass price range filter
         (course.price >= priceRange[0] && course.price <= priceRange[1]);
 
-      return (
-        matchesRating && matchesLevel && matchesPriceType && matchesPriceRange
-      );
+      return ratingMatch && levelMatch && priceTypeMatch && priceRangeMatch;
     });
-    // console.log("Filtered courses:", filtered.length);
+
     setFilteredCourses(filtered);
   }
 
@@ -154,52 +207,55 @@ function Courses() {
 
   return (
     <div>
-      {/* start head part */}
-      <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white py-15">
-        <div className="container">
-          {/* start menu */}
-          <div className="flex items-center">
+      {/* Header section */}
+      <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white py-8">
+        <div className="container mx-auto px-4">
+          {/* Breadcrumb navigation */}
+          <div className="flex items-center mb-4">
             <span>Home</span>
-            <ChevronRight className="size-4" />
+            <ChevronRight className="w-4 h-4 mx-1" />
             <span>Categories</span>
-            <ChevronRight className="size-4" />
+            <ChevronRight className="w-4 h-4 mx-1" />
             <span>Development</span>
           </div>
-          {/* end menu */}
-          <h2 className="py-5 font-bold text-4xl">Development Courses</h2>
-          <p className="pb-8 max-w-xl">
+
+          <h2 className="text-4xl font-bold mb-4">Development Courses</h2>
+          <p className="max-w-xl mb-6">
             Explore our wide range of courses in this category and start your
             learning journey today.
           </p>
-          <span className="bg-white/20 p-2 rounded-lg">127 courses</span>
+          <span className="bg-white/20 px-3 py-1 rounded-lg text-sm">
+            {filteredCourses.length} courses
+          </span>
         </div>
       </div>
-      {/* end head part */}
-      {/* start content */}
-      <div className="container mt-10">
-        <Button
-          onClick={toggleFilterPanel}
-          className="bg-blue-600 hover:bg-blue-700"
-        >
-          {isOpen ? "Hide Filters" : "Show Filters"}
-        </Button>
-        {selectedRatings.length > 0 ||
-        selectedLevels.length > 0 ||
-        selectedPriceTypes.length > 0 ||
-        priceRange[0] > 0 ||
-        priceRange[1] < 100 ? (
-          <Button onClick={resetFilters} variant="outline" className="ml-2">
-            Reset Filters
+
+      {/* Main content */}
+      <div className="container mx-auto px-4 py-8">
+        {/* Filter toggle button */}
+        <div className="mb-6">
+          <Button
+            onClick={toggleFilterPanel}
+            className="bg-blue-600 hover:bg-blue-700"
+          >
+            {isOpen ? "Hide Filters" : "Show Filters"}
           </Button>
-        ) : null}
-      </div>
-      <div className="flex gap-5 container my-10 relative">
-        {/* start filter */}
-        {isOpen && (
-          <>
-            <div className="w-0 h-0 left-5 -top-10 absolute z-51 border-l-15 border-l-transparent border-r-15 border-r-transparent border-b-15 border-b-white "></div>
-            <div className="w-60 rounded-2xl shrink-0 absolute left-3 -top-7 z-50 bg-gray-50 shadow-black shadow-2xl p-10">
-              {/* start rating */}
+          {selectedRatings.length > 0 ||
+          selectedLevels.length > 0 ||
+          selectedPriceTypes.length > 0 ||
+          priceRange[0] > 0 ||
+          priceRange[1] < 100 ? (
+            <Button onClick={resetFilters} variant="outline" className="ml-2">
+              Reset Filters
+            </Button>
+          ) : null}
+        </div>
+
+        <div className="flex flex-col md:flex-row gap-6">
+          {/* Filter sidebar - conditionally rendered based on isOpen */}
+          {isOpen && (
+            <div className="w-full md:w-64 bg-gray-50 p-6 rounded-lg shadow-md">
+              {/* Rating filter */}
               <div className="mb-8">
                 <h4 className="font-bold text-lg mb-4">Ratings</h4>
                 {[4.5, 4.0, 3.5, 3.0].map((rating) => (
@@ -230,8 +286,8 @@ function Courses() {
                   </div>
                 ))}
               </div>
-              {/* end rating */}
-              {/* start level */}
+
+              {/* Level filter */}
               <div className="mb-8">
                 <h4 className="font-bold text-lg mb-4">Course Level</h4>
                 {["beginner", "intermediate", "advanced"].map((level) => (
@@ -250,8 +306,8 @@ function Courses() {
                   </div>
                 ))}
               </div>
-              {/* end level */}
-              {/* start price */}
+
+              {/* Price type filter */}
               <div className="mb-8">
                 <h4 className="font-bold text-lg mb-4">Price</h4>
                 {["free", "paid"].map((priceType) => (
@@ -270,9 +326,8 @@ function Courses() {
                   </div>
                 ))}
               </div>
-              {/* end price */}
-              {/* start price range */}
-              <h4 className="font-bold mb-5 mt-10">Price Range</h4>
+
+              {/* Price range filter */}
               <div>
                 <h4 className="font-bold text-lg mb-4">Price Range</h4>
                 <Slider
@@ -288,20 +343,37 @@ function Courses() {
                   <span>${priceRange[1]}</span>
                 </div>
               </div>
-              {/* end price range */}
             </div>
-          </>
-        )}
-        {/* end filter */}
-        {/* start courses container */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-3 ">
-          {filteredCourses.map((course) => (
-            <CourseCard key={course.id} {...course}></CourseCard>
-          ))}
+          )}
+
+          {/* Course grid */}
+          <div
+            className={`flex-1 ${
+              filteredCourses.length === 0
+                ? "flex items-center justify-center"
+                : ""
+            }`}
+          >
+            {filteredCourses.length > 0 ? (
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                {filteredCourses.map((course) => (
+                  <CourseCard key={course.id} {...course} />
+                ))}
+              </div>
+            ) : (
+              <div className="text-center py-10">
+                <h3 className="text-xl font-semibold mb-2">
+                  No courses match your filters
+                </h3>
+                <p className="text-gray-600 mb-4">
+                  Try adjusting your filter criteria
+                </p>
+                <Button onClick={resetFilters}>Reset All Filters</Button>
+              </div>
+            )}
+          </div>
         </div>
-        {/* end courses container */}
       </div>
-      {/* end content */}
     </div>
   );
 }
