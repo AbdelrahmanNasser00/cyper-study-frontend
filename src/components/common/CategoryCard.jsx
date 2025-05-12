@@ -53,14 +53,15 @@ const CategoryCard = ({
     <Link to={`/categories/${slug}`} className="block">
       <div className="border rounded-lg p-6 hover:shadow-lg transition-all duration-300 hover:scale-105 bg-white flex flex-col items-center text-center group">
         <div
-          className={`${color} w-16 h-16 rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300`}>
+          className={`${color} w-16 h-16 rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300`}
+        >
           {getIcon()}
         </div>
         <h3 className="font-poppins font-semibold text-lg mb-1 group-hover:text-[#3a57e8] transition-colors">
           {title}
         </h3>
         <p className="text-sm text-muted-foreground">
-          {courseCount.toLocaleString()} courses
+          {(courseCount || 0).toLocaleString()} courses
         </p>
       </div>
     </Link>
