@@ -6,7 +6,7 @@ import Register from "./pages/Auth/register/Register";
 import Home from "./pages/Home/Home";
 import NotFound from "./pages/NotFound";
 import GuestRoute from "./components/GuestRoute";
-import WishList from "./components/WishList";
+import WishList from "./pages/WishList";
 import CourseDetails from "./pages/CourseDetails/CourseDetails";
 import Cart from "./components/common/Cart";
 import Categoires from "./pages/Categories/Categories";
