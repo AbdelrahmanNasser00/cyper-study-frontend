@@ -32,184 +32,187 @@ const Header = () => {
 
   return (
     <header className="border-b sticky top-0 bg-white z-50">
-      <div className="w-[100%] px-[10px] py-4 mx-auto flex items-center justify-between">
-        <Link
-          to="/"
-          className="font-poppins font-bold text-2xl text-[#3a57e8] flex items-center"
-        >
-          Cyber Study
-        </Link>
-
-        <div className="hidden md:flex items-center space-x-8">
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="ghost" className="flex items-center gap-1">
-                Categories <ChevronDown className="h-4 w-4" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-48">
-              <DropdownMenuItem>
-                <Link to="/courses/development">Development</Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <Link to="/courses/business">Business</Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <Link to="/courses/design">Design</Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <Link to="/courses/marketing">Marketing</Link>
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-
+      <div className="container">
+        {" "}
+        <div className="w-[100%] px-[10px] py-4 mx-auto flex items-center justify-between">
           <Link
-            to="/courses"
-            className="text-sm font-medium hover:text-[#3a57e8]"
+            to="/"
+            className="font-poppins font-bold text-2xl text-[#3a57e8] flex items-center"
           >
-            Explore Courses
+            Cyber Study
           </Link>
 
-          {isLoggedIn ? (
-            <>
-              <Link to="/wishlist" className="relative">
-                <Heart className="h-5 w-5" />
-                {wishlistCount > 0 && (
-                  <span className="absolute -top-2 -right-2 bg-[#3a57e8] text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">
-                    {wishlistCount}
-                  </span>
-                )}
-              </Link>
-
-              <Link to="/cart" className="relative">
-                <ShoppingCart className="h-5 w-5" />
-                {cartCount > 0 && (
-                  <span className="absolute -top-2 -right-2 bg-[#3a57e8] text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">
-                    {cartCount}
-                  </span>
-                )}
-              </Link>
-
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" className="p-0 h-auto relative">
-                    <Bell className="h-5 w-5" />
-                    <span className="absolute -top-2 -right-2 bg-[#3a57e8] text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">
-                      2
-                    </span>
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="w-64">
-                  <DropdownMenuItem className="py-2 cursor-default">
-                    <div className="flex flex-col gap-1">
-                      <p className="font-medium text-sm">
-                        New certificate available!
-                      </p>
-                      <p className="text-xs text-[#8e8e8e]">
-                        Web Development Bootcamp
-                      </p>
-                    </div>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem className="py-2 cursor-default">
-                    <div className="flex flex-col gap-1">
-                      <p className="font-medium text-sm">
-                        Course progress update
-                      </p>
-                      <p className="text-xs text-[#8e8e8e]">
-                        UX Design Fundamentals - 70% completed
-                      </p>
-                    </div>
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button
-                    variant="ghost"
-                    className="p-0 h-7 w-7 rounded-full overflow-hidden"
-                  >
-                    <img
-                      src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d"
-                      alt="User profile"
-                      className="h-full w-full object-cover"
-                    />
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="w-48">
-                  <DropdownMenuItem>
-                    <Link
-                      to="/student/dashboard"
-                      className="w-full flex items-center"
-                    >
-                      <BookOpen className="h-4 w-4 mr-2" />
-                      Student Dashboard
-                    </Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem>
-                    <Link
-                      to="/instructor/dashboard"
-                      className="w-full flex items-center"
-                    >
-                      <User className="h-4 w-4 mr-2" />
-                      Instructor Dashboard
-                    </Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem>
-                    <Link to="/profile" className="w-full flex items-center">
-                      <User className="h-4 w-4 mr-2" />
-                      Profile
-                    </Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem>
-                    <Link to="/wishlist" className="w-full flex items-center">
-                      <Heart className="h-4 w-4 mr-2" />
-                      Wishlist
-                    </Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem>
-                    <Link
-                      to="/certificates"
-                      className="w-full flex items-center"
-                    >
-                      <Award className="h-4 w-4 mr-2" />
-                      Certificates
-                    </Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem>
-                    <button className="w-full text-left flex items-center">
-                      <LogOut className="h-4 w-4 mr-2" />
-                      Logout
-                    </button>
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </>
-          ) : (
-            <div className="flex items-center gap-2">
-              <Link to="/login">
-                <Button
-                  variant="outline"
-                  className="border-gray-300 text-black"
-                >
-                  Login
+          <div className="hidden md:flex items-center space-x-8">
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" className="flex items-center gap-1">
+                  Categories <ChevronDown className="h-4 w-4" />
                 </Button>
-              </Link>
-              <Link to="/register">
-                <Button className="bg-[#3a57e8] text-white">Sign Up</Button>
-              </Link>
-            </div>
-          )}
-        </div>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-48">
+                <DropdownMenuItem>
+                  <Link to="/courses/development">Development</Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem>
+                  <Link to="/courses/business">Business</Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem>
+                  <Link to="/courses/design">Design</Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem>
+                  <Link to="/courses/marketing">Marketing</Link>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
 
-        <Button
-          variant="ghost"
-          size="icon"
-          className="md:hidden"
-          onClick={() => setIsMenuOpen(!isMenuOpen)}
-        >
-          {isMenuOpen ? <X /> : <Menu />}
-        </Button>
+            <Link
+              to="/courses"
+              className="text-sm font-medium hover:text-[#3a57e8]"
+            >
+              Explore Courses
+            </Link>
+
+            {isLoggedIn ? (
+              <>
+                <Link to="/wishlist" className="relative">
+                  <Heart className="h-5 w-5" />
+                  {wishlistCount > 0 && (
+                    <span className="absolute -top-2 -right-2 bg-[#3a57e8] text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">
+                      {wishlistCount}
+                    </span>
+                  )}
+                </Link>
+
+                <Link to="/cart" className="relative">
+                  <ShoppingCart className="h-5 w-5" />
+                  {cartCount > 0 && (
+                    <span className="absolute -top-2 -right-2 bg-[#3a57e8] text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">
+                      {cartCount}
+                    </span>
+                  )}
+                </Link>
+
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="ghost" className="p-0 h-auto relative">
+                      <Bell className="h-5 w-5" />
+                      <span className="absolute -top-2 -right-2 bg-[#3a57e8] text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">
+                        2
+                      </span>
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end" className="w-64">
+                    <DropdownMenuItem className="py-2 cursor-default">
+                      <div className="flex flex-col gap-1">
+                        <p className="font-medium text-sm">
+                          New certificate available!
+                        </p>
+                        <p className="text-xs text-[#8e8e8e]">
+                          Web Development Bootcamp
+                        </p>
+                      </div>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem className="py-2 cursor-default">
+                      <div className="flex flex-col gap-1">
+                        <p className="font-medium text-sm">
+                          Course progress update
+                        </p>
+                        <p className="text-xs text-[#8e8e8e]">
+                          UX Design Fundamentals - 70% completed
+                        </p>
+                      </div>
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button
+                      variant="ghost"
+                      className="p-0 h-7 w-7 rounded-full overflow-hidden"
+                    >
+                      <img
+                        src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d"
+                        alt="User profile"
+                        className="h-full w-full object-cover"
+                      />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end" className="w-48">
+                    <DropdownMenuItem>
+                      <Link
+                        to="/student/dashboard"
+                        className="w-full flex items-center"
+                      >
+                        <BookOpen className="h-4 w-4 mr-2" />
+                        Student Dashboard
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem>
+                      <Link
+                        to="/instructor/dashboard"
+                        className="w-full flex items-center"
+                      >
+                        <User className="h-4 w-4 mr-2" />
+                        Instructor Dashboard
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem>
+                      <Link to="/profile" className="w-full flex items-center">
+                        <User className="h-4 w-4 mr-2" />
+                        Profile
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem>
+                      <Link to="/wishlist" className="w-full flex items-center">
+                        <Heart className="h-4 w-4 mr-2" />
+                        Wishlist
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem>
+                      <Link
+                        to="/certificates"
+                        className="w-full flex items-center"
+                      >
+                        <Award className="h-4 w-4 mr-2" />
+                        Certificates
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem>
+                      <button className="w-full text-left flex items-center">
+                        <LogOut className="h-4 w-4 mr-2" />
+                        Logout
+                      </button>
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </>
+            ) : (
+              <div className="flex items-center gap-2">
+                <Link to="/login">
+                  <Button
+                    variant="outline"
+                    className="border-gray-300 text-black"
+                  >
+                    Login
+                  </Button>
+                </Link>
+                <Link to="/register">
+                  <Button className="bg-[#3a57e8] text-white">Sign Up</Button>
+                </Link>
+              </div>
+            )}
+          </div>
+
+          <Button
+            variant="ghost"
+            size="icon"
+            className="md:hidden"
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+          >
+            {isMenuOpen ? <X /> : <Menu />}
+          </Button>
+        </div>
       </div>
 
       {isMenuOpen && (

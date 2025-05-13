@@ -11,6 +11,8 @@ import CourseDetails from "./pages/CourseDetails/CourseDetails";
 import Cart from "./components/common/Cart";
 import Categoires from "./pages/Categories/Categories";
 import Courses from "./pages/courses/Courses";
+import AboutUs from "./pages/AboutUs/AboutUs";
+import JoinUs from "./pages/JoinUs/JoinUs";
 
 function App() {
   return (
@@ -22,6 +24,8 @@ function App() {
         <Route path="/cart" element={<Cart />} />
         <Route path="/categories" element={<Categoires />}></Route>
         <Route path="/courses" element={<Courses />}></Route>
+        <Route path="/about" element={<AboutUs />}></Route>
+        <Route path="/join" element={<JoinUs />}></Route>
         <Route path="*" element={<NotFound />} />
       </Route>
       <Route element={<GuestRoute />}>
