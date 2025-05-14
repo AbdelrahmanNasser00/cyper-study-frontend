@@ -11,7 +11,8 @@ import CourseDetails from "./pages/CourseDetails/CourseDetails";
 import Cart from "./components/common/Cart";
 import Categoires from "./pages/Categories/Categories";
 import Courses from "./pages/courses/Courses";
-
+import AboutUs from "./pages/AboutUs/AboutUs";
+import JoinUs from "./pages/JoinUs/JoinUs";
 import InstructorLayout from "./pages/InstructorDashboard/InstructorLayout";
 import InstructorDashboard from "./pages/InstructorDashboard/InstructorDashboard";
 import MyCourses from "./pages/InstructorDashboard/MyCourses";
@@ -26,11 +27,15 @@ function App() {
         <Route path="/cart" element={<Cart />} />
         <Route path="/categories" element={<Categoires />}></Route>
         <Route path="/courses" element={<Courses />}></Route>
+
         <Route path="/instructor" element={<InstructorLayout />}>
           <Route path="dashboard" element={<InstructorDashboard />} />
           <Route path="courses" element={<MyCourses />} />
           <Route path="earnings" element={<Earnings />} />
         </Route>
+        <Route path="/about" element={<AboutUs />}></Route>
+        <Route path="/join" element={<JoinUs />}></Route>
+
         <Route path="*" element={<NotFound />} />
       </Route>
       <Route element={<GuestRoute />}>
