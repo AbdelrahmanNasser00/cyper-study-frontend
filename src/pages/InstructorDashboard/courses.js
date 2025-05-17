@@ -1,0 +1,48 @@
+const courses = [
+  {
+    id: 1,
+    title: "Complete Web Development Bootcamp",
+    image: "https://images.unsplash.com/photo-1551650975-87deedd944c3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1074&q=80",
+    students: 54239,
+    rating: 4.8,
+    status: "Published",
+    updatedAt: "2023-09-15",
+  },
+  {
+    id: 2,
+    title: "Advanced React Native",
+     image: "https://images.unsplash.com/photo-1587620962725-abab7fe55159?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1031&q=80",
+    students: 21056,
+    rating: 4.6,
+    status: "Published",
+    updatedAt: "2023-11-03",
+  },
+  {
+    id: 3,
+    title: "UI/UX Design Masterclass",
+    image: "https://images.unsplash.com/photo-1551650975-87deedd944c3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1074&q=80",
+    students: 18789,
+    rating: 4.7,
+    status: "Published",
+    updatedAt: "2023-08-22",
+  },
+  {
+    id: 4,
+    title: "Advanced TypeScript",
+    image: "https://images.unsplash.com/photo-1587620962725-abab7fe55159?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1031&q=80",
+    students: 0,
+    rating: null,
+    status: "Draft",
+    updatedAt: "2024-03-10",
+  },
+    {
+    id: 5,
+    title: "TypeScript",
+    image: "https://images.unsplash.com/photo-1587620962725-abab7fe55159?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1031&q=80",
+    students: 2000,
+    rating: 5,
+    status: "Published",
+    updatedAt: "2024-03-10",
+  },
+];
+export default courses;

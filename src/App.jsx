@@ -17,6 +17,8 @@ import InstructorLayout from "./pages/InstructorDashboard/InstructorLayout";
 import InstructorDashboard from "./pages/InstructorDashboard/InstructorDashboard";
 import MyCourses from "./pages/InstructorDashboard/MyCourses";
 import Earnings from "./pages/InstructorDashboard/Earnings";
+import CreateCourse from "./pages/InstructorDashboard/components/CreateCourse";
+import AddVideo from "./pages/InstructorDashboard/components/AddVideo";
 function App() {
   return (
     <Routes>
@@ -32,6 +34,8 @@ function App() {
           <Route path="dashboard" element={<InstructorDashboard />} />
           <Route path="courses" element={<MyCourses />} />
           <Route path="earnings" element={<Earnings />} />
+          <Route path="courses/new" element={<CreateCourse />} />
+          <Route path="courses/:id/add-video" element={<AddVideo />} />
         </Route>
         <Route path="/about" element={<AboutUs />}></Route>
         <Route path="/join" element={<JoinUs />}></Route>
