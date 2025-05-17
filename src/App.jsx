@@ -17,6 +17,7 @@ import InstructorLayout from "./pages/InstructorDashboard/InstructorLayout";
 import InstructorDashboard from "./pages/InstructorDashboard/InstructorDashboard";
 import MyCourses from "./pages/InstructorDashboard/MyCourses";
 import Earnings from "./pages/InstructorDashboard/Earnings";
+import StudentDashboard from "./pages/StudentDashboard/StudentDashboard";
 function App() {
   return (
     <Routes>
@@ -35,6 +36,10 @@ function App() {
         </Route>
         <Route path="/about" element={<AboutUs />}></Route>
         <Route path="/join" element={<JoinUs />}></Route>
+
+        <Route path="/student">
+          <Route path="dashboard" element={<StudentDashboard />}></Route>
+        </Route>
 
         <Route path="*" element={<NotFound />} />
       </Route>
