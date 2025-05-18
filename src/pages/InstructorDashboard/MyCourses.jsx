@@ -1,4 +1,3 @@
-import { Pencil, Trash2, Eye } from "lucide-react";
 import React, { useState } from "react";
 import CourseRow from "./components/CourseRow";
 import StatsCard from "./components/StatsCard";

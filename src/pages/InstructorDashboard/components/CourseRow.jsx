@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Pencil, Trash2, Eye } from "lucide-react";
+import { FaTrash, FaEdit } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
 const CourseRow = ({ course, onEdit, onDelete, onToggleStatus }) => {
@@ -36,8 +37,8 @@ const CourseRow = ({ course, onEdit, onDelete, onToggleStatus }) => {
 
         {/* Actions */}
         <td className="p-2 flex gap-2">
-          <button title="Edit" onClick={() => onEdit(course.id)}>
-            <Pencil size={16} />
+          <button title="Edit" onClick={() => onEdit(course.id)}className= "text-blue-500 hover:text-blue-700">
+             <FaEdit />
           </button>
           {course.status === "Published" ? (
             <button title="Hide" onClick={() => onToggleStatus(course.id)}>

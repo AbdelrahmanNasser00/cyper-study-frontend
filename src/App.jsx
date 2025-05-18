@@ -22,6 +22,8 @@ import CreateCourse from "./pages/InstructorDashboard/components/CreateCourse";
 import AddVideo from "./pages/InstructorDashboard/components/AddVideo";
 
 import StudentDashboard from "./pages/StudentDashboard/StudentDashboard";
+import Coupons from "./pages/InstructorDashboard/Coupons";
+import CreateCoupon from "./pages/InstructorDashboard/components/CreateCoupon";
 
 function App() {
   return (
@@ -38,6 +40,8 @@ function App() {
           <Route path="dashboard" element={<InstructorDashboard />} />
           <Route path="courses" element={<MyCourses />} />
           <Route path="earnings" element={<Earnings />} />
+          <Route path="coupons" element={<Coupons />} />
+          <Route path="coupons/new" element={<CreateCoupon />} />
           <Route path="courses/new" element={<CreateCourse />} />
           <Route path="courses/:id/add-video" element={<AddVideo />} />
         </Route>

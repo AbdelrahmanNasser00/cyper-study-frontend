@@ -3,7 +3,7 @@ import {
   BookOpenIcon,
   HomeIcon,
   DollarSignIcon,
-  StarIcon,
+   TagIcon,
   ChevronRightIcon,
 } from "lucide-react";
 
@@ -23,11 +23,11 @@ const navItems = [
     to: "/instructor/earnings",
     icon: <DollarSignIcon size={18} />,
   },
-  { name: "Reviews", to: "/instructor/reviews", icon: <StarIcon size={18} /> },
+ 
   {
-    name: "Certificates",
-    to: "/instructor/certificates",
-    icon: <StarIcon size={18} />,
+    name: "Coupons",
+    to: "/instructor/coupons",
+    icon: < TagIcon size={18} />,
   },
 ];
 

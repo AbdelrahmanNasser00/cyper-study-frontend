@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 
 const AddVideo = () => {
-  const { id: courseId } = useParams(); // 📌 ID من URL
+  const { id: courseId } = useParams(); 
   const [videoData, setVideoData] = useState({
     title: "",
     videoUrl: "",
