@@ -1,6 +1,6 @@
 import { FaTrash, FaEdit } from "react-icons/fa";
 import  dummyCourses  from "../courses";
-
+import { Link } from "react-router-dom";
 const CouponTable = ({ coupons, onEdit, onDelete }) => {
   const getCourseName = (id) => {
     const course = dummyCourses.find((c) => c.id === id);
@@ -30,9 +30,11 @@ const CouponTable = ({ coupons, onEdit, onDelete }) => {
               <td className="p-2">{coupon.discount}</td>
               <td className="p-2">{coupon.expiresAt}</td>
               <td className="p-2 flex gap-2">
-                <button onClick={() => onEdit(coupon)} className="text-blue-500 hover:text-blue-700">
+                <Link to={`/instructor/coupon/edit-coupon/${coupon.id}`}>
+                <button  className="text-blue-500 hover:text-blue-700">
                   <FaEdit />
                 </button>
+                </Link>
                 <button onClick={() => onDelete(coupon)} className="text-red-500 hover:text-red-700">
                   <FaTrash />
                 </button>

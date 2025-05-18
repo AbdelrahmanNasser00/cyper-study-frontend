@@ -24,6 +24,7 @@ import AddVideo from "./pages/InstructorDashboard/components/AddVideo";
 import StudentDashboard from "./pages/StudentDashboard/StudentDashboard";
 import Coupons from "./pages/InstructorDashboard/Coupons";
 import CreateCoupon from "./pages/InstructorDashboard/components/CreateCoupon";
+import EditCoupon from "./pages/InstructorDashboard/components/EditCoupon";
 
 function App() {
   return (
@@ -42,6 +43,7 @@ function App() {
           <Route path="earnings" element={<Earnings />} />
           <Route path="coupons" element={<Coupons />} />
           <Route path="coupons/new" element={<CreateCoupon />} />
+          <Route path="coupon/edit-coupon/:id" element={<EditCoupon />} />
           <Route path="courses/new" element={<CreateCourse />} />
           <Route path="courses/:id/add-video" element={<AddVideo />} />
         </Route>
