@@ -25,6 +25,9 @@ import StudentDashboard from "./pages/StudentDashboard/StudentDashboard";
 import Coupons from "./pages/InstructorDashboard/Coupons";
 import CreateCoupon from "./pages/InstructorDashboard/components/CreateCoupon";
 import EditCoupon from "./pages/InstructorDashboard/components/EditCoupon";
+import Profile from "./pages/Profile/Profile";
+import ProfileSecurity from "./pages/Profile/Components/ProfileSecurity";
+import ProfileDetails from "./pages/Profile/Components/ProfileDetails";
 
 function App() {
   return (
@@ -52,6 +55,12 @@ function App() {
 
         <Route path="/student">
           <Route path="dashboard" element={<StudentDashboard />}></Route>
+        </Route>
+
+        <Route path="/profile" element={<Profile />}>
+          <Route path="dashboard" element={<StudentDashboard />} />
+          <Route path="details" element={<ProfileDetails />} />
+          <Route path="security" element={<ProfileSecurity />} />
         </Route>
 
         <Route path="*" element={<NotFound />} />
