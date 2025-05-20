@@ -1,5 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import {
+  UserIcon,
+  BookOpenIcon,
+  DollarSignIcon,
+  AwardIcon,
+} from "lucide-react";
 import WelcomeSection from "./components/WelcomeSection";
 import TipsSection from "./components/TipsSection";
 import StatsCard from "./components/StatsCard";
@@ -28,21 +34,40 @@ const Dashboard = () => {
         <StatsCard
           title="Total Students"
           value={stats.totalStudents}
-          icon="👤"
+          icon={
+            <span className="flex items-center justify-center w-10 h-10 rounded-full bg-blue-100">
+              <UserIcon size={24} className="text-blue-600" />
+            </span>
+          }
         />
-        <StatsCard title="Total Courses" value={stats.totalCourses} icon="📚" />
+        <StatsCard
+          title="Total Courses"
+          value={stats.totalCourses}
+          icon={
+            <span className="flex items-center justify-center w-10 h-10 rounded-full bg-green-100">
+              <BookOpenIcon size={24} className="text-green-600" />
+            </span>
+          }
+        />
         <StatsCard
           title="Total Earnings"
           value={stats.totalEarnings}
-          icon="💰"
+          icon={
+            <span className="flex items-center justify-center w-10 h-10 rounded-full bg-yellow-100">
+              <DollarSignIcon size={24} className="text-yellow-600" />
+            </span>
+          }
         />
         <StatsCard
           title="Certificates Issued"
           value={stats.totalCertificates}
-          icon="🎖️"
+          icon={
+            <span className="flex items-center justify-center w-10 h-10 rounded-full bg-purple-100">
+              <AwardIcon size={24} className="text-purple-600" />
+            </span>
+          }
         />
       </div>
-
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 p-6">
         <WelcomeSection />
         <TipsSection />
