@@ -52,6 +52,7 @@ function App() {
 
         <Route path="/about" element={<AboutUs />} />
         <Route path="/join" element={<JoinUs />} />
+        <Route path="/lesson" element={<Lesson />} />
 
         <Route path="/student">
           <Route path="dashboard" element={<StudentDashboard />} />
