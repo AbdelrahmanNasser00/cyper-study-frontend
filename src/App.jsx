@@ -37,7 +37,7 @@ function App() {
         <Route path="/courseDetails" element={<CourseDetails />} />
         <Route path="/wishlist" element={<WishList />} />
         <Route path="/cart" element={<Cart />} />
-        <Route path="/categories" element={<Categoires />}></Route>
+        <Route path="/categories" element={<Categoires />} />
         <Route path="/courses" element={<Courses />}></Route>
 
         <Route path="/instructor" element={<InstructorLayout />}>
@@ -50,11 +50,11 @@ function App() {
           <Route path="courses/new" element={<CreateCourse />} />
           <Route path="courses/:id/add-video" element={<AddVideo />} />
         </Route>
-        <Route path="/about" element={<AboutUs />}></Route>
-        <Route path="/join" element={<JoinUs />}></Route>
+        <Route path="/about" element={<AboutUs />} />
+        <Route path="/join" element={<JoinUs />} />
 
         <Route path="/student">
-          <Route path="dashboard" element={<StudentDashboard />}></Route>
+          <Route path="dashboard" element={<StudentDashboard />} />
         </Route>
 
         <Route path="/profile" element={<Profile />}>
