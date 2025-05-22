@@ -9,6 +9,7 @@ import {
 import WelcomeSection from "./components/WelcomeSection";
 import TipsSection from "./components/TipsSection";
 import StatsCard from "./components/StatsCard";
+import { useSelector } from "react-redux";
 
 const Dashboard = () => {
   const stats = {

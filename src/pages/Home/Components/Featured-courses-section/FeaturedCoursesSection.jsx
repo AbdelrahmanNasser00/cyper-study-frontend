@@ -19,14 +19,14 @@ function FeaturedCoursesSection({ courses, wishlisted, handleWishlistToggle }) {
               Learn from expert instructors with real-world experience
             </p>
           </div>
-          <Link to="/courses">
+          {/* <Link to="/courses">
             <Button
               variant="outline"
               className="hidden md:flex items-center gap-2 mt-4 md:mt-0">
               View All Courses
               <ArrowRight className="h-4 w-4" />
             </Button>
-          </Link>
+          </Link> */}
         </div>
 
         {/* Content grid for both large and small screens */}
