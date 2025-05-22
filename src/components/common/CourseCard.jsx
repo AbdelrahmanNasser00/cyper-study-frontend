@@ -55,7 +55,7 @@ const CourseCard = ({
     <div className="course-card border rounded-lg overflow-hidden transition-all duration-300 hover:shadow-md hover:translate-y-[-5px]">
       {/* Course Thumbnail */}
       <div className="relative">
-        <Link to={`/course/${id}`}>
+        <Link to={`/courses/${id}`}>
           <img
             src={finalThumbnail}
             alt={title}

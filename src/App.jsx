@@ -17,10 +17,8 @@ import InstructorLayout from "./pages/InstructorDashboard/InstructorLayout";
 import InstructorDashboard from "./pages/InstructorDashboard/InstructorDashboard";
 import MyCourses from "./pages/InstructorDashboard/MyCourses";
 import Earnings from "./pages/InstructorDashboard/Earnings";
-
 import CreateCourse from "./pages/InstructorDashboard/components/CreateCourse";
 import AddVideo from "./pages/InstructorDashboard/components/AddVideo";
-
 import StudentDashboard from "./pages/StudentDashboard/StudentDashboard";
 import Coupons from "./pages/InstructorDashboard/Coupons";
 import CreateCoupon from "./pages/InstructorDashboard/components/CreateCoupon";
@@ -35,11 +33,11 @@ function App() {
     <Routes>
       <Route element={<Layout />}>
         <Route path="/" element={<Home />} />
-        <Route path="/courseDetails" element={<CourseDetails />} />
         <Route path="/wishlist" element={<WishList />} />
         <Route path="/cart" element={<Cart />} />
-        <Route path="/categories" element={<Categoires />}></Route>
-        <Route path="/courses" element={<Courses />}></Route>
+        <Route path="/categories/:slug" element={<Courses />} />
+        {/* <Route path="/courses" element={<Courses />} /> */}
+        <Route path="/courses/:id" element={<CourseDetails />} />
 
         <Route path="/instructor" element={<InstructorLayout />}>
           <Route path="dashboard" element={<InstructorDashboard />} />
@@ -51,12 +49,12 @@ function App() {
           <Route path="courses/new" element={<CreateCourse />} />
           <Route path="courses/:id/add-video" element={<AddVideo />} />
         </Route>
-        <Route path="/about" element={<AboutUs />}></Route>
-        <Route path="/lesson" element={<Lesson />}></Route>
-        <Route path="/join" element={<JoinUs />}></Route>
+
+        <Route path="/about" element={<AboutUs />} />
+        <Route path="/join" element={<JoinUs />} />
 
         <Route path="/student">
-          <Route path="dashboard" element={<StudentDashboard />}></Route>
+          <Route path="dashboard" element={<StudentDashboard />} />
         </Route>
 
         <Route path="/profile" element={<Profile />}>
@@ -64,13 +62,12 @@ function App() {
           <Route path="details" element={<ProfileDetails />} />
           <Route path="security" element={<ProfileSecurity />} />
         </Route>
-
-        <Route path="*" element={<NotFound />} />
       </Route>
       <Route element={<GuestRoute />}>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
       </Route>
+      <Route path="*" element={<NotFound />} />
     </Routes>
   );
 }
