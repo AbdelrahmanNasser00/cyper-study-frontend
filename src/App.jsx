@@ -28,6 +28,7 @@ import EditCoupon from "./pages/InstructorDashboard/components/EditCoupon";
 import Profile from "./pages/Profile/Profile";
 import ProfileSecurity from "./pages/Profile/Components/ProfileSecurity";
 import ProfileDetails from "./pages/Profile/Components/ProfileDetails";
+import Lesson from "./pages/Lesson/Lesson";
 
 function App() {
   return (
@@ -51,6 +52,7 @@ function App() {
           <Route path="courses/:id/add-video" element={<AddVideo />} />
         </Route>
         <Route path="/about" element={<AboutUs />}></Route>
+        <Route path="/lesson" element={<Lesson />}></Route>
         <Route path="/join" element={<JoinUs />}></Route>
 
         <Route path="/student">
