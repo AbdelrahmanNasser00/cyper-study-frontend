@@ -1,4 +1,3 @@
-import { useState, useEffect } from "react";
 import HeroSection from "./Components/Hero-sections/HeroSection";
 import StatsSection from "./Components/Stats-section/StatsSection";
 import CategoriesSection from "./Components/Categories-section/CategoriesSection";
@@ -17,7 +16,6 @@ const Home = () => {
 
   //   fetchCourses();
   // }, []);
-  const [courses, setCourses] = useState([]);
 
   const categories = [
     {
@@ -77,84 +75,6 @@ const Home = () => {
       color: "bg-gradient-to-br from-red-500 to-red-600",
     },
   ];
-  useEffect(() => {
-    const dummyCourses = [
-      {
-        id: "1",
-        title: "Complete Web Development Bootcamp",
-        instructor: "Dr. Angela Yu",
-        thumbnail:
-          "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b",
-        price: 19.99,
-        originalPrice: 129.99,
-        rating: 4.7,
-        reviewsCount: 45892,
-        category: "Development",
-        bestseller: true,
-      },
-      {
-        id: "2",
-        title: "Modern React with Redux [2023 Update]",
-        instructor: "Stephen Grider",
-        thumbnail:
-          "https://images.unsplash.com/photo-1633356122102-3fe601e05bd2",
-        price: 13.99,
-        originalPrice: 89.99,
-        rating: 4.8,
-        reviewsCount: 32105,
-        category: "Development",
-      },
-      {
-        id: "3",
-        title: "The Complete Digital Marketing Course",
-        instructor: "Rob Percival",
-        thumbnail:
-          "https://images.unsplash.com/photo-1460925895917-afdab827c52f",
-        price: 15.99,
-        originalPrice: 94.99,
-        rating: 4.5,
-        reviewsCount: 18942,
-        category: "Marketing",
-      },
-      {
-        id: "4",
-        title: "UX/UI Design Fundamentals",
-        instructor: "Daniel Walter Scott",
-        thumbnail:
-          "https://images.unsplash.com/photo-1581291518633-83b4ebd1d83e",
-        price: 12.99,
-        originalPrice: 84.99,
-        rating: 4.6,
-        reviewsCount: 12675,
-        category: "Design",
-      },
-      {
-        id: "5",
-        title: "Data Science & Machine Learning Bootcamp",
-        instructor: "Jose Portilla",
-        thumbnail:
-          "https://images.unsplash.com/photo-1518770660439-4636190af475",
-        price: 17.99,
-        originalPrice: 109.99,
-        rating: 4.9,
-        reviewsCount: 28451,
-        category: "Data Science",
-        bestseller: true,
-      },
-    ];
-
-    setCourses(dummyCourses);
-  }, []);
-
-  const [wishlisted, setWishlisted] = useState([]);
-
-  const handleWishlistToggle = (courseId) => {
-    setWishlisted((prev) =>
-      prev.includes(courseId)
-        ? prev.filter((id) => id !== courseId)
-        : [...prev, courseId]
-    );
-  };
 
   const testimonials = [
     {
@@ -191,11 +111,7 @@ const Home = () => {
       <HeroSection />
       <StatsSection />
       <CategoriesSection categories={categories} />
-      <FeaturedCoursesSection
-        courses={courses}
-        wishlisted={wishlisted}
-        handleWishlistToggle={handleWishlistToggle}
-      />
+      <FeaturedCoursesSection />
       <BecomeInstructorSection />
       <TestimonialsSection testimonials={testimonials} />
       <NewsletterSection />

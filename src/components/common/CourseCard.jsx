@@ -8,7 +8,7 @@ import { toggleItem } from "@/store/Slices/wishListSlice";
 const CourseCard = ({
   id,
   title,
-  instructor, // this is an object now
+  instructor,
   thumbnail,
   price,
   averageRating,
@@ -16,7 +16,7 @@ const CourseCard = ({
   level,
   bestseller = false,
   isBestseller = false,
-  category, // may not be a string but an ID in your backend
+  category,
   studentsCount,
 }) => {
   const dispatch = useDispatch();
