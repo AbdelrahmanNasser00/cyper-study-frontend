@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const axiosInstance = axios.create({
-  baseURL: "http://localhost:5000/api",
+  baseURL: "http://localhost:8080/api",
   headers: {
     "Content-Type": "application/json",
   },
@@ -10,6 +10,8 @@ const axiosInstance = axios.create({
 axiosInstance.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem("token");
+    // const token =
+    //   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiZW1haWwiOiJhaG1lZEBleGFtcGxlLmNvbSIsInJvbGUiOiJpbnN0cnVjdG9yIiwicHVycG9zZSI6ImF1dGgiLCJpYXQiOjE3NDc5NzgwNDYsImV4cCI6MTc1MDU3MDA0Nn0.cK7HxZKHA_aBfzBRURLV3xwyONenDUUPVEgX3pGsOUg";
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }

@@ -1,11 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import {
-  UserIcon,
-  BookOpenIcon,
-  DollarSignIcon,
-  AwardIcon,
-} from "lucide-react";
+
 import {
   LineChart,
   Line,
@@ -17,15 +12,13 @@ import {
 } from "recharts";
 
 import { Link } from "react-router-dom";
+import { useStats } from "../../context/statsContext";
 import StatsCard from "./components/StatsCard";
+import LoadingSpinner from "@/components/common/loadingSpinner";
 const MyEarnings = () => {
-  const stats = {
-    totalStudents: 5,
-    totalCourses: 4,
-    totalEarnings: 88109.17,
-    publishedCourses: 3,
-    totalCertificates: 0,
-  };
+  const { stats, loading } = useStats();
+
+  if (loading) return <LoadingSpinner />;
   const [monthlyEarnings, setMonthlyEarnings] = useState([]);
 
   // useEffect(() => {
@@ -72,44 +65,7 @@ const MyEarnings = () => {
         </Link>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 p-6">
-        <StatsCard
-          title="Total Students"
-          value={stats.totalStudents}
-          icon={
-            <span className="flex items-center justify-center w-10 h-10 rounded-full bg-blue-100">
-              <UserIcon size={24} className="text-blue-600" />
-            </span>
-          }
-        />
-        <StatsCard
-          title="Total Courses"
-          value={stats.totalCourses}
-          icon={
-            <span className="flex items-center justify-center w-10 h-10 rounded-full bg-green-100">
-              <BookOpenIcon size={24} className="text-green-600" />
-            </span>
-          }
-        />
-        <StatsCard
-          title="Total Earnings"
-          value={stats.totalEarnings}
-          icon={
-            <span className="flex items-center justify-center w-10 h-10 rounded-full bg-yellow-100">
-              <DollarSignIcon size={24} className="text-yellow-600" />
-            </span>
-          }
-        />
-        <StatsCard
-          title="Certificates Issued"
-          value={stats.totalCertificates}
-          icon={
-            <span className="flex items-center justify-center w-10 h-10 rounded-full bg-purple-100">
-              <AwardIcon size={24} className="text-purple-600" />
-            </span>
-          }
-        />
-      </div>
+      <StatsCard stats={stats} />
       <div className="p-6">
         <div className="bg-white p-6 rounded-lg shadow">
           <h3 className="text-lg font-semibold text-gray-800 mb-4">

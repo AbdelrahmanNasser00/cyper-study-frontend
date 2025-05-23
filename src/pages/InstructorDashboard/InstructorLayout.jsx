@@ -3,14 +3,6 @@ import Sidebar from "./components/Sidebar";
 import { Outlet } from "react-router-dom";
 
 const InstructorLayout = () => {
-  const stats = {
-    totalStudents: 5,
-    totalCourses: 4,
-    totalEarnings: 88109.17,
-    publishedCourses: 3,
-    totalCertificates: 0,
-  };
-
   return (
     <div className="flex min-h-screen bg-white container">
       <div className=" p-4">

@@ -1,4 +1,5 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+
 import "./App.css";
 import Layout from "./Layout";
 import Login from "./pages/Auth/login/Login";
@@ -27,6 +28,7 @@ import Profile from "./pages/Profile/Profile";
 import ProfileSecurity from "./pages/Profile/Components/ProfileSecurity";
 import ProfileDetails from "./pages/Profile/Components/ProfileDetails";
 import Lesson from "./pages/Lesson/Lesson";
+import { StatsProvider } from "./context/statsContext";
 
 function App() {
   return (
@@ -39,7 +41,10 @@ function App() {
         {/* <Route path="/courses" element={<Courses />} /> */}
         <Route path="/courses/:id" element={<CourseDetails />} />
 
-        <Route path="/instructor" element={<InstructorLayout />}>
+        <Route path="/instructor" element={
+          <StatsProvider>
+          <InstructorLayout />
+          </StatsProvider>}>
           <Route path="dashboard" element={<InstructorDashboard />} />
           <Route path="courses" element={<MyCourses />} />
           <Route path="earnings" element={<Earnings />} />
