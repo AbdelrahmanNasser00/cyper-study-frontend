@@ -2,8 +2,12 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
 import CourseCard from "@/components/common/CourseCard";
+import { useTopCoursesQuery } from "@/services/coursesApi";
 
 function FeaturedCoursesSection({ courses, wishlisted, handleWishlistToggle }) {
+  const { data: topCourses = [], isLoading, isError } = useTopCoursesQuery();
+
+  console.log(topCourses);
   return (
     <section className="py-16 bg-white">
       <div className="container mx-auto px-4">
@@ -31,13 +35,8 @@ function FeaturedCoursesSection({ courses, wishlisted, handleWishlistToggle }) {
 
         {/* Content grid for both large and small screens */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-          {courses.map((course) => (
-            <CourseCard
-              key={course.id}
-              {...course}
-              isWishlisted={wishlisted.includes(course.id)}
-              onWishlistToggle={() => handleWishlistToggle(course.id)}
-            />
+          {topCourses.map((course) => (
+            <CourseCard key={course.id} {...course} />
           ))}
         </div>
 

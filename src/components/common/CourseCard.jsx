@@ -8,45 +8,42 @@ import { toggleItem } from "@/store/Slices/wishListSlice";
 const CourseCard = ({
   id,
   title,
-  instructor,
+  instructor, // this is an object now
   thumbnail,
-  image,
   price,
-  originalPrice,
-  discountPrice,
-  rating,
-  reviewsCount,
+  averageRating,
   ratingCount,
-  category,
+  level,
   bestseller = false,
   isBestseller = false,
-  level,
+  category, // may not be a string but an ID in your backend
   studentsCount,
 }) => {
   const dispatch = useDispatch();
   const wishlistItems = useSelector((state) => state.wishlist.items);
   const isWishlisted = wishlistItems.some((item) => item.id === id);
 
-  // Calculate price and discount
-  const finalOriginalPrice =
-    originalPrice || (discountPrice ? price : undefined);
-  const finalPrice = discountPrice || price;
-  const finalReviewsCount = reviewsCount || ratingCount || 0;
-  const finalBestseller = bestseller || isBestseller;
-  const finalThumbnail = thumbnail || image;
+  // Convert instructor object to string "Firstname Lastname"
+  const instructorName = instructor
+    ? `${instructor.firstname} ${instructor.lastname}`
+    : "Unknown Instructor";
 
-  const discount = finalOriginalPrice
-    ? Math.round(((finalOriginalPrice - finalPrice) / finalOriginalPrice) * 100)
-    : 0;
+  // Convert price and rating from string to number
+  const numericPrice = parseFloat(price) || 0;
+  const numericRating = parseFloat(averageRating) || 0;
+  const numericRatingCount = ratingCount || 0;
+
+  const finalBestseller = bestseller || isBestseller;
+  const finalThumbnail = thumbnail;
 
   const handleWishlistToggle = () => {
     dispatch(
       toggleItem({
         id,
         title,
-        instructor,
+        instructor: instructorName,
         image: finalThumbnail,
-        price: finalPrice,
+        price: numericPrice,
       })
     );
   };
@@ -89,13 +86,15 @@ const CourseCard = ({
 
       {/* Course Details */}
       <div className="p-4">
-        <Link to={`/course/${id}`} className="block">
+        <Link to={`/courses/${id}`} className="block">
           <h3 className="font-poppins font-semibold text-lg line-clamp-2 mb-1 hover:text-[#354ebc] transition-colors">
             {title}
           </h3>
         </Link>
 
-        <p className="text-sm text-muted-foreground mb-2">by {instructor}</p>
+        <p className="text-sm text-muted-foreground mb-2">
+          by {instructorName}
+        </p>
 
         {level && (
           <Badge variant="outline" className="text-xs mb-2 mr-2">
@@ -111,14 +110,14 @@ const CourseCard = ({
 
         {/* Ratings */}
         <div className="flex items-center gap-1 mb-2">
-          <span className="font-medium">{rating.toFixed(1)}</span>
+          <span className="font-medium">{numericRating.toFixed(1)}</span>
           <div className="flex">
             {[1, 2, 3, 4, 5].map((star) => (
               <Star
                 key={star}
                 size={14}
                 className={`${
-                  star <= Math.round(rating)
+                  star <= Math.round(numericRating)
                     ? "fill-[#f9b15e] text-[#f9b15e]"
                     : "text-gray-300"
                 }`}
@@ -126,10 +125,11 @@ const CourseCard = ({
             ))}
           </div>
           <span className="text-xs text-muted-foreground">
-            ({finalReviewsCount.toLocaleString()})
+            ({numericRatingCount.toLocaleString()})
           </span>
         </div>
 
+        {/* Category */}
         {category && (
           <div className="mb-2">
             <Badge variant="outline" className="text-xs">
@@ -140,19 +140,7 @@ const CourseCard = ({
 
         {/* Price */}
         <div className="flex items-center gap-2">
-          <span className="font-bold text-lg">${finalPrice.toFixed(2)}</span>
-          {finalOriginalPrice && (
-            <>
-              <span className="text-muted-foreground line-through text-sm">
-                ${finalOriginalPrice.toFixed(2)}
-              </span>
-              {discount > 0 && (
-                <Badge className="bg-[#00c1d4]/10 text-[#00c1d4] font-medium text-xs">
-                  {discount}% off
-                </Badge>
-              )}
-            </>
-          )}
+          <span className="font-bold text-lg">${numericPrice.toFixed(2)}</span>
         </div>
       </div>
     </div>
