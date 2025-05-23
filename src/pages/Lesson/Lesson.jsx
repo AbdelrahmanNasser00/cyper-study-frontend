@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useParams } from "react-router-dom";
-import VideoPlayer from "./components/VideoPlayer";
-import LessonList from "./components/LessonList";
+import LessonList from "./Components/LessonList";
+import VideoPlayer from "./Components/VideoPlayer";
 
 const Lesson = () => {
   const { courseId } = useParams();

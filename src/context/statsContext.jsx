@@ -12,7 +12,7 @@ export const StatsProvider = ({ children }) => {
   useEffect(() => {
     const fetchStats = async () => {
       try {
-        const { data } = await axiosClient.get("/api/instructor/dashboard/summary");
+        const { data } = await axiosClient.get("/instructor/dashboard/summary");
         setStats(data);
       } catch (e) {
         setStats(null);
