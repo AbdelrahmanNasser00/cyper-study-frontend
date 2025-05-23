@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import HeroSection from "./Components/Hero-sections/HeroSection";
 import StatsSection from "./Components/Stats-section/StatsSection";
 import CategoriesSection from "./Components/Categories-section/CategoriesSection";
@@ -18,10 +17,7 @@ const Home = () => {
 
   //   fetchCourses();
   // }, []);
-  const [searchTerm, setSearchTerm] = useState("");
   const [courses, setCourses] = useState([]);
-  const [searchResults, setSearchResults] = useState([]);
-  const navigate = useNavigate();
 
   const categories = [
     {
@@ -148,20 +144,7 @@ const Home = () => {
     ];
 
     setCourses(dummyCourses);
-    setSearchResults(dummyCourses);
   }, []);
-
-  const handleSearch = (term) => {
-    setSearchTerm(term);
-    const filtered = courses.filter((course) =>
-      course.title.toLowerCase().includes(term.toLowerCase())
-    );
-    setSearchResults(filtered);
-  };
-
-  const handleSearchSubmit = () => {
-    navigate(`/search-results?query=${searchTerm}`);
-  };
 
   const [wishlisted, setWishlisted] = useState([]);
 
@@ -205,12 +188,7 @@ const Home = () => {
 
   return (
     <div>
-      <HeroSection
-        searchTerm={searchTerm}
-        onSearchChange={handleSearch}
-        onSearchClick={handleSearchSubmit}
-        searchResults={searchResults}
-      />
+      <HeroSection />
       <StatsSection />
       <CategoriesSection categories={categories} />
       <FeaturedCoursesSection
