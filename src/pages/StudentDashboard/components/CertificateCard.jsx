@@ -1,5 +1,5 @@
 import { Medal } from "lucide-react";
-import CourseImg from "../../../../public/Course.jpg";
+import CourseImg from "/Course.jpg";
 
 import { Button } from "@/components/ui/button";
 

@@ -1,5 +1,5 @@
 import { NavLink } from "react-router-dom";
-import img from "../../../../public/instructor-removebg-preview.png";
+import img from "/instructor-removebg-preview.png";
 import { HomeIcon, ChevronRightIcon, User, Shield } from "lucide-react";
 
 function ProfileSideBar() {
@@ -52,8 +52,7 @@ function ProfileSideBar() {
                     ? "bg-blue-600 text-white font-semibold"
                     : "text-gray-700 hover:bg-gray-100"
                 }`
-              }
-            >
+              }>
               <div className="flex items-center space-x-2">
                 {item.icon}
                 <span>{item.name}</span>

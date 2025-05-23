@@ -1,5 +1,5 @@
 import { Progress } from "@/components/ui/progress";
-import CourseImg from "../../../../public/Course.jpg";
+import CourseImg from "/Course.jpg";
 import { Button } from "@/components/ui/button";
 import { TvMinimalPlay } from "lucide-react";
 

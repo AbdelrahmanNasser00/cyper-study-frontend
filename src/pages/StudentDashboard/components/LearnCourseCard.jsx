@@ -1,5 +1,5 @@
 import { Progress } from "@/components/ui/progress";
-import courseImg from "../../../../public/courseDashboard.avif";
+import courseImg from "/courseDashboard.avif";
 import { Button } from "@/components/ui/button";
 import { CirclePlay } from "lucide-react";
 

@@ -40,11 +40,15 @@ function App() {
         <Route path="/categories/:slug" element={<Courses />} />
         {/* <Route path="/courses" element={<Courses />} /> */}
         <Route path="/courses/:id" element={<CourseDetails />} />
+        <Route path="/lesson" element={<Lesson />} />
 
-        <Route path="/instructor" element={
-          <StatsProvider>
-          <InstructorLayout />
-          </StatsProvider>}>
+        <Route
+          path="/instructor"
+          element={
+            <StatsProvider>
+              <InstructorLayout />
+            </StatsProvider>
+          }>
           <Route path="dashboard" element={<InstructorDashboard />} />
           <Route path="courses" element={<MyCourses />} />
           <Route path="earnings" element={<Earnings />} />
@@ -57,7 +61,6 @@ function App() {
 
         <Route path="/about" element={<AboutUs />} />
         <Route path="/join" element={<JoinUs />} />
-        <Route path="/lesson" element={<Lesson />} />
 
         <Route path="/student">
           <Route path="dashboard" element={<StudentDashboard />} />
