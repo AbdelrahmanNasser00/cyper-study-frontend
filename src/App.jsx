@@ -40,7 +40,7 @@ function App() {
         <Route path="/categories/:slug" element={<Courses />} />
         {/* <Route path="/courses" element={<Courses />} /> */}
         <Route path="/courses/:id" element={<CourseDetails />} />
-        <Route path="/lesson" element={<Lesson />} />
+        <Route path="/courses/:id/lesson" element={<Lesson />} />
 
         <Route
           path="/instructor"
