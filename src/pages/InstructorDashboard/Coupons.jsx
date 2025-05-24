@@ -1,30 +1,62 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CouponTable from "./components/CouponTable";
-import { dummyCoupons } from "./dummyCoupons";
 import StatsCard from "./components/StatsCard";
 import { useStats } from "../../context/statsContext";
 import { Link } from "react-router-dom";
 import LoadingSpinner from "@/components/common/loadingSpinner";
+import { getCoupons, createCoupon, updateCoupon, deleteCoupon as deleteCouponApi } from "./api/couponApi";
+
 const Coupons = () => {
   const { stats, loading } = useStats();
+  const [coupons, setCoupons] = useState([]);
+  const [loadingCoupons, setLoadingCoupons] = useState(true);
 
-  if (loading) return <LoadingSpinner />;
+  useEffect(() => {
+    const fetchCoupons = async () => {
+      try {
+        const { data } = await getCoupons();
+        setCoupons(data);
+      } catch (e) {
+        setCoupons([]);
+      } finally {
+        setLoadingCoupons(false);
+      }
+    };
+    fetchCoupons();
+  }, []);
 
-  const [coupons, setCoupons] = useState(dummyCoupons);
-
-  const handleCreateCoupon = () => {
-    alert("Open coupon creation modal...");
-  };
-
-  const handleEdit = (coupon) => {
-    alert("Edit coupon: " + coupon.code);
-  };
-
-  const handleDelete = (coupon) => {
-    if (confirm("Are you sure you want to delete this coupon?")) {
-      setCoupons((prev) => prev.filter((c) => c.code !== coupon.code));
+  const handleCreateCoupon = async (couponData) => {
+    try {
+      const { data } = await createCoupon(couponData);
+      setCoupons((prev) => [...prev, data]);
+    } catch (e) {
+      alert("Failed to create coupon");
     }
   };
+
+  const handleEdit = async (coupon) => {
+    // You can open a modal to edit, then call updateCoupon
+    const updatedCoupon = { ...coupon, code: prompt("Edit code:", coupon.code) };
+    try {
+      const { data } = await updateCoupon(coupon.id, updatedCoupon);
+      setCoupons((prev) => prev.map((c) => (c.id === coupon.id ? data : c)));
+    } catch (e) {
+      alert("Failed to update coupon");
+    }
+  };
+
+  const handleDelete = async (coupon) => {
+    if (window.confirm("Are you sure you want to delete this coupon?")) {
+      try {
+        await deleteCouponApi(coupon.id);
+        setCoupons((prev) => prev.filter((c) => c.id !== coupon.id));
+      } catch (e) {
+        alert("Failed to delete coupon");
+      }
+    }
+  };
+
+  if (loading || loadingCoupons) return <LoadingSpinner />;
 
   return (
     <div className="flex flex-col gap-4">

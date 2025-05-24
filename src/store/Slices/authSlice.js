@@ -36,6 +36,7 @@ import { jwtDecode } from "jwt-decode";
 const getInitialState = () => {
   const token =
     localStorage.getItem(TOKEN_KEY) || sessionStorage.getItem(TOKEN_KEY);
+   
   if (token) {
     try {
       const decodedUser = jwtDecode(token);

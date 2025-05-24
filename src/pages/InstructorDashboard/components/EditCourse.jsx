@@ -1,20 +1,31 @@
-import React, { useState } from "react";
-import { useCreateCourseMutation } from "../../../services/coursesApi";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import {
+  useGetInstructorCourseByIdQuery,
+  useUpdateCourseMutation,
+} from "../../../services/coursesApi";
 
-const CreateCourse = () => {
-  const [formData, setFormData] = useState({
-    title: "",
-    price: "",
-    level: "",
-    categoryId: "",
-    thumbnail: "",
-    description: "",
-    duration: "",
-   isPublished: false,
-  });
-  const [createCourse, { isLoading }] = useCreateCourseMutation();
+const EditCourse = () => {
+  const { id } = useParams();
+  const { data: course, isLoading } = useGetInstructorCourseByIdQuery(id);
+  const [updateCourse, { isLoading: isUpdating }] = useUpdateCourseMutation();
+  const [formData, setFormData] = useState(null);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (course) {
+      setFormData({
+        title: course.title || "",
+        price: course.price || "",
+        level: course.level || "",
+        categoryId: course.categoryId ? String(course.categoryId) : "",
+        thumbnail: course.thumbnail || "",
+        description: course.description || "",
+        duration: course.duration || "",
+        isPublished: !!course.isPublished,
+      });
+    }
+  }, [course]);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -26,24 +37,32 @@ const CreateCourse = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const payload = {
-      ...formData,
-      price: Number(formData.price),
-      duration: Number(formData.duration),
-      categoryId: Number(formData.categoryId),
-    };
-    await createCourse(payload).unwrap();
-    alert("Course created successfully!");
-    navigate("/instructor/courses");
+    try {
+      const payload = {
+        ...formData,
+        price: Number(formData.price),
+        duration: Number(formData.duration),
+        categoryId: Number(formData.categoryId),
+      };
+      await updateCourse({ id, ...payload }).unwrap();
+      alert("Course updated successfully!");
+      navigate("/instructor/courses");
+    } catch (err) {
+      alert("Failed to update course");
+    }
   };
+
+  if (isLoading || !formData) return <div>Loading...</div>;
 
   return (
     <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow mt-10">
-      <h2 className="text-2xl font-bold mb-6 text-gray-800">Create New Course</h2>
+      <h2 className="text-2xl font-bold mb-6 text-gray-800">Edit Course</h2>
       <form onSubmit={handleSubmit} className="space-y-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
-            <label className="block text-sm font-medium text-gray-700">Course Title</label>
+            <label className="block text-sm font-medium text-gray-700">
+              Course Title
+            </label>
             <input
               type="text"
               name="title"
@@ -54,9 +73,10 @@ const CreateCourse = () => {
               className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 p-2"
             />
           </div>
-
           <div>
-            <label className="block text-sm font-medium text-gray-700">Price ($)</label>
+            <label className="block text-sm font-medium text-gray-700">
+              Price ($)
+            </label>
             <input
               type="number"
               name="price"
@@ -68,10 +88,11 @@ const CreateCourse = () => {
             />
           </div>
         </div>
-
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
-            <label className="block text-sm font-medium text-gray-700">Experience Level</label>
+            <label className="block text-sm font-medium text-gray-700">
+              Experience Level
+            </label>
             <select
               name="level"
               value={formData.level}
@@ -84,9 +105,10 @@ const CreateCourse = () => {
               <option value="advanced">advanced</option>
             </select>
           </div>
-
           <div>
-            <label className="block text-sm font-medium text-gray-700">Category</label>
+            <label className="block text-sm font-medium text-gray-700">
+              Category
+            </label>
             <select
               name="categoryId"
               value={formData.categoryId}
@@ -101,9 +123,10 @@ const CreateCourse = () => {
             </select>
           </div>
         </div>
-
         <div>
-          <label className="block text-sm font-medium text-gray-700">Course Image URL</label>
+          <label className="block text-sm font-medium text-gray-700">
+            Course Image URL
+          </label>
           <input
             type="text"
             name="thumbnail"
@@ -113,9 +136,10 @@ const CreateCourse = () => {
             className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 p-2"
           />
         </div>
-
         <div>
-          <label className="block text-sm font-medium text-gray-700">Duration (minutes)</label>
+          <label className="block text-sm font-medium text-gray-700">
+            Duration (minutes)
+          </label>
           <input
             type="number"
             name="duration"
@@ -125,7 +149,6 @@ const CreateCourse = () => {
             className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 p-2"
           />
         </div>
-
         <div className="flex items-center">
           <input
             id="publishCourse"
@@ -135,13 +158,17 @@ const CreateCourse = () => {
             onChange={handleChange}
             className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
           />
-          <label htmlFor="publishCourse" className="ml-2 block text-sm text-gray-700">
+          <label
+            htmlFor="publishCourse"
+            className="ml-2 block text-sm text-gray-700"
+          >
             Publish this course
           </label>
         </div>
-
         <div>
-          <label className="block text-sm font-medium text-gray-700">Course Description</label>
+          <label className="block text-sm font-medium text-gray-700">
+            Course Description
+          </label>
           <textarea
             name="description"
             rows="4"
@@ -151,16 +178,16 @@ const CreateCourse = () => {
             className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 p-2"
           ></textarea>
         </div>
-
         <button
           type="submit"
           className="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-2 px-4 rounded-md font-medium text-sm"
+          disabled={isUpdating}
         >
-          Create Course
+          {isUpdating ? "Updating..." : "Update Course"}
         </button>
       </form>
     </div>
   );
 };
 
-export default CreateCourse;
+export default EditCourse;

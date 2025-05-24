@@ -1,62 +1,54 @@
-import React, { useState } from "react";
+import React from "react";
 import CourseRow from "./components/CourseRow";
 import StatsCard from "./components/StatsCard";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useStats } from "../../context/statsContext";
 import LoadingSpinner from "@/components/common/loadingSpinner";
+import {
+  useGetInstructorCoursesQuery,
+  useUpdateCourseMutation,
+  useDeleteCourseMutation,
+} from "../../services/coursesApi";
+
 const MyCourses = () => {
+   const navigate = useNavigate();
   const { stats, loading } = useStats();
+  const { data: courses = [], isLoading } = useGetInstructorCoursesQuery();
+  const [updateCourse] = useUpdateCourseMutation();
+  const [deleteCourseApi] = useDeleteCourseMutation();
 
-  if (loading) return <LoadingSpinner />;
+  if (loading || isLoading) return <LoadingSpinner />;
 
-  const [courses, setCourses] = useState([
-    {
-      id: 1,
-      title: "Complete Web Development",
-      students: 54239,
-      rating: 4.8,
-      status: "Published",
-      updatedAt: "2023-09-15",
-    },
-    {
-      id: 2,
-      title: "Advanced React Native",
-      students: 21052,
-      rating: 4.6,
-      status: "Published",
-      updatedAt: "2023-11-03",
-    },
-    {
-      id: 3,
-      title: "Advanced TypeScript",
-      students: 0,
-      rating: null,
-      status: "Draft",
-      updatedAt: "2024-03-10",
-    },
-  ]);
   const handleEdit = (id) => {
-    alert("you are about to edit the course" + id);
+   
+
+ navigate(`/instructor/courses/${id}/edit`);
   };
 
-  const toggleStatus = (id) => {
-    setCourses((prev) =>
-      prev.map((course) =>
-        course.id === id
-          ? {
-              ...course,
-              status: course.status === "Published" ? "Draft" : "Published",
-            }
-          : course
-      )
-    );
-  };
-
-  const deleteCourse = (id) => {
-    if (window.confirm("Are you sure you want to delete this course?")) {
-      setCourses((prev) => prev.filter((course) => course.id !== id));
+  const toggleStatus = async (id) => {
+    const course = courses.find((c) => c.id === id);
+    if (!course) return;
+    try {
+      await updateCourse({
+        id,
+        ...course,
+        status: course.status === "Published" ? "Draft" : "Published",
+      });
+    } catch (err) {
+      alert("Failed to update status");
     }
   };
+
+  const deleteCourse = async (id) => {
+    if (window.confirm("Are you sure you want to delete this course?")) {
+      try {
+        await deleteCourseApi(id);
+      } catch (err) {
+        alert("Failed to delete course");
+      }
+    }
+  };
+
   return (
     <div className="flex flex-col gap-4">
       <div className="flex justify-between items-center">
@@ -75,7 +67,6 @@ const MyCourses = () => {
           You have {courses.length} courses (
           {courses.filter((c) => c.status === "Published").length} published)
         </p>
-
         <div className="overflow-auto">
           <table className="min-w-full table-auto border-collapse">
             <thead>

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-
+import { createCoupon } from "../api/couponApi"; 
+import { useNavigate } from "react-router-dom";   
 
 const dummyCourses = [
   { id: 11, title: "Complete Web Development" },
@@ -15,15 +16,22 @@ const CreateCoupon = () => {
     expiresAt: "",
     discount: "",
   });
+  const navigate = useNavigate(); 
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit =async (e) => {
     e.preventDefault();
-    console.log("Coupon Data:", formData);
+    try {
+      await createCoupon(formData);
+      alert("Coupon created successfully!");
+      navigate("/instructor/coupons"); 
+    } catch (err) {
+      alert("Failed to create coupon");
+    }
     
   };
 

@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom"; 
+import { updateCoupon } from "../api/couponApi"; 
+import LoadingSpinner from "@/components/common/loadingSpinner";
 
 const EditCoupon = () => {
   const { id } = useParams(); 
   const [formData, setFormData] = useState(null);
-
+ const navigate = useNavigate();
   // Dummy course data
   const dummyCourses = [
     { id: 11, title: "React Basics" },
@@ -12,16 +14,16 @@ const EditCoupon = () => {
     { id: 13, title: "UI/UX Fundamentals" },
   ];
 
-  useEffect(() => {
-    // Mocked coupon data for testing
-    const mockCoupon = {
-      code: "coupon1555",
-      courseId: 11,
-      usageLimit: 30,
-      expiresAt: "2026-05-01", // yyyy-mm-dd format
-      discount: 50,
+ useEffect(() => {
+    const fetchCoupon = async () => {
+      try {
+        const { data } = await getCoupon(id);
+        setFormData(data);
+      } catch (err) {
+        alert("Failed to fetch coupon data");
+      }
     };
-    setFormData(mockCoupon);
+    fetchCoupon();
   }, [id]);
 
   const handleChange = (e) => {
@@ -29,13 +31,18 @@ const EditCoupon = () => {
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Updated Coupon:", formData); 
-    alert("Coupon updated!");
+    try {
+      await updateCoupon(id, formData);
+      alert("Coupon updated!");
+      navigate("/instructor/coupons"); 
+    } catch (err) {
+      alert("Failed to update coupon");
+    }
   };
 
-  if (!formData) return <div>Loading...</div>;
+  if (!formData) return <LoadingSpinner />;
 
   return (
     <div className="max-w-3xl mx-auto p-6 bg-white rounded-lg shadow mt-10">
