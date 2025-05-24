@@ -1,52 +1,120 @@
 import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
-import { BookOpen, Clock, FileVideo, Heart, Users } from "lucide-react";
+import {
+  BookOpen,
+  Clock,
+  FileVideo,
+  Heart,
+  Users,
+  ShoppingCart,
+  Download,
+  InfinityIcon,
+  PlayCircle,
+} from "lucide-react";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAddToCartMutation } from "@/services/cartApi";
 
-function SmallCardDetails() {
-  const [addWishlist, setAddWishlist] = useState(false);
+function SmallCardDetails({
+  price,
+  discountedPrice,
+  isEnrolled,
+  progress,
+  courseId,
+}) {
+  const [addToCart] = useAddToCartMutation();
+  const [isWishlisted, setIsWishlisted] = useState(false);
+  const navigate = useNavigate();
+  const handleAction = () => {
+    if (isEnrolled) {
+      // Navigate to continue learning
+      navigate(`/courses/${courseId}/lesson`);
+    } else {
+      // Add to cart
+      addToCart({ courseId });
+    }
+  };
 
-  function handleWishlist() {
-    setAddWishlist((prev) => !prev);
-  }
+  const displayPrice =
+    discountedPrice < price ? (
+      <div className="flex gap-2 items-center my-3">
+        <span className="text-2xl font-bold">${discountedPrice}</span>
+        <span className="text-gray-500 line-through">${price}</span>
+      </div>
+    ) : (
+      <div className="text-2xl font-bold my-3">${price}</div>
+    );
 
   return (
     <div className="bg-gray-100 rounded-2xl p-5 w-80">
-      <div className="progress flex flex-col">
-        <h4 className="text-lg">Your progress</h4>
-        <Progress value={35} className="w-full my-3" />
-        <span className="w-fit self-end">35% complete</span>
-      </div>
-      <Button className="my-3 w-full  p-6 bg-mainColor hover:border hover:bg-white hover:text-black">
-        Continue Learning
+      {isEnrolled ? (
+        <div className="progress-section">
+          <h4 className="text-lg font-semibold">Your Progress</h4>
+          <div className="my-4">
+            <Progress value={progress?.progressPercentage || 0} />
+            <div className="flex justify-between mt-2 text-sm">
+              <span>
+                {progress?.completedLessons || 0} of{" "}
+                {progress?.totalLessons || 0} lessons
+              </span>
+              <span className="font-medium">
+                {progress?.progressPercentage || 0}%
+              </span>
+            </div>
+          </div>
+        </div>
+      ) : (
+        <div className="price-section">
+          {displayPrice}
+          <p className="text-sm text-gray-600 mb-3">
+            Includes full lifetime access
+          </p>
+        </div>
+      )}
+
+      <Button
+        onClick={handleAction}
+        className="w-full py-6 text-lg"
+        variant={isEnrolled ? "default" : "primary"}>
+        {isEnrolled ? (
+          <>
+            <PlayCircle className="mr-2" />
+            Continue Learning
+          </>
+        ) : (
+          <>
+            <ShoppingCart className="mr-2" />
+            Add to Cart - ${discountedPrice || price}
+          </>
+        )}
       </Button>
-      <div
-        className="flex gap-2 my-5 justify-center cursor-pointer"
-        onClick={handleWishlist}>
-        <Heart className={addWishlist ? "fill-red-400" : ""}></Heart>
-        <span>{addWishlist ? "Remove from Whislist" : "add to Whislist"}</span>
+
+      <div className="mt-5">
+        <Button
+          variant="ghost"
+          className="w-full"
+          onClick={() => setIsWishlisted(!isWishlisted)}>
+          <Heart className={isWishlisted ? "fill-red-500" : ""} />
+          {isWishlisted ? "Remove from Wishlist" : "Add to Wishlist"}
+        </Button>
       </div>
-      <hr />
-      <div className="mt-4">
+
+      <div className="mt-6 space-y-3">
         <h5 className="font-bold">This course includes:</h5>
-        <p>
-          <div className="flex mt-3 gap-2 items-center">
-            <FileVideo className="text-mainColor" />
-            <span>65 hours on-demand video</span>
-          </div>
-          <div className="flex my-3 gap-2 items-center">
-            <BookOpen className="text-mainColor" />
-            <span>Comprehensive learning resources</span>
-          </div>
-          <div className="flex  gap-2 items-center">
-            <Users className="text-mainColor" />
-            <span>Access to exclusive community</span>
-          </div>
-          <div className="flex my-3 gap-2 items-center">
-            <Clock className="text-mainColor" />
+        <ul className="space-y-2">
+          <li className="flex items-center gap-2">
+            <FileVideo className="text-blue-500" />
+            <span>On-demand video</span>
+          </li>
+          <li className="flex items-center gap-2">
+            <Download className="text-blue-500" />
+            <span>Downloadable resources</span>
+          </li>
+          <li className="flex items-center gap-2">
+            <InfinityIcon className="text-blue-500" />
             <span>Full lifetime access</span>
-          </div>
-        </p>
+          </li>
+        </ul>
       </div>
     </div>
   );

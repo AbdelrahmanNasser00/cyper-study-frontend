@@ -61,9 +61,14 @@ export const coursesApi = baseApi.injectEndpoints({
       query: () => ({ url: "courses/my-enrollments", method: "GET" }),
     }),
     getStudentEnrolledCourseById: builder.query({
-      query: (id) => ({ url: `courses/my-enrollments/${id}`, method: "GET" }),
+      query: (courseId) => `courses/my-enrollments/${courseId}`,
+      transformResponse: (response) => {
+        return {
+          isEnrolled: response.Enrollments && response.Enrollments.length > 0,
+          course: response,
+        };
+      },
     }),
-
     // Progress routes
     makeLessonAsCompleted: builder.mutation({
       query: (course) => ({
@@ -72,6 +77,7 @@ export const coursesApi = baseApi.injectEndpoints({
         body: course,
       }),
     }),
+
     getProgress: builder.query({
       query: (courseId) => ({
         url: `progress/course-progress/${courseId}`,

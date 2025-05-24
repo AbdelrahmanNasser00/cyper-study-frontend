@@ -10,119 +10,177 @@ import {
 } from "lucide-react";
 import SmallCardDetails from "./Components/SmallCardDetails";
 import TabsInCourseDetails from "./Components/TabsInCourseDetails";
+import { useParams } from "react-router-dom";
+import {
+  useGetCourseByIdQuery,
+  useGetProgressQuery,
+  useGetStudentEnrolledCourseByIdQuery,
+} from "@/services/coursesApi";
+import { Skeleton } from "@/components/ui/skeleton";
+import LoadingSpinner from "@/components/common/loadingSpinner";
+
+// Default course data structure
+const defaultCourse = {
+  title: "Course Title",
+  description: "No description available",
+  price: 0,
+  discountedPrice: 0,
+  rating: 0,
+  totalRatings: 0,
+  totalStudents: 0,
+  lastUpdated: new Date().toLocaleDateString(),
+  totalHours: 0,
+  totalLessons: 0,
+  level: "Not Specified",
+  category: "General",
+  thumbnail: backgroundImg,
+  instructor: {
+    firstname: "Instructor",
+    lastname: "Name",
+    name: "Instructor Name",
+  },
+  isEnrolled: false,
+  isWishlisted: false,
+  lessons: [],
+};
 
 function CourseDetails() {
-  // Course data object for API integration
+  const { id } = useParams();
+  const { data: courseData, isLoading, isError } = useGetCourseByIdQuery(id);
+  const { data: enrollmentData } = useGetStudentEnrolledCourseByIdQuery(id);
+  const { data: progress } = useGetProgressQuery(
+    enrollmentData?.isEnrolled ? id : null
+  );
+  console.log(enrollmentData);
+  console.log(progress);
+
+  // Merge API data with defaults
   const course = {
-    id: '1',
-    title: 'Complete Web Development Bootcamp',
-    description: 'Learn web development from scratch with HTML, CSS, JavaScript, React, Node.js and more. This comprehensive course takes you from beginner to advanced.',
-    price: 89.99,
-    discountedPrice: 19.99,
-    rating: 4.8,
-    totalRatings: 12547,
-    totalStudents: 54239,
-    lastUpdated: 'March 2023',
-    totalHours: 65,
-    totalLessons: 412,
-    level: 'All Levels',
-    category: 'Development',
-    image: 'https://images.unsplash.com/photo-1587620962725-abab7fe55159?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1031&q=80',
-    instructor: {
-      name: 'Jane Doe',
-      title: 'Senior Web Developer & Instructor',
-      bio: 'Teaching web development for over 10 years with experience at top tech companies.',
-      avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d',
-      courses: 15,
-      students: 124500,
-      rating: 4.9
-    },
-    progress: 35, // Only if user is enrolled
-    isEnrolled: true,
-    whatYouWillLearn: [
-      'Build responsive websites with HTML, CSS, and JavaScript',
-      'Create dynamic web applications with React',
-      'Develop backend services with Node.js',
-      'Deploy your applications to production'
-    ],
-    requirements: [
-      'Basic computer skills',
-      'No prior programming experience required',
-      'All tools and software used in this course are free',
-      'A stable internet connection for video streaming'
-    ],
-    isWishlisted: false
+    ...defaultCourse,
+    ...courseData,
+    ...(enrollmentData?.course || {}),
+    isEnrolled: enrollmentData?.isEnrolled || false,
   };
+
+  if (isLoading) {
+    return <LoadingSpinner />;
+  }
+  if (isError) {
+    return (
+      <div className="min-h-dvh flex items-center justify-center">
+        <div className="container mx-auto p-4 text-center">
+          <h2 className="text-2xl font-bold text-red-500">
+            Error loading course details
+          </h2>
+          <p className="text-gray-600 mt-2">
+            Please try again later or refresh the page
+          </p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <>
       <div
-        style={{ backgroundImage: `url(${backgroundImg})` }}
+        style={{ backgroundImage: `url(${course.thumbnail || backgroundImg})` }}
         className="bg-cover bg-center min-h-dvh flex items-center justify-center relative">
         <div className="bg-black absolute size-full opacity-30"></div>
-        {/* start card */}
+        {/* Course Card */}
         <div className="bg-white flex-wrap lg:flex-nowrap justify-center container relative top-5 rounded-2xl p-10 shadow-lg flex gap-10">
-          <div>
-            {" "}
-            {/* start left-content */}
-            <div className="label-date flex gap-2">
-              <Badge className="bg-amber-400 text-black">{course.category}</Badge>
+          {/* Left Content */}
+          <div className="flex-1">
+            <div className="label-date flex gap-2 flex-wrap">
+              <Badge className="bg-amber-400 text-black">
+                {course.category}
+              </Badge>
               <Badge className="bg-mainColor">{course.level}</Badge>
-              <span>Last updated: {course.lastUpdated}</span>
+              <span className="text-sm text-gray-600">
+                Last updated: {course.lastUpdated}
+              </span>
             </div>
-            <div className="header-description">
-              <h2 className="mb-5 mt-3 text-4xl font-bold">
-                {course.title}
-              </h2>
-              <p className="max-w-[800px]">
+
+            <div className="header-description mt-4">
+              <h2 className="mb-5 text-4xl font-bold">{course.title}</h2>
+              <p className="max-w-[800px] text-gray-700">
                 {course.description}
               </p>
             </div>
+
             <div className="rate-users justify-center flex-col lg:justify-self-start lg:flex-row text-center flex my-7 gap-4">
-              <div className="flex gap-2">
-                <div className="rating flex ">
+              <div className="flex gap-2 items-center">
+                <div className="rating flex">
                   {[...Array(5)].map((_, index) => (
-                    <Star 
+                    <Star
                       key={index}
-                      className={`text-orange-200 ${index < Math.floor(course.rating) ? 'fill-amber-300' : ''}`} 
+                      className={`text-orange-200 ${
+                        index < Math.floor(course.rating)
+                          ? "fill-amber-300"
+                          : ""
+                      }`}
                     />
                   ))}
                 </div>
-                <span>{course.rating}</span>
-                <span className="text-gray-500">({course.totalRatings} ratings)</span>
+                <span>{course.rating.toFixed(1)}</span>
+                <span className="text-gray-500">
+                  ({course.totalRatings} ratings)
+                </span>
               </div>
-              <div className="flex justify-center gap-3">
-                <Users />
-                <span className="text-gray-500">{course.totalStudents} students</span>
+
+              <div className="flex justify-center gap-3 items-center">
+                <Users className="w-5 h-5" />
+                <span className="text-gray-500">
+                  {course.totalStudents.toLocaleString()} students
+                </span>
               </div>
-              <div className="flex justify-center gap-3">
-                <User />
-                <span className="text-gray-500">Created By : {course.instructor.name}</span>
+
+              <div className="flex justify-center gap-3 items-center">
+                <User className="w-5 h-5" />
+                <span className="text-gray-500">
+                  Created By: {course.instructor.name}
+                </span>
               </div>
             </div>
-            <div className="contentInfo justify-center lg:justify-self-start  flex gap-8">
-              <div className="flex gap-2 text-center flex-col lg:flex-row justify-center">
-                <Clock className="mx-auto" />
+
+            <div className="contentInfo justify-center lg:justify-self-start flex gap-8 flex-wrap">
+              <div className="flex gap-2 items-center">
+                <Clock className="w-5 h-5" />
                 <span>{course.totalHours} hours</span>
               </div>
-              <div className="flex gap-2 text-center flex-col lg:flex-row justify-center">
-                <TvMinimalPlay className="mx-auto" />
-                <span>{course.totalLessons} lessons</span>
+
+              <div className="flex gap-2 items-center">
+                <TvMinimalPlay className="w-5 h-5" />
+                <span>
+                  {course.lessons?.length || course.totalLessons} lessons
+                </span>
               </div>
-              <div className="flex gap-2 text-center flex-col lg:flex-row justify-centers">
-                <BookOpen className="mx-auto" />
+
+              <div className="flex gap-2 items-center">
+                <BookOpen className="w-5 h-5" />
                 <span>{course.level}</span>
               </div>
             </div>
-            {/* end left-content */}
           </div>
-          {/* start smallCard */}
-          <SmallCardDetails />
-          {/* end smallCard */}
+
+          {/* Right Side Card */}
+          {/* Your course header */}
+          <SmallCardDetails
+            price={course.price}
+            discountedPrice={course.discountedPrice}
+            isEnrolled={course.isEnrolled}
+            progress={progress}
+            courseId={course.id}
+          />
         </div>
-        {/* end card */}
       </div>
-      <TabsInCourseDetails />
+
+      {/* Tabs Section */}
+      <TabsInCourseDetails
+        course={course}
+        lessons={course.lessons || []}
+        whatYouWillLearn={course.whatYouWillLearn || []}
+        requirements={course.requirements || []}
+      />
     </>
   );
 }
