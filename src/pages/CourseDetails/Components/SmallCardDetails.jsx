@@ -31,7 +31,7 @@ function SmallCardDetails({
       navigate(`/courses/${courseId}/lesson`);
     } else {
       // Add to cart
-      addToCart({ courseId });
+      addToCart(courseId);
     }
   };
 
@@ -65,7 +65,8 @@ function SmallCardDetails({
         </div>
       ) : (
         <div className="price-section">
-          {displayPrice}
+          <div className="text-2xl font-bold my-3">${price}</div>
+
           <p className="text-sm text-gray-600 mb-3">
             Includes full lifetime access
           </p>
@@ -84,7 +85,7 @@ function SmallCardDetails({
         ) : (
           <>
             <ShoppingCart className="mr-2" />
-            Add to Cart - ${discountedPrice || price}
+            Add to Cart
           </>
         )}
       </Button>

@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { removeFromCart } from "@/store/Slices/cartSlice";
 import { Button } from "@/components/ui/button";
 import { Trash2 } from "lucide-react";
-import { Link } from "react-router"; 
+import { Link } from "react-router";
 import { FaCcPaypal } from "react-icons/fa";
 import { FaCcStripe } from "react-icons/fa";
 
@@ -42,8 +42,7 @@ const Cart = () => {
             {items.map((item) => (
               <div
                 key={item.id}
-                className="flex items-start gap-4 border rounded-lg p-4 shadow-sm bg-white"
-              >
+                className="flex items-start gap-4 border rounded-lg p-4 shadow-sm bg-white">
                 <img
                   src={item.image}
                   alt={item.title || "Course Image"}
@@ -58,17 +57,16 @@ const Cart = () => {
                   </p>
                   <div className="flex gap-2 mt-2">
                     <span className="text-lg font-bold text-gray-900">
-                      ${((item.price || 0).toFixed(2))}
+                      ${(item.price || 0).toFixed(2)}
                     </span>
                     <span className="text-sm text-gray-400 line-through">
-                      ${((item.originalPrice || 0).toFixed(2))}
+                      ${(item.originalPrice || 0).toFixed(2)}
                     </span>
                   </div>
                 </div>
                 <button
                   onClick={() => dispatch(removeFromCart(item.id))}
-                  className="text-red-500 hover:text-red-600 flex items-center gap-1"
-                >
+                  className="text-red-500 hover:text-red-600 flex items-center gap-1">
                   <Trash2 className="w-5 h-5" />
                   <span className="sr-only">Remove</span>
                 </button>
@@ -77,38 +75,42 @@ const Cart = () => {
           </div>
 
           {/* Order Summary */}
-          <div >
+          <div>
             <div className="bg-white p-6 rounded-lg shadow-md max-h-[450px]">
-            <h2 className="text-xl font-semibold mb-4">Order Summary</h2>
-            <div className="flex justify-between mb-2 text-sm">
-              <span className="text-gray-600">Original Price:</span>
-              <span>${totalOriginalPrice.toFixed(2)}</span>
-            </div>
-            {totalDiscount > 0 && (
-              <div className="flex justify-between mb-2 text-sm text-green-600">
-                <span>Discounts:</span>
-                <span>- ${totalDiscount.toFixed(2)}</span>
+              <h2 className="text-xl font-semibold mb-4">Order Summary</h2>
+              <div className="flex justify-between mb-2 text-sm">
+                <span className="text-gray-600">Original Price:</span>
+                <span>${totalOriginalPrice.toFixed(2)}</span>
               </div>
-            )}
-            <div className="border-t pt-3 mt-3 flex justify-between font-semibold text-lg">
-              <span>Total:</span>
-              <span>${totalPrice.toFixed(2)}</span>
+              {totalDiscount > 0 && (
+                <div className="flex justify-between mb-2 text-sm text-green-600">
+                  <span>Discounts:</span>
+                  <span>- ${totalDiscount.toFixed(2)}</span>
+                </div>
+              )}
+              <div className="border-t pt-3 mt-3 flex justify-between font-semibold text-lg">
+                <span>Total:</span>
+                <span>${totalPrice.toFixed(2)}</span>
+              </div>
+              <Button className="mt-6 w-full bg-blue-600 hover:bg-blue-700 text-white rounded-lg">
+                Checkout
+              </Button>
+              <p className="text-center text-xs text-gray-400 mt-2">
+                🔒 Secure checkout
+              </p>
             </div>
-            <Button className="mt-6 w-full bg-blue-600 hover:bg-blue-700 text-white rounded-lg">
-              Checkout
-            </Button>
-            <p className="text-center text-xs text-gray-400 mt-2">
-              🔒 Secure checkout
-            </p></div>
             <div className="mt-8 flex flex-col gap-4">
-                <p className="font-medium">Accepted Payment Methods</p>
+              <p className="font-medium">Accepted Payment Methods</p>
               <div className="flex justify-center gap-4">
-              <div><FaCcPaypal  className="w-12 h-8 rounded-md" /></div>
-              <div><FaCcStripe  className="w-12 h-8 rounded-md"/></div>
+                <div>
+                  <FaCcPaypal className="w-12 h-8 rounded-md" />
+                </div>
+                <div>
+                  <FaCcStripe className="w-12 h-8 rounded-md" />
+                </div>
               </div>
             </div>
           </div>
-          
         </div>
       )}
     </div>
