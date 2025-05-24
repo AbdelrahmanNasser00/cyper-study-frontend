@@ -1,15 +1,14 @@
 import React from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { removeFromCart } from "@/store/Slices/cartSlice";
+import { useGetCartQuery, useRemoveFromCartMutation } from "@/services/cartApi"; // Update path to match your file structure
 import { Button } from "@/components/ui/button";
 import { Trash2 } from "lucide-react";
 import { Link } from "react-router";
-import { FaCcPaypal } from "react-icons/fa";
-import { FaCcStripe } from "react-icons/fa";
+import { FaCcPaypal, FaCcStripe } from "react-icons/fa";
 
 const Cart = () => {
-  const dispatch = useDispatch();
-  const items = useSelector((state) => state.cart.items);
+  const { data: items = [], isLoading } = useGetCartQuery();
+  const [removeFromCart] = useRemoveFromCartMutation();
+
   const totalOriginalPrice = items.reduce(
     (acc, item) => acc + (item.originalPrice || 0) * (item.quantity || 1),
     0
@@ -19,6 +18,10 @@ const Cart = () => {
     0
   );
   const totalDiscount = totalOriginalPrice - totalPrice;
+
+  if (isLoading) {
+    return <div className="p-6 max-w-7xl mx-auto">Loading cart...</div>;
+  }
 
   return (
     <div className="p-6 max-w-7xl mx-auto">
@@ -65,7 +68,7 @@ const Cart = () => {
                   </div>
                 </div>
                 <button
-                  onClick={() => dispatch(removeFromCart(item.id))}
+                  onClick={() => removeFromCart(item.id)}
                   className="text-red-500 hover:text-red-600 flex items-center gap-1">
                   <Trash2 className="w-5 h-5" />
                   <span className="sr-only">Remove</span>
@@ -102,12 +105,8 @@ const Cart = () => {
             <div className="mt-8 flex flex-col gap-4">
               <p className="font-medium">Accepted Payment Methods</p>
               <div className="flex justify-center gap-4">
-                <div>
-                  <FaCcPaypal className="w-12 h-8 rounded-md" />
-                </div>
-                <div>
-                  <FaCcStripe className="w-12 h-8 rounded-md" />
-                </div>
+                <FaCcPaypal className="w-12 h-8 rounded-md" />
+                <FaCcStripe className="w-12 h-8 rounded-md" />
               </div>
             </div>
           </div>
