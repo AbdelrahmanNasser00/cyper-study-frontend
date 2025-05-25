@@ -1,14 +1,15 @@
 import { Play, SquarePlay } from "lucide-react";
+import { Link } from "react-router-dom";
 
-function LessonInLessonsList() {
+function LessonInLessonsList({ lesson }) {
   return (
     <li className="flex gap-2 items-center justify-between mb-4">
       <div className="flex gap-2 items-center">
         <SquarePlay className="text-mainColor" />
-        <span>introduction to the course</span>
+        <span>{lesson.title}</span>
       </div>
       <div className="flex gap-2 items-center">
-        <span>5:35</span>
+        <span>{lesson.duration} min</span>
         <Play className="size-4" />
       </div>
     </li>

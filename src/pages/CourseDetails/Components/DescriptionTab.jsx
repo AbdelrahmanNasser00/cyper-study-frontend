@@ -1,18 +1,15 @@
-function DescriptionTab() {
+function DescriptionTab({ course }) {
   return (
     <>
       {" "}
-      <div>
+      <div className="my-10">
         <h4 className="text-2xl font-bold my-6">About This Course</h4>
-        <p>
-          This comprehensive course is designed to take you from beginner to
-          professional web developer. You'll learn all the tools and
-          technologies needed to build full-stack web applications.
-        </p>
+        <p>{course.description}</p>
       </div>
-      <div>
+      {/* <div>
         <h4 className="text-2xl font-bold my-6">What you'll learn</h4>
         <ul className="list-disc ml-10">
+          {whatYouWillLearn}
           <li>Build responsive, accessible, and beautiful web applications</li>
           <li>Master modern JavaScript frameworks like React</li>
           <li>Create backend APIs with Node.js and Express</li>
@@ -27,7 +24,7 @@ function DescriptionTab() {
           <li>All tools and software used in this course are free</li>
           <li>A stable internet connection for video streaming</li>
         </ul>
-      </div>
+      </div> */}
     </>
   );
 }

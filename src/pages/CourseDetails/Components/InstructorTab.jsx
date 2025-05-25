@@ -1,9 +1,9 @@
 import { BookOpen, Star, Users } from "lucide-react";
 import instructorImage from "/instructor-removebg-preview.png";
 import { Button } from "@/components/ui/button";
-function InstructorTab() {
+function InstructorTab({ course }) {
   return (
-    <div className="flex gap-10 flex-wrap lg:flex-nowrap">
+    <div className="flex gap-10 flex-wrap lg:flex-nowrap my-10">
       {/* start image */}
       <div className="w-32 h-32 mx-auto lg:mx-0 rounded-full overflow-hidden border-4 border-mainColor flex-shrink-0">
         <img
@@ -15,7 +15,7 @@ function InstructorTab() {
       {/* end image */}
       {/* start info */}
       <div className="mx-auto lg:mx-0">
-        <h3 className="text-2xl font-bold mx-auto lg:mx-0 w-fit">Jane Doe</h3>
+        <h3 className="text-2xl font-bold mx-auto lg:mx-0 w-fit">{`${course.instructor.firstname} ${course.instructor.lastname}`}</h3>
         <p className="mt-3 mx-auto lg:mx-0 w-fit">
           Senior Web Developer & Instructor
         </p>

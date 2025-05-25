@@ -16,7 +16,7 @@ function StudentDashboard() {
       </div>
       {/* end header */}
       {/* start stats */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 my-10">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 my-10">
         <StatsCard value={3} title={"Enrolled Courses"}>
           <div className="relative">
             <span className="absolute bg-blue-400/30 w-10 h-10 -z-1 -top-2 -right-2 rounded-full"></span>
@@ -33,12 +33,6 @@ function StudentDashboard() {
           <div className="relative">
             <span className="absolute bg-yellow-400/30 w-10 h-10 -z-1 -top-2 -right-2 rounded-full"></span>
             <GraduationCap className="text-yellow-500" />
-          </div>
-        </StatsCard>
-        <StatsCard value={"$57.75"} title={"Payments"}>
-          <div className="relative">
-            <span className="absolute bg-fuchsia-400/30 w-10 h-10 -z-1 -top-2 -right-2 rounded-full"></span>
-            <GraduationCap className="text-fuchsia-500" />
           </div>
         </StatsCard>
       </div>

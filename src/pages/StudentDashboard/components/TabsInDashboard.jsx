@@ -1,7 +1,7 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { BookMarked, CreditCard, GraduationCap, Heart } from "lucide-react";
 import CertificateTab from "./CertificateTab";
-import PaymentTab from "./PaymentTab";
+
 import CoursesListTab from "./CoursesListTab";
 
 function TabsInDashboard() {
@@ -21,21 +21,12 @@ function TabsInDashboard() {
           </span>
           Certificates
         </TabsTrigger>
-        <TabsTrigger className="hover:cursor-pointer" value="payment">
-          <span>
-            <CreditCard />
-          </span>
-          Payment History
-        </TabsTrigger>
       </TabsList>
       <TabsContent value="courses">
         <CoursesListTab />
       </TabsContent>
       <TabsContent value="certificates">
         <CertificateTab />
-      </TabsContent>
-      <TabsContent value="payment">
-        <PaymentTab></PaymentTab>
       </TabsContent>
     </Tabs>
   );

@@ -8,7 +8,7 @@ import DescriptionTab from "./DescriptionTab";
 import ReviewTab from "./ReviewTab";
 import InstructorTab from "./InstructorTab";
 
-function TabsInCourseDetails() {
+function TabsInCourseDetails({ course, lessons }) {
   // console.log("course:", JSON.stringify(course, null, 2));
   // console.log("lessons:", JSON.stringify(lessons, null, 2));
   return (
@@ -41,16 +41,16 @@ function TabsInCourseDetails() {
           </TabsTrigger>
         </TabsList>
         <TabsContent value="content">
-          <ContentTab></ContentTab>
+          <ContentTab lessons={lessons}></ContentTab>
         </TabsContent>
         <TabsContent value="description">
-          <DescriptionTab></DescriptionTab>
+          <DescriptionTab course={course}></DescriptionTab>
         </TabsContent>
         <TabsContent value="reviews">
           <ReviewTab></ReviewTab>
         </TabsContent>
         <TabsContent value="instructor">
-          <InstructorTab></InstructorTab>
+          <InstructorTab course={course}></InstructorTab>
         </TabsContent>
       </Tabs>
     </div>

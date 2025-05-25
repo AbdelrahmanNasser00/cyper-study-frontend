@@ -51,6 +51,7 @@ function CourseDetails() {
   const { data: progress } = useGetProgressQuery(
     enrollmentData?.isEnrolled ? id : null
   );
+
   // console.log(courseData);
   // console.log(enrollmentData);
   // console.log(progress);
@@ -62,6 +63,8 @@ function CourseDetails() {
     ...(enrollmentData?.course || {}),
     isEnrolled: enrollmentData?.isEnrolled || false,
   };
+
+  console.log(course);
 
   if (isLoading) {
     return <LoadingSpinner />;
@@ -139,7 +142,8 @@ function CourseDetails() {
               <div className="flex justify-center gap-3 items-center">
                 <User className="w-5 h-5" />
                 <span className="text-gray-500">
-                  Created By: {course.instructor.name}
+                  Created By:{" "}
+                  {`${course.instructor.firstname} ${course.instructor.lastname}`}
                 </span>
               </div>
             </div>
