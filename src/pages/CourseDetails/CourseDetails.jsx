@@ -51,8 +51,9 @@ function CourseDetails() {
   const { data: progress } = useGetProgressQuery(
     enrollmentData?.isEnrolled ? id : null
   );
-  console.log(enrollmentData);
-  console.log(progress);
+  // console.log(courseData);
+  // console.log(enrollmentData);
+  // console.log(progress);
 
   // Merge API data with defaults
   const course = {
