@@ -35,15 +35,15 @@ function SmallCardDetails({
     }
   };
 
-  const displayPrice =
-    discountedPrice < price ? (
-      <div className="flex gap-2 items-center my-3">
-        <span className="text-2xl font-bold">${discountedPrice}</span>
-        <span className="text-gray-500 line-through">${price}</span>
-      </div>
-    ) : (
-      <div className="text-2xl font-bold my-3">${price}</div>
-    );
+  // const displayPrice =
+  //   discountedPrice < price ? (
+  //     <div className="flex gap-2 items-center my-3">
+  //       <span className="text-2xl font-bold">${discountedPrice}</span>
+  //       <span className="text-gray-500 line-through">${price}</span>
+  //     </div>
+  //   ) : (
+  //     <div className="text-2xl font-bold my-3">${price}</div>
+  //   );
 
   return (
     <div className="bg-gray-100 rounded-2xl p-5 w-80">
