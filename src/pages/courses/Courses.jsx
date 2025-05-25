@@ -5,72 +5,75 @@ import { Slider } from "@/components/ui/slider";
 import CourseCard from "@/components/common/CourseCard";
 import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
+import { useGetCoursesByCategoryQuery } from "@/services/coursesApi";
+import { useParams } from "react-router-dom";
+import LoadingSpinner from "@/components/common/loadingSpinner";
 
 function Courses() {
-  const dummyCourses = [
-    {
-      id: "1",
-      title: "Complete Web Development Bootcamp",
-      instructor: "Dr. Angela Yu",
-      thumbnail: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b",
-      price: 19.99,
-      originalPrice: 129.99,
-      rating: 4.7,
-      reviewsCount: 45892,
-      category: "Development",
-      level: "beginner",
-      bestseller: true,
-    },
-    {
-      id: "2",
-      title: "Modern React with Redux [2023 Update]",
-      instructor: "Stephen Grider",
-      thumbnail: "https://images.unsplash.com/photo-1633356122102-3fe601e05bd2",
-      price: 13.99,
-      originalPrice: 89.99,
-      rating: 3,
-      reviewsCount: 32105,
-      category: "Development",
-      level: "intermediate",
-    },
-    {
-      id: "3",
-      title: "The Complete Digital Marketing Course",
-      instructor: "Rob Percival",
-      thumbnail: "https://images.unsplash.com/photo-1460925895917-afdab827c52f",
-      price: 0,
-      originalPrice: 94.99,
-      rating: 4.5,
-      reviewsCount: 18942,
-      category: "Marketing",
-      level: "beginner",
-    },
-    {
-      id: "4",
-      title: "UX/UI Design Fundamentals",
-      instructor: "Daniel Walter Scott",
-      thumbnail: "https://images.unsplash.com/photo-1581291518633-83b4ebd1d83e",
-      price: 12.99,
-      originalPrice: 84.99,
-      rating: 4.6,
-      reviewsCount: 12675,
-      category: "Design",
-      level: "intermediate",
-    },
-    {
-      id: "5",
-      title: "Data Science & Machine Learning Bootcamp",
-      instructor: "Jose Portilla",
-      thumbnail: "https://images.unsplash.com/photo-1518770660439-4636190af475",
-      price: 17.99,
-      originalPrice: 109.99,
-      rating: 4.9,
-      reviewsCount: 28451,
-      category: "Data Science",
-      level: "advanced",
-      bestseller: true,
-    },
-  ];
+  // const dummyCourses = [
+  //   {
+  //     id: "1",
+  //     title: "Complete Web Development Bootcamp",
+  //     instructor: "Dr. Angela Yu",
+  //     thumbnail: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b",
+  //     price: 19.99,
+  //     originalPrice: 129.99,
+  //     rating: 4.7,
+  //     reviewsCount: 45892,
+  //     category: "Development",
+  //     level: "beginner",
+  //     bestseller: true,
+  //   },
+  //   {
+  //     id: "2",
+  //     title: "Modern React with Redux [2023 Update]",
+  //     instructor: "Stephen Grider",
+  //     thumbnail: "https://images.unsplash.com/photo-1633356122102-3fe601e05bd2",
+  //     price: 13.99,
+  //     originalPrice: 89.99,
+  //     rating: 3,
+  //     reviewsCount: 32105,
+  //     category: "Development",
+  //     level: "intermediate",
+  //   },
+  //   {
+  //     id: "3",
+  //     title: "The Complete Digital Marketing Course",
+  //     instructor: "Rob Percival",
+  //     thumbnail: "https://images.unsplash.com/photo-1460925895917-afdab827c52f",
+  //     price: 0,
+  //     originalPrice: 94.99,
+  //     rating: 4.5,
+  //     reviewsCount: 18942,
+  //     category: "Marketing",
+  //     level: "beginner",
+  //   },
+  //   {
+  //     id: "4",
+  //     title: "UX/UI Design Fundamentals",
+  //     instructor: "Daniel Walter Scott",
+  //     thumbnail: "https://images.unsplash.com/photo-1581291518633-83b4ebd1d83e",
+  //     price: 12.99,
+  //     originalPrice: 84.99,
+  //     rating: 4.6,
+  //     reviewsCount: 12675,
+  //     category: "Design",
+  //     level: "intermediate",
+  //   },
+  //   {
+  //     id: "5",
+  //     title: "Data Science & Machine Learning Bootcamp",
+  //     instructor: "Jose Portilla",
+  //     thumbnail: "https://images.unsplash.com/photo-1518770660439-4636190af475",
+  //     price: 17.99,
+  //     originalPrice: 109.99,
+  //     rating: 4.9,
+  //     reviewsCount: 28451,
+  //     category: "Data Science",
+  //     level: "advanced",
+  //     bestseller: true,
+  //   },
+  // ];
   const [filteredCourses, setFilteredCourses] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
   const [selectedRatings, setSelectedRatings] = useState([]);
@@ -78,15 +81,40 @@ function Courses() {
   const [selectedPriceTypes, setSelectedPriceTypes] = useState([]);
   const [priceRange, setPriceRange] = useState([0, 100]);
 
+  const { categoryId } = useParams(); // Get categoryId dynamically from the URL
+  const {
+    data: categoryCourses,
+    isLoading,
+    error,
+  } = useGetCoursesByCategoryQuery(categoryId);
+
   // Apply filters immediately when any filter changes
   useEffect(() => {
     applyFilters();
   }, [selectedRatings, selectedLevels, selectedPriceTypes, priceRange]);
 
-  // Initialize filtered courses on first render
   useEffect(() => {
-    setFilteredCourses(dummyCourses);
-  }, []);
+    if (categoryCourses) {
+      setFilteredCourses(categoryCourses);
+    }
+  }, [categoryCourses]);
+
+  if (isLoading) {
+    return <LoadingSpinner />;
+  }
+
+  if (error) {
+    return (
+      <div className=" min-h-dvh col-span-full text-center py-10 flex items-center justify-center">
+        <div>
+          <h2 className="text-5xl font-bold text-gray-700">
+            No courses available
+          </h2>
+          <p className="text-gray-500 text-2xl mt-2">Coming soon...</p>
+        </div>
+      </div>
+    );
+  }
 
   function handleRatingChange(rating) {
     setSelectedRatings((prev) =>
@@ -113,7 +141,8 @@ function Courses() {
   }
 
   function applyFilters() {
-    const filtered = dummyCourses.filter((course) => {
+    if (!categoryCourses) return;
+    const filtered = categoryCourses.filter((course) => {
       // Handle ratings - check if rating meets or exceeds selected rating
       const matchesRating =
         selectedRatings.length === 0 ||
@@ -179,7 +208,8 @@ function Courses() {
       <div className="container mt-10">
         <Button
           onClick={toggleFilterPanel}
-          className="bg-blue-600 hover:bg-blue-700">
+          className="bg-blue-600 hover:bg-blue-700"
+        >
           {isOpen ? "Hide Filters" : "Show Filters"}
         </Button>
         {selectedRatings.length > 0 ||
@@ -210,7 +240,8 @@ function Courses() {
                     />
                     <Label
                       htmlFor={`rating-${rating}`}
-                      className="ml-2 flex items-center">
+                      className="ml-2 flex items-center"
+                    >
                       <div className="flex mr-1">
                         {[1, 2, 3, 4, 5].map((star) => (
                           <Star
@@ -241,7 +272,8 @@ function Courses() {
                     />
                     <Label
                       htmlFor={`level-${level}`}
-                      className="ml-2 capitalize">
+                      className="ml-2 capitalize"
+                    >
                       {level}
                     </Label>
                   </div>
@@ -260,7 +292,8 @@ function Courses() {
                     />
                     <Label
                       htmlFor={`price-${priceType}`}
-                      className="ml-2 capitalize">
+                      className="ml-2 capitalize"
+                    >
                       {priceType}
                     </Label>
                   </div>

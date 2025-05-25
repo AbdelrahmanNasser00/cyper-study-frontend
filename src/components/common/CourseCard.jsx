@@ -68,7 +68,8 @@ const CourseCard = ({
           }}
           variant="ghost"
           size="icon"
-          className="absolute top-2 right-2 bg-white/80 backdrop-blur-sm hover:bg-white rounded-full h-8 w-8">
+          className="absolute top-2 right-2 bg-white/80 backdrop-blur-sm hover:bg-white rounded-full h-8 w-8"
+        >
           <Heart
             className={`h-5 w-5 ${
               isWishlisted ? "fill-red-500 text-red-500" : "text-gray-700"

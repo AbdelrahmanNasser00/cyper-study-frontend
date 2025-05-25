@@ -38,7 +38,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/wishlist" element={<WishList />} />
         <Route path="/cart" element={<Cart />} />
-        <Route path="/categories/:slug" element={<Courses />} />
+        <Route path="/categories/:categoryId" element={<Courses />} />
         {/* <Route path="/courses" element={<Courses />} /> */}
         <Route path="/courses/:id" element={<CourseDetails />} />
         <Route path="/courses/:id/lesson" element={<Lesson />} />
@@ -49,7 +49,8 @@ function App() {
             <StatsProvider>
               <InstructorLayout />
             </StatsProvider>
-          }>
+          }
+        >
           <Route path="dashboard" element={<InstructorDashboard />} />
           <Route path="courses" element={<MyCourses />} />
           <Route path="earnings" element={<Earnings />} />

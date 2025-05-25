@@ -84,7 +84,8 @@ function CourseDetails() {
     <>
       <div
         style={{ backgroundImage: `url(${course.thumbnail || backgroundImg})` }}
-        className="bg-cover bg-center min-h-dvh flex items-center justify-center relative">
+        className="bg-cover bg-center min-h-dvh flex items-center justify-center relative"
+      >
         <div className="bg-black absolute size-full opacity-30"></div>
         {/* Course Card */}
         <div className="bg-white flex-wrap lg:flex-nowrap justify-center container relative top-5 rounded-2xl p-10 shadow-lg flex gap-10">
