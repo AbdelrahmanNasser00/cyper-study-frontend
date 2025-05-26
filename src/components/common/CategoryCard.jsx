@@ -11,6 +11,7 @@ import {
   Bell,
   ShoppingCart,
   Search,
+  BarChart3
 } from "lucide-react";
 
 const CategoryCard = ({

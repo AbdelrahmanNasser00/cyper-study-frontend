@@ -17,7 +17,7 @@ export const coursesApi = baseApi.injectEndpoints({
     }),
     getCoursesByCategory: builder.query({
       query: (category) => ({
-        url: `courses/category/${category}`,
+        url: `categories/${category}`,
         method: "GET",
       }),
     }),

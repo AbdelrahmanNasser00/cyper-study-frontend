@@ -19,61 +19,63 @@ const Home = () => {
 
   const categories = [
     {
-      title: "Development",
-      icon: "book-open",
-      courseCount: 4500,
-      slug: "development",
-      color: "bg-gradient-to-br from-blue-500 to-blue-600",
-    },
-    {
-      title: "Business",
-      icon: "briefcase",
-      courseCount: 3200,
-      slug: "business",
-      color: "bg-gradient-to-br from-teal-500 to-teal-600",
-    },
-    {
       title: "Design",
       icon: "award",
-      courseCount: 2800,
-      slug: "design",
+      courseCount: 10,
+      slug: "Design",
       color: "bg-gradient-to-br from-purple-500 to-purple-600",
     },
     {
-      title: "Marketing",
-      icon: "list-video",
-      courseCount: 2100,
-      slug: "marketing",
-      color: "bg-gradient-to-br from-orange-500 to-orange-600",
-    },
-    {
-      title: "IT & Software",
-      icon: "graduation-cap",
-      courseCount: 1900,
-      slug: "it-software",
-      color: "bg-gradient-to-br from-green-500 to-green-600",
-    },
-    {
-      title: "Music",
-      icon: "heart",
-      courseCount: 1700,
-      slug: "music",
-      color: "bg-gradient-to-br from-pink-500 to-pink-600",
-    },
-    {
-      title: "Photography",
+      title: "Data Science",
       icon: "book",
-      courseCount: 1400,
-      slug: "photography",
-      color: "bg-gradient-to-br from-cyan-500 to-cyan-600",
+      courseCount: 6,
+      slug: "Data Science",
+      color: "bg-gradient-to-br from-indigo-500 to-indigo-600",
+    },
+    {
+      title: "Language Learning",
+       icon: "book-open",
+      courseCount: 6,
+      slug: "Language Learning",
+      color: "bg-gradient-to-br from-yellow-500 to-yellow-600",
+    },
+    {
+      title: "Finance & Accounting",
+      icon: "settings",
+      courseCount: 6,
+      slug: "Finance & Accounting",
+      color: "bg-gradient-to-br from-emerald-500 to-emerald-600",
     },
     {
       title: "Health & Fitness",
       icon: "shopping-cart",
-      courseCount: 1200,
-      slug: "health-fitness",
+      courseCount: 4,
+      slug: "Health & Fitness",
       color: "bg-gradient-to-br from-red-500 to-red-600",
     },
+    {
+      title: "Music",
+      icon: "heart",
+      courseCount: 5,
+      slug: "Music",
+      color: "bg-gradient-to-br from-pink-500 to-pink-600",
+    },
+    {
+      title: "Development",
+      icon: "book-open",
+      courseCount: 5,
+      slug: "Development",
+      color: "bg-gradient-to-br from-blue-500 to-blue-600",
+    },
+    {
+      title: "Cybersecurity",
+      icon: "briefcase",
+      courseCount: 5,
+      slug: "Cybersecurity",
+      color: "bg-gradient-to-br from-teal-500 to-teal-600",
+    },
+ 
+    
   ];
 
   const testimonials = [

@@ -6,7 +6,7 @@ import CourseCard from "@/components/common/CourseCard";
 import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
 import { useGetCoursesByCategoryQuery } from "@/services/coursesApi";
-import { useParams } from "react-router-dom";
+import { data, useParams } from "react-router-dom";
 import LoadingSpinner from "@/components/common/loadingSpinner";
 
 function Courses() {
@@ -94,8 +94,8 @@ function Courses() {
   }, [selectedRatings, selectedLevels, selectedPriceTypes, priceRange]);
 
   useEffect(() => {
-    if (categoryCourses) {
-      setFilteredCourses(categoryCourses);
+    if (categoryCourses?.Courses) {
+      setFilteredCourses(categoryCourses.Courses);
     }
   }, [categoryCourses]);
 
@@ -141,12 +141,12 @@ function Courses() {
   }
 
   function applyFilters() {
-    if (!categoryCourses) return;
-    const filtered = categoryCourses.filter((course) => {
+    if (!categoryCourses?.Courses) return;
+    const filtered = categoryCourses.Courses.filter((course) => {
       // Handle ratings - check if rating meets or exceeds selected rating
       const matchesRating =
         selectedRatings.length === 0 ||
-        selectedRatings.some((rating) => course.rating >= rating);
+        selectedRatings.some((rating) => Number(course.averageRating) >= rating);
 
       // Handle level - case insensitive comparison
       const matchesLevel =
@@ -158,19 +158,18 @@ function Courses() {
       // Handle price type (free/paid)
       const matchesPriceType =
         selectedPriceTypes.length === 0 ||
-        (selectedPriceTypes.includes("free") && course.price === 0) ||
-        (selectedPriceTypes.includes("paid") && course.price > 0);
+        (selectedPriceTypes.includes("free") && Number(course.price) === 0) ||
+        (selectedPriceTypes.includes("paid") && Number(course.price) > 0);
 
       // Handle price range
       const matchesPriceRange =
-        course.price === 0 || // Free courses always pass price range filter
-        (course.price >= priceRange[0] && course.price <= priceRange[1]);
+        Number(course.price) === 0 ||
+        (Number(course.price) >= priceRange[0] && Number(course.price) <= priceRange[1]);
 
       return (
         matchesRating && matchesLevel && matchesPriceType && matchesPriceRange
       );
     });
-    // console.log("Filtered courses:", filtered.length);
     setFilteredCourses(filtered);
   }
 
@@ -192,15 +191,19 @@ function Courses() {
             <ChevronRight className="size-4" />
             <span>Categories</span>
             <ChevronRight className="size-4" />
-            <span>Development</span>
+            <span>{categoryCourses?.name || "Category"}</span>
           </div>
           {/* end menu */}
-          <h2 className="py-5 font-bold text-4xl">Development Courses</h2>
+          <h2 className="py-5 font-bold text-4xl">
+            {categoryCourses?.name || "Category"}
+          </h2>
           <p className="pb-8 max-w-xl">
-            Explore our wide range of courses in this category and start your
-            learning journey today.
+            {categoryCourses?.description ||
+              "Explore our wide range of courses in this category and start your learning journey today."}
           </p>
-          <span className="bg-white/20 p-2 rounded-lg">127 courses</span>
+          <span className="bg-white/20 p-2 rounded-lg">
+            {categoryCourses?.Courses?.length || 0} courses
+          </span>
         </div>
       </div>
       {/* end head part */}
@@ -325,7 +328,7 @@ function Courses() {
         {/* start courses container */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-3 ">
           {filteredCourses.map((course) => (
-            <CourseCard key={course.id} {...course}></CourseCard>
+            <CourseCard key={course.id} {...course} />
           ))}
         </div>
         {/* end courses container */}
