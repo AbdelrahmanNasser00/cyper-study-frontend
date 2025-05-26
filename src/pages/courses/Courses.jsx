@@ -4,76 +4,13 @@ import { ChevronRight, Star } from "lucide-react";
 import { Slider } from "@/components/ui/slider";
 import CourseCard from "@/components/common/CourseCard";
 import { Button } from "@/components/ui/button";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useGetCoursesByCategoryQuery } from "@/services/coursesApi";
 import { data, useParams } from "react-router-dom";
 import LoadingSpinner from "@/components/common/loadingSpinner";
 
 function Courses() {
-  // const dummyCourses = [
-  //   {
-  //     id: "1",
-  //     title: "Complete Web Development Bootcamp",
-  //     instructor: "Dr. Angela Yu",
-  //     thumbnail: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b",
-  //     price: 19.99,
-  //     originalPrice: 129.99,
-  //     rating: 4.7,
-  //     reviewsCount: 45892,
-  //     category: "Development",
-  //     level: "beginner",
-  //     bestseller: true,
-  //   },
-  //   {
-  //     id: "2",
-  //     title: "Modern React with Redux [2023 Update]",
-  //     instructor: "Stephen Grider",
-  //     thumbnail: "https://images.unsplash.com/photo-1633356122102-3fe601e05bd2",
-  //     price: 13.99,
-  //     originalPrice: 89.99,
-  //     rating: 3,
-  //     reviewsCount: 32105,
-  //     category: "Development",
-  //     level: "intermediate",
-  //   },
-  //   {
-  //     id: "3",
-  //     title: "The Complete Digital Marketing Course",
-  //     instructor: "Rob Percival",
-  //     thumbnail: "https://images.unsplash.com/photo-1460925895917-afdab827c52f",
-  //     price: 0,
-  //     originalPrice: 94.99,
-  //     rating: 4.5,
-  //     reviewsCount: 18942,
-  //     category: "Marketing",
-  //     level: "beginner",
-  //   },
-  //   {
-  //     id: "4",
-  //     title: "UX/UI Design Fundamentals",
-  //     instructor: "Daniel Walter Scott",
-  //     thumbnail: "https://images.unsplash.com/photo-1581291518633-83b4ebd1d83e",
-  //     price: 12.99,
-  //     originalPrice: 84.99,
-  //     rating: 4.6,
-  //     reviewsCount: 12675,
-  //     category: "Design",
-  //     level: "intermediate",
-  //   },
-  //   {
-  //     id: "5",
-  //     title: "Data Science & Machine Learning Bootcamp",
-  //     instructor: "Jose Portilla",
-  //     thumbnail: "https://images.unsplash.com/photo-1518770660439-4636190af475",
-  //     price: 17.99,
-  //     originalPrice: 109.99,
-  //     rating: 4.9,
-  //     reviewsCount: 28451,
-  //     category: "Data Science",
-  //     level: "advanced",
-  //     bestseller: true,
-  //   },
-  // ];
+  
   const [filteredCourses, setFilteredCourses] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
   const [selectedRatings, setSelectedRatings] = useState([]);
@@ -88,16 +25,54 @@ function Courses() {
     error,
   } = useGetCoursesByCategoryQuery(categoryId);
 
-  // Apply filters immediately when any filter changes
-  useEffect(() => {
-    applyFilters();
-  }, [selectedRatings, selectedLevels, selectedPriceTypes, priceRange]);
-
+ 
   useEffect(() => {
     if (categoryCourses?.Courses) {
       setFilteredCourses(categoryCourses.Courses);
     }
   }, [categoryCourses]);
+
+ 
+  useEffect(() => {
+    if (!categoryCourses?.Courses) return;
+    const filtered = categoryCourses.Courses.filter((course) => {
+   
+      const matchesRating =
+        selectedRatings.length === 0 ||
+        selectedRatings.some((rating) => Number(course.averageRating) >= rating);
+
+    
+      const matchesLevel =
+        selectedLevels.length === 0 ||
+        selectedLevels.some(
+          (level) =>
+            course.level &&
+            course.level.toLowerCase().trim() === level.toLowerCase().trim()
+        );
+
+    
+      const matchesPriceType =
+        selectedPriceTypes.length === 0 ||
+        (selectedPriceTypes.includes("free") && Number(course.price) === 0) ||
+        (selectedPriceTypes.includes("paid") && Number(course.price) > 0);
+
+      
+      const matchesPriceRange =
+        Number(course.price) >= priceRange[0] &&
+        Number(course.price) <= priceRange[1];
+
+      return (
+        matchesRating && matchesLevel && matchesPriceType && matchesPriceRange
+      );
+    });
+    setFilteredCourses(filtered);
+  }, [
+    selectedRatings,
+    selectedLevels,
+    selectedPriceTypes,
+    priceRange,
+    categoryCourses,
+  ]);
 
   if (isLoading) {
     return <LoadingSpinner />;
@@ -140,38 +115,7 @@ function Courses() {
     setIsOpen(!isOpen);
   }
 
-  function applyFilters() {
-    if (!categoryCourses?.Courses) return;
-    const filtered = categoryCourses.Courses.filter((course) => {
-      // Handle ratings - check if rating meets or exceeds selected rating
-      const matchesRating =
-        selectedRatings.length === 0 ||
-        selectedRatings.some((rating) => Number(course.averageRating) >= rating);
-
-      // Handle level - case insensitive comparison
-      const matchesLevel =
-        selectedLevels.length === 0 ||
-        selectedLevels.some(
-          (level) => course.level?.toLowerCase() === level.toLowerCase()
-        );
-
-      // Handle price type (free/paid)
-      const matchesPriceType =
-        selectedPriceTypes.length === 0 ||
-        (selectedPriceTypes.includes("free") && Number(course.price) === 0) ||
-        (selectedPriceTypes.includes("paid") && Number(course.price) > 0);
-
-      // Handle price range
-      const matchesPriceRange =
-        Number(course.price) === 0 ||
-        (Number(course.price) >= priceRange[0] && Number(course.price) <= priceRange[1]);
-
-      return (
-        matchesRating && matchesLevel && matchesPriceType && matchesPriceRange
-      );
-    });
-    setFilteredCourses(filtered);
-  }
+ 
 
   function resetFilters() {
     setSelectedRatings([]);
@@ -219,7 +163,7 @@ function Courses() {
         selectedLevels.length > 0 ||
         selectedPriceTypes.length > 0 ||
         priceRange[0] > 0 ||
-        priceRange[1] < 100 ? (
+        priceRange[1] < 500 ? (
           <Button onClick={resetFilters} variant="outline" className="ml-2">
             Reset Filters
           </Button>
@@ -311,7 +255,7 @@ function Courses() {
                   value={priceRange}
                   onValueChange={(value) => setPriceRange(value)}
                   min={0}
-                  max={100}
+                  max={500}
                   step={1}
                   className="mb-4"
                 />
