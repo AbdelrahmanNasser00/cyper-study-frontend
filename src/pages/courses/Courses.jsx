@@ -6,17 +6,16 @@ import CourseCard from "@/components/common/CourseCard";
 import { Button } from "@/components/ui/button";
 import React, { useEffect, useState } from "react";
 import { useGetCoursesByCategoryQuery } from "@/services/coursesApi";
-import { data, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import LoadingSpinner from "@/components/common/loadingSpinner";
 
 function Courses() {
-  
   const [filteredCourses, setFilteredCourses] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
   const [selectedRatings, setSelectedRatings] = useState([]);
   const [selectedLevels, setSelectedLevels] = useState([]);
   const [selectedPriceTypes, setSelectedPriceTypes] = useState([]);
-  const [priceRange, setPriceRange] = useState([0, 100]);
+  const [priceRange, setPriceRange] = useState([0, 500]);
 
   const { categoryId } = useParams(); // Get categoryId dynamically from the URL
   const {
@@ -25,23 +24,21 @@ function Courses() {
     error,
   } = useGetCoursesByCategoryQuery(categoryId);
 
- 
   useEffect(() => {
     if (categoryCourses?.Courses) {
       setFilteredCourses(categoryCourses.Courses);
     }
   }, [categoryCourses]);
 
- 
   useEffect(() => {
     if (!categoryCourses?.Courses) return;
     const filtered = categoryCourses.Courses.filter((course) => {
-   
       const matchesRating =
         selectedRatings.length === 0 ||
-        selectedRatings.some((rating) => Number(course.averageRating) >= rating);
+        selectedRatings.some(
+          (rating) => Number(course.averageRating) >= rating
+        );
 
-    
       const matchesLevel =
         selectedLevels.length === 0 ||
         selectedLevels.some(
@@ -50,13 +47,11 @@ function Courses() {
             course.level.toLowerCase().trim() === level.toLowerCase().trim()
         );
 
-    
       const matchesPriceType =
         selectedPriceTypes.length === 0 ||
         (selectedPriceTypes.includes("free") && Number(course.price) === 0) ||
         (selectedPriceTypes.includes("paid") && Number(course.price) > 0);
 
-      
       const matchesPriceRange =
         Number(course.price) >= priceRange[0] &&
         Number(course.price) <= priceRange[1];
@@ -115,13 +110,11 @@ function Courses() {
     setIsOpen(!isOpen);
   }
 
- 
-
   function resetFilters() {
     setSelectedRatings([]);
     setSelectedLevels([]);
     setSelectedPriceTypes([]);
-    setPriceRange([0, 100]);
+    setPriceRange([0, 500]);
   }
 
   return (

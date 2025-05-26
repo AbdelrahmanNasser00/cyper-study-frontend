@@ -1,46 +1,121 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useOutletContext } from "react-router-dom";
+import {
+  useGetProfileQuery,
+  useUpdateProfileMutation,
+  useUpdateProfilePictureMutation,
+} from "../../../services/profileApi";
 
 function ProfileDetails() {
+  const { setProfileImage, setProfileData } = useOutletContext(); // Access setProfileData from context
   const [isOpen, setIsOpen] = useState(false);
   const [formData, setFormData] = useState({
-    name: "abdo",
-    email: "aa33631@gmail.com",
-    location: "asyut,Egypt",
-    phone: "01004689041",
-    bio: "this bio for test purpose",
+    firstname: "",
+    lastname: "",
+    email: "",
+    bio: "",
+    personalImg: null,
+    previewImg: null,
   });
   const [formErrors, setFormErrors] = useState({});
+
+  // Fetch profile data
+  const { data: profile, isLoading } = useGetProfileQuery();
+  const [updateProfile] = useUpdateProfileMutation();
+  const [updateProfilePicture] = useUpdateProfilePictureMutation();
+
+  // Populate form data when profile is fetched
+  useEffect(() => {
+    if (profile) {
+      setFormData({
+        firstname: profile.firstname || "",
+        lastname: profile.lastname || "",
+        email: profile.email || "",
+        bio: profile.bio || "",
+        personalImg: null,
+        previewImg: profile.profilePicture || null,
+      });
+      setProfileImage(profile.profilePicture || null); // Set initial profile image
+      setProfileData({
+        name: `${profile.firstname} ${profile.lastname}`,
+        email: profile.email,
+        role: profile.role || "User", // Default role if not provided
+      }); // Set name, email, and role for the sidebar
+    }
+  }, [profile, setProfileImage, setProfileData]);
 
   function handleInputChange(e) {
     const { name, value } = e.target;
     setFormData((prevData) => ({ ...prevData, [name]: value }));
   }
 
+  function handleImageChange(e) {
+    const file = e.target.files[0];
+    if (file) {
+      const previewUrl = URL.createObjectURL(file);
+      setFormData((prevData) => ({
+        ...prevData,
+        personalImg: file,
+        previewImg: previewUrl,
+      }));
+    }
+  }
+
+  console.log(profile);
+
   function validateForm() {
     const errors = {};
-    if (!formData.name.trim()) errors.name = "Name is required.";
+    if (!formData.firstname.trim())
+      errors.firstname = "First name is required.";
+    if (!formData.lastname.trim()) errors.lastname = "Last name is required.";
     if (!formData.email.trim() || !/\S+@\S+\.\S+/.test(formData.email))
       errors.email = "Valid email is required.";
-    if (!formData.location.trim()) errors.location = "Location is required.";
-    if (!formData.phone.trim() || !/^\d{10,15}$/.test(formData.phone))
-      errors.phone = "Valid phone number is required.";
     if (!formData.bio.trim()) errors.bio = "Bio is required.";
     return errors;
   }
 
-  function handleSave(e) {
+  async function handleSave(e) {
     e.preventDefault();
     const errors = validateForm();
     if (Object.keys(errors).length > 0) {
       setFormErrors(errors);
       return;
     }
-    setFormErrors({});
-    setIsOpen(false);
+
+    try {
+      // Update profile data
+      await updateProfile({
+        firstname: formData.firstname,
+        lastname: formData.lastname,
+        email: formData.email,
+        bio: formData.bio,
+      }).unwrap();
+
+      // Update profile picture if a new image is selected
+      if (formData.personalImg) {
+        const response = await updateProfilePicture(
+          formData.personalImg
+        ).unwrap();
+        setProfileImage(response.imageUrl); // Immediately update the ProfileSideBar image
+        setFormData((prevData) => ({
+          ...prevData,
+          previewImg: response.imageUrl, // Update the preview image
+        }));
+      }
+
+      setFormErrors({});
+      setIsOpen(false);
+    } catch (error) {
+      console.error("Error updating profile:", error);
+    }
   }
 
   function handleCancel() {
     setIsOpen(false);
+  }
+
+  if (isLoading) {
+    return <p>Loading...</p>;
   }
 
   return (
@@ -49,16 +124,33 @@ function ProfileDetails() {
       {isOpen ? (
         <form onSubmit={handleSave} className="mt-5 space-y-4">
           <div>
-            <label className="text-sm font-semibold text-gray-500">Name</label>
+            <label className="text-sm font-semibold text-gray-500">
+              First Name
+            </label>
             <input
               type="text"
-              name="name"
-              value={formData.name}
+              name="firstname"
+              value={formData.firstname}
               onChange={handleInputChange}
               className="w-full mt-1 p-2 border rounded"
             />
-            {formErrors.name && (
-              <p className="text-red-500 text-sm">{formErrors.name}</p>
+            {formErrors.firstname && (
+              <p className="text-red-500 text-sm">{formErrors.firstname}</p>
+            )}
+          </div>
+          <div>
+            <label className="text-sm font-semibold text-gray-500">
+              Last Name
+            </label>
+            <input
+              type="text"
+              name="lastname"
+              value={formData.lastname}
+              onChange={handleInputChange}
+              className="w-full mt-1 p-2 border rounded"
+            />
+            {formErrors.lastname && (
+              <p className="text-red-500 text-sm">{formErrors.lastname}</p>
             )}
           </div>
           <div>
@@ -75,35 +167,6 @@ function ProfileDetails() {
             )}
           </div>
           <div>
-            <label className="text-sm font-semibold text-gray-500">
-              Location
-            </label>
-            <input
-              type="text"
-              name="location"
-              value={formData.location}
-              onChange={handleInputChange}
-              className="w-full mt-1 p-2 border rounded"
-            />
-            {formErrors.location && (
-              <p className="text-red-500 text-sm">{formErrors.location}</p>
-            )}
-          </div>
-          <div>
-            <label className="text-sm font-semibold text-gray-500">Phone</label>
-            <input
-              type="text"
-              name="phone"
-              value={formData.phone}
-              onChange={handleInputChange}
-              className="w-full mt-1 p-2 border rounded"
-            />
-            {formErrors.phone && (
-              <p className="text-red-500 text-sm">{formErrors.phone}</p>
-            )}
-          </div>
-
-          <div>
             <label className="text-sm font-semibold text-gray-500">Bio</label>
             <textarea
               name="bio"
@@ -113,6 +176,25 @@ function ProfileDetails() {
             />
             {formErrors.bio && (
               <p className="text-red-500 text-sm">{formErrors.bio}</p>
+            )}
+          </div>
+          <div>
+            <label className="text-sm font-semibold text-gray-500">
+              Personal Image
+            </label>
+            <input
+              type="file"
+              name="personalImg"
+              accept="image/*"
+              onChange={handleImageChange}
+              className="w-full mt-1 p-2 border rounded"
+            />
+            {formData.previewImg && (
+              <img
+                src={formData.previewImg}
+                alt="Preview"
+                className="w-20 h-20 mt-2 rounded-full"
+              />
             )}
           </div>
           <div className="mt-5 text-right space-x-2">
@@ -134,28 +216,34 @@ function ProfileDetails() {
       ) : (
         <div className="mt-5 space-y-4">
           <div>
-            <h6 className="text-sm font-semibold text-gray-500">Name</h6>
-            <p className="text-lg font-medium">{formData.name}</p>
+            <h6 className="text-sm font-semibold text-gray-500">First Name</h6>
+            <p className="text-lg font-medium">{formData.firstname}</p>
+          </div>
+          <div>
+            <h6 className="text-sm font-semibold text-gray-500">Last Name</h6>
+            <p className="text-lg font-medium">{formData.lastname}</p>
           </div>
           <div>
             <h6 className="text-sm font-semibold text-gray-500">Email</h6>
             <p className="text-lg font-medium">{formData.email}</p>
           </div>
           <div>
-            <h6 className="text-sm font-semibold text-gray-500">Location</h6>
-            <p className="text-lg font-medium">{formData.location}</p>
-          </div>
-          <div>
-            <h6 className="text-sm font-semibold text-gray-500">Phone</h6>
-            <p className="text-lg font-medium">{formData.phone}</p>
-          </div>
-          <div>
-            <h6 className="text-sm font-semibold text-gray-500">Website</h6>
-            <p className="text-lg font-medium">{formData.website}</p>
-          </div>
-          <div>
             <h6 className="text-sm font-semibold text-gray-500">Bio</h6>
             <p className="text-lg font-medium">{formData.bio}</p>
+          </div>
+          <div>
+            <h6 className="text-sm font-semibold text-gray-500">
+              Personal Image
+            </h6>
+            {formData.previewImg ? (
+              <img
+                src={formData.previewImg}
+                alt="Personal"
+                className="w-20 h-20 rounded-full"
+              />
+            ) : (
+              <p className="text-gray-500">No image uploaded</p>
+            )}
           </div>
           <div className="mt-5 text-right">
             <button
