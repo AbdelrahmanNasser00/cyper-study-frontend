@@ -1,30 +1,34 @@
 import { Progress } from "@/components/ui/progress";
-import CourseImg from "/Course.jpg";
 import { Button } from "@/components/ui/button";
 import { TvMinimalPlay } from "lucide-react";
 
-function CourseCardInTab() {
+function CourseCardInTab({ course }) {
+  const instructorName =
+    typeof course.instructor === "object"
+      ? `${course.instructor.firstname} ${course.instructor.lastname}`
+      : course.instructor;
+
   return (
     <div className="flex items-center gap-5 p-5 border-2 border-gray-100 rounded-2xl mb-5 flex-col md:flex-row">
       <img
-        src={CourseImg}
+        src={course.image || "/default-course.jpg"}
         className="w-48 h-fit rounded-lg"
         alt="Course image"
       />
       <div className="grow">
-        {/* title and instractor */}
+        {/* title and instructor */}
         <div>
-          <h5 className="text-lg font-semibold">All Enrolled Courses</h5>
-          <p className="text-gray-500">By Jane Doe</p>
+          <h5 className="text-lg font-semibold">{course.title}</h5>
+          <p className="text-gray-500">By {instructorName}</p>
         </div>
-        {/* title and instractor */}
+        {/* title and instructor */}
         {/* progress */}
         <div>
           <div className="flex justify-between -mb-2">
             <span>Progress</span>
-            <span>75%</span>
+            <span>{course.progress}%</span>
           </div>
-          <Progress value={35} className="w-full my-3" />
+          <Progress value={course.progress} className="w-full my-3" />
         </div>
         {/* progress */}
       </div>

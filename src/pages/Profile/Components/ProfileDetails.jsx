@@ -61,8 +61,6 @@ function ProfileDetails() {
     }
   }
 
-  console.log(profile);
-
   function validateForm() {
     const errors = {};
     if (!formData.firstname.trim())
