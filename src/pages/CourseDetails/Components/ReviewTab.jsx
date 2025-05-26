@@ -1,106 +1,127 @@
 import { Progress } from "@/components/ui/progress";
 import { Star } from "lucide-react";
-import instructorImage from "/instructor-removebg-preview.png";
+import { useGetCourseReviewsQuery } from "@/services/reviewsApi";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
-function ReviewTab() {
+function ReviewTab({ course }) {
+  const { data: reviewsData } = useGetCourseReviewsQuery(course.id);
+  const reviews = reviewsData || [];
+
+  // Calculate rating distribution
+  const ratingDistribution = {
+    5: 0,
+    4: 0,
+    3: 0,
+    2: 0,
+    1: 0,
+  };
+
+  reviews.forEach((review) => {
+    ratingDistribution[review.rating]++;
+  });
+
+  // Calculate percentage for each rating
+  const ratingPercentages = {};
+  const totalRatings = course.ratingCount || 1;
+
+  Object.keys(ratingDistribution).forEach((rating) => {
+    ratingPercentages[rating] = Math.round(
+      (ratingDistribution[rating] / totalRatings) * 100
+    );
+  });
+
+  // Format date function
+  const formatDate = (dateString) => {
+    const options = { year: "numeric", month: "short", day: "numeric" };
+    return new Date(dateString).toLocaleDateString(undefined, options);
+  };
+
+  // Render stars based on rating
+  const renderStars = (rating) => {
+    const stars = [];
+    for (let i = 1; i <= 5; i++) {
+      stars.push(
+        <Star
+          key={i}
+          className={`size-4 ${
+            i <= rating ? "fill-amber-300 text-amber-300" : "text-gray-300"
+          }`}
+        />
+      );
+    }
+    return stars;
+  };
+
   return (
     <>
-      <h3 className="font-bold text-2xl  my-5">Student Reviews</h3>
+      <h3 className="font-bold text-2xl my-5">Student Reviews</h3>
       <div className="flex gap-15 flex-wrap items-center mb-5">
-        {/* start first part */}
+        {/* Rating summary */}
         <div className="text-center mx-auto md:mx-0">
-          <span className="text-mainColor font-bold text-5xl">4.8</span>
-          <div className="rating flex mt-5">
-            <Star className="text-orange-200 fill-amber-300" />
-            <Star className="text-orange-200 fill-amber-300" />
-            <Star className="text-orange-200 fill-amber-300" />
-            <Star className="text-orange-200 fill-amber-300" />
-            <Star className="text-orange-200 fill-amber-300" />
+          <span className="text-mainColor font-bold text-5xl">
+            {parseFloat(course.averageRating || 0).toFixed(1)}
+          </span>
+          <div className="rating flex mt-5 justify-center">
+            {renderStars(Math.round(parseFloat(course.averageRating || 0)))}
           </div>
-          <span className="text-gray-500 ">12,547 ratings</span>
+          <span className="text-gray-500">
+            {course.ratingCount || 0} rating
+            {course.ratingCount !== 1 ? "s" : ""}
+          </span>
         </div>
-        {/* end first part */}
-        {/* start details rating */}
+
+        {/* Rating distribution */}
         <div className="mx-auto md:mx-0">
-          {/*  rateing line */}
-          <div className="flex gap-3 items-center ">
-            <div className="flex gap-1">
-              <span>5</span>
-              <Star className="fill-amber-300 text-orange-200"></Star>
+          {[5, 4, 3, 2, 1].map((rating) => (
+            <div key={rating} className="flex gap-3 items-center">
+              <div className="flex gap-1 w-8">
+                <span>{rating}</span>
+                <Star className="fill-amber-300 text-orange-200 size-4" />
+              </div>
+              <Progress
+                value={ratingPercentages[rating] || 0}
+                className="w-50 my-3"
+              />
+              <span className="w-10 text-sm">
+                {ratingDistribution[rating] || 0}
+              </span>
             </div>
-            <Progress value={35} className="w-50 my-3" />
-            <span>78%</span>
-          </div>
-          {/*  rateing line */}
-          {/*  rateing line */}
-          <div className="flex gap-3 items-center ">
-            <div className="flex gap-1">
-              <span>5</span>
-              <Star className="fill-amber-300 text-orange-200"></Star>
-            </div>
-            <Progress value={35} className="w-50 my-3" />
-            <span>78%</span>
-          </div>
-          {/*  rateing line */}
-          {/*  rateing line */}
-          <div className="flex gap-3 items-center ">
-            <div className="flex gap-1">
-              <span>5</span>
-              <Star className="fill-amber-300 text-orange-200"></Star>
-            </div>
-            <Progress value={35} className="w-50 my-3" />
-            <span>78%</span>
-          </div>
-          {/*  rateing line */}
-          {/*  rateing line */}
-          <div className="flex gap-3 items-center ">
-            <div className="flex gap-1">
-              <span>5</span>
-              <Star className="fill-amber-300 text-orange-200"></Star>
-            </div>
-            <Progress value={35} className="w-50 my-3" />
-            <span>78%</span>
-          </div>
-          {/*  rateing line */}
-          {/*  rateing line */}
-          <div className="flex gap-3 items-center ">
-            <div className="flex gap-1">
-              <span>5</span>
-              <Star className="fill-amber-300 text-orange-200"></Star>
-            </div>
-            <Progress value={35} className="w-50 my-3" />
-            <span>78%</span>
-          </div>
-          {/*  rateing line */}
+          ))}
         </div>
-        {/* end details rating */}
       </div>
-      {/* start reviews */}
-      <div className="flex gap-5">
-        <img src={instructorImage} alt="user photo" className="size-12" />
-        {/* start review comment */}
-        <div>
-          <h5>John Doe</h5>
-          <div className="flex gap-2 items-center">
-            <div className="rating flex">
-              <Star className="text-orange-200 size-4 fill-amber-300" />
-              <Star className="text-orange-200 size-4 fill-amber-300" />
-              <Star className="text-orange-200 size-4 fill-amber-300" />
-              <Star className="text-orange-200 size-4 fill-amber-300" />
-              <Star className="text-orange-200 size-4 fill-amber-300" />
+
+      {/* Reviews list */}
+      {reviews.length > 0 ? (
+        reviews.map((review) => (
+          <div key={review.id} className="mb-5">
+            <div className="flex gap-5">
+              <Avatar>
+                <AvatarFallback>
+                  {review.User?.firstname[0]}
+                  {review.User?.lastname[0]}
+                </AvatarFallback>
+              </Avatar>
+              <div>
+                <h5>
+                  {review.User?.firstname} {review.User?.lastname}
+                </h5>
+                <div className="flex gap-2 items-center">
+                  <div className="rating flex">
+                    {renderStars(review.rating)}
+                  </div>
+                  <span className="text-[12px] text-gray-500">
+                    {formatDate(review.createdAt)}
+                  </span>
+                </div>
+                <p className="text-lg mt-3">{review.comment}</p>
+              </div>
             </div>
-            <span className="text-[12px]">2 weeks ago</span>
+            <hr className="my-5" />
           </div>
-          <p className="text-lg mt-3 ">
-            This course exceeded my expectations! The instructor explains
-            complex concepts in a way that's easy to understand. I've already
-            built my first project after just a few sections.
-          </p>
-        </div>
-        {/* end review comment */}
-      </div>
-      <hr className="my-5" />
-      {/* end reviews */}
+        ))
+      ) : (
+        <p className="text-gray-500">No reviews yet.</p>
+      )}
     </>
   );
 }

@@ -17,7 +17,7 @@ function Courses() {
   const [selectedPriceTypes, setSelectedPriceTypes] = useState([]);
   const [priceRange, setPriceRange] = useState([0, 500]);
 
-  const { categoryId } = useParams(); // Get categoryId dynamically from the URL
+  const { categoryId } = useParams();
   const {
     data: categoryCourses,
     isLoading,
@@ -148,8 +148,7 @@ function Courses() {
       <div className="container mt-10">
         <Button
           onClick={toggleFilterPanel}
-          className="bg-blue-600 hover:bg-blue-700"
-        >
+          className="bg-blue-600 hover:bg-blue-700">
           {isOpen ? "Hide Filters" : "Show Filters"}
         </Button>
         {selectedRatings.length > 0 ||
@@ -180,8 +179,7 @@ function Courses() {
                     />
                     <Label
                       htmlFor={`rating-${rating}`}
-                      className="ml-2 flex items-center"
-                    >
+                      className="ml-2 flex items-center">
                       <div className="flex mr-1">
                         {[1, 2, 3, 4, 5].map((star) => (
                           <Star
@@ -212,8 +210,7 @@ function Courses() {
                     />
                     <Label
                       htmlFor={`level-${level}`}
-                      className="ml-2 capitalize"
-                    >
+                      className="ml-2 capitalize">
                       {level}
                     </Label>
                   </div>
@@ -232,8 +229,7 @@ function Courses() {
                     />
                     <Label
                       htmlFor={`price-${priceType}`}
-                      className="ml-2 capitalize"
-                    >
+                      className="ml-2 capitalize">
                       {priceType}
                     </Label>
                   </div>
