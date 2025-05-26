@@ -13,7 +13,7 @@ import {
 const MyCourses = () => {
    const navigate = useNavigate();
   const { stats, loading } = useStats();
-  const { data: courses = [], isLoading } = useGetInstructorCoursesQuery();
+  let { data: courses = [], isLoading } = useGetInstructorCoursesQuery();
   const [updateCourse] = useUpdateCourseMutation();
   const [deleteCourseApi] = useDeleteCourseMutation();
 
@@ -29,10 +29,10 @@ const MyCourses = () => {
     const course = courses.find((c) => c.id === id);
     if (!course) return;
     try {
-      await updateCourse({
+    await updateCourse({
         id,
         ...course,
-        status: course.status === "Published" ? "Draft" : "Published",
+       isPublished: !course.isPublished,
       });
     } catch (err) {
       alert("Failed to update status");
@@ -75,7 +75,7 @@ const MyCourses = () => {
                 <th className="p-2">Students</th>
                 <th className="p-2">Rating</th>
                 <th className="p-2">Status</th>
-                <th className="p-2">Last Updated</th>
+                <th className="p-2">price</th>
                 <th className="p-2">Actions</th>
               </tr>
             </thead>

@@ -35,12 +35,22 @@ export const coursesApi = baseApi.injectEndpoints({
         method: "POST",
         body: courseData,
       }),
+       invalidatesTags: [{ type: "Courses", id: "LIST" }],
     }),
     getInstructorCourses: builder.query({
       query: () => ({ url: "courses/my-courses", method: "GET" }),
+      providesTags: (result) =>
+        result
+          ? [
+              ...result.map(({ id }) => ({ type: "Courses", id })),
+              { type: "Courses", id: "LIST" },
+            ]
+          : [{ type: "Courses", id: "LIST" }],
     }),
+
     getInstructorCourseById: builder.query({
       query: (id) => ({ url: `courses/my-courses/${id}`, method: "GET" }),
+      providesTags: (result, error, id) => [{ type: "Courses", id }],
     }),
     updateCourse: builder.mutation({
       query: ({ id, ...body }) => ({
@@ -48,12 +58,15 @@ export const coursesApi = baseApi.injectEndpoints({
         method: "PUT",
         body,
       }),
+      invalidatesTags: (result, error, { id }) => [{ type: "Courses", id }],
     }),
+
     deleteCourse: builder.mutation({
       query: (id) => ({
         url: `courses/my-courses/${id}`,
         method: "DELETE",
       }),
+       invalidatesTags: (result, error, { id }) => [{ type: "Courses", id }],
     }),
 
     // Student routes

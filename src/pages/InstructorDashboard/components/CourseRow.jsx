@@ -23,15 +23,15 @@ const CourseRow = ({ course, onEdit, onDelete, onToggleStatus }) => {
       <td className="p-2">
         <span
           className={`px-2 py-1 text-sm rounded-full ${
-            course.status === "Published"
+            course.isPublished
               ? "bg-green-100 text-green-700"
               : "bg-yellow-100 text-yellow-700"
           }`}
         >
-        {course.isPublished ? "Published" : "Draft"}
+          {course.isPublished ? "Published" : "Draft"}
         </span>
       </td>
-      <td className="p-2">{course.updatedAt}</td>
+      <td className="p-2">{course.price}</td>
       <td className="p-2 flex gap-2">
         <button
           title="Edit"
@@ -40,7 +40,7 @@ const CourseRow = ({ course, onEdit, onDelete, onToggleStatus }) => {
         >
           <FaEdit />
         </button>
-        {course.status === "Published" ? (
+        {course.isPublished ? (
           <button title="Hide" onClick={() => onToggleStatus(course.id)}>
             <Eye className="opacity-50" size={16} />
           </button>
