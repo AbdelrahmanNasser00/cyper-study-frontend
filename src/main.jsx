@@ -6,13 +6,16 @@ import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
 import { store } from "./store/store";
 import { ScrollRestorationProvider } from "./context/ScrollRestorationContext";
+import { WishlistProvider } from "@/context/WishlistContext";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <Provider store={store}>
       <BrowserRouter>
         <ScrollRestorationProvider>
-          <App />
+          <WishlistProvider>
+            <App />
+          </WishlistProvider>
         </ScrollRestorationProvider>
       </BrowserRouter>
     </Provider>
