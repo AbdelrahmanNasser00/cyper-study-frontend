@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import { useGetMonthlyEarningsQuery } from "../../services/dashboardApi";
 
 import {
   LineChart,
@@ -17,43 +17,22 @@ import StatsCard from "./components/StatsCard";
 import LoadingSpinner from "@/components/common/loadingSpinner";
 const MyEarnings = () => {
   const { stats, loading } = useStats();
+  const { data: earnings = [], isLoading } = useGetMonthlyEarningsQuery();
 
-  if (loading) return <LoadingSpinner />;
-  const [monthlyEarnings, setMonthlyEarnings] = useState([]);
+  if (loading || isLoading) return <LoadingSpinner />;
 
-  // useEffect(() => {
-  //   const fetchEarnings = async () => {
-  //     try {
-  //       const { data } = await axios.get("/api/earnings/monthly?instructorId=1"); // غيري الـ ID حسب المستخدم
-  //       const sortedData = [...data].sort((a, b) => a.month - b.month);
-  //       setMonthlyEarnings(sortedData.map((item) => ({
-  //         name: `${new Date(0, item.month - 1).toLocaleString("default", { month: "short" })}`,
-  //         totalEarnings: Number(item.totalEarnings),
-  //       })));
-  //     } catch (err) {
-  //       console.error("Error fetching earnings", err);
-  //     }
-  //   };
-  //     fetchEarnings();
-  // }, []);
-  useEffect(() => {
-    const dummyData = [
-      { name: "Jan", totalEarnings: 2000 },
-      { name: "Feb", totalEarnings: 1500 },
-      { name: "Mar", totalEarnings: 1800 },
-      { name: "Apr", totalEarnings: 2200 },
-      { name: "May", totalEarnings: 2500 },
-      { name: "Jun", totalEarnings: 3000 },
-      { name: "Jul", totalEarnings: 4000 },
-      { name: "Aug", totalEarnings: 5000 },
-      { name: "Sep", totalEarnings: 6000 },
-      { name: "Oct", totalEarnings: 7000 },
-      { name: "Nov", totalEarnings: 8500 },
-      { name: "Dec", totalEarnings: 9000 },
-    ];
+  const year = earnings[0]?.year || new Date().getFullYear();
+  const monthlyEarnings = Array.from({ length: 12 }, (_, i) => {
+    const month = i + 1;
+    const found = earnings.find(
+      (item) => item.month === month && item.year === year
+    );
+    return {
+      name: month.toString(), 
+      totalEarnings: found ? Number(found.totalEarnings) : 0,
+    };
+  });
 
-    setMonthlyEarnings(dummyData);
-  }, []);
   return (
     <div>
       <div className="flex justify-between items-center">
@@ -74,7 +53,14 @@ const MyEarnings = () => {
           <ResponsiveContainer width="100%" height={300}>
             <LineChart data={monthlyEarnings}>
               <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="name" />
+              <XAxis
+                dataKey="name"
+                label={{
+                  value: "Month",
+                  position: "insideBottom",
+                  offset: -5,
+                }}
+              />
               <YAxis />
               <Tooltip />
               <Line
