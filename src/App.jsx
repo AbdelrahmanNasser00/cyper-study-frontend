@@ -30,6 +30,7 @@ import ProfileDetails from "./pages/Profile/Components/ProfileDetails";
 import Lesson from "./pages/Lesson/Lesson";
 import { StatsProvider } from "./context/statsContext";
 import EditCourse from "./pages/InstructorDashboard/components/EditCourse";
+import AllCourses from "./pages/courses/AllCourses";
 
 function App() {
   return (
@@ -61,6 +62,8 @@ function App() {
           <Route path="courses/:id/edit" element={<EditCourse />} />
           <Route path="courses/:id/add-video" element={<AddVideo />} />
         </Route>
+
+        <Route path="/courses" element={<AllCourses />} />
 
         <Route path="/about" element={<AboutUs />} />
         <Route path="/join" element={<JoinUs />} />

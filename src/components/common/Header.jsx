@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
 import {
   Bell,
   Search,
@@ -22,18 +22,28 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { logout } from "@/store/Slices/authSlice"; // Updated import path
 
 const Header = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const isLoggedIn = useSelector((state) => state.auth.isAuthenticated); // Use selector to check login status
   const wishlistCount = useSelector((state) => state.wishlist.items.length);
   const cartItems = useSelector((state) => state.cart.items);
   const cartCount = cartItems.reduce((total, item) => total + item.quantity, 0);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const isLoggedIn = true;
+
+  const handleLogout = () => {
+    dispatch(logout()); // Dispatch the logout action
+  };
+
+  const handleLoginRedirect = () => {
+    navigate("/login"); // Redirect to login page
+  };
 
   return (
     <header className="border-b sticky top-0 bg-white z-50">
       <div className="container">
-        {" "}
         <div className="w-[100%] px-[10px] py-4 mx-auto flex items-center justify-between">
           <Link
             to="/"
@@ -43,7 +53,7 @@ const Header = () => {
           </Link>
 
           <div className="hidden md:flex items-center space-x-8">
-            <DropdownMenu>
+            {/* <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" className="flex items-center gap-1">
                   Categories <ChevronDown className="h-4 w-4" />
@@ -63,7 +73,7 @@ const Header = () => {
                   <Link to="/courses/marketing">Marketing</Link>
                 </DropdownMenuItem>
               </DropdownMenuContent>
-            </DropdownMenu>
+            </DropdownMenu> */}
 
             <Link
               to="/courses"
@@ -92,7 +102,7 @@ const Header = () => {
                   )}
                 </Link>
 
-                <DropdownMenu>
+                {/* <DropdownMenu>
                   <DropdownMenuTrigger asChild>
                     <Button variant="ghost" className="p-0 h-auto relative">
                       <Bell className="h-5 w-5" />
@@ -123,7 +133,7 @@ const Header = () => {
                       </div>
                     </DropdownMenuItem>
                   </DropdownMenuContent>
-                </DropdownMenu>
+                </DropdownMenu> */}
 
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
@@ -179,7 +189,10 @@ const Header = () => {
                       </Link>
                     </DropdownMenuItem>
                     <DropdownMenuItem>
-                      <button className="w-full text-left flex items-center">
+                      <button
+                        onClick={handleLogout}
+                        className="w-full text-left flex items-center"
+                      >
                         <LogOut className="h-4 w-4 mr-2" />
                         Logout
                       </button>
@@ -188,19 +201,12 @@ const Header = () => {
                 </DropdownMenu>
               </>
             ) : (
-              <div className="flex items-center gap-2">
-                <Link to="/login">
-                  <Button
-                    variant="outline"
-                    className="border-gray-300 text-black"
-                  >
-                    Login
-                  </Button>
-                </Link>
-                <Link to="/register">
-                  <Button className="bg-[#3a57e8] text-white">Sign Up</Button>
-                </Link>
-              </div>
+              <Button
+                onClick={handleLoginRedirect}
+                className="bg-[#3a57e8] text-white"
+              >
+                Login
+              </Button>
             )}
           </div>
 
