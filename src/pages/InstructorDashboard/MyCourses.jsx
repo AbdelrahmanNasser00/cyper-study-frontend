@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import CourseRow from "./components/CourseRow";
 import StatsCard from "./components/StatsCard";
 import { Link, useNavigate } from "react-router-dom";
@@ -10,29 +10,39 @@ import {
   useDeleteCourseMutation,
 } from "../../services/coursesApi";
 
+const PAGE_SIZE = 5; 
+
 const MyCourses = () => {
-   const navigate = useNavigate();
+  const navigate = useNavigate();
   const { stats, loading } = useStats();
   let { data: courses = [], isLoading } = useGetInstructorCoursesQuery();
   const [updateCourse] = useUpdateCourseMutation();
   const [deleteCourseApi] = useDeleteCourseMutation();
 
+  // Pagination state
+  const [page, setPage] = useState(1);
+  const totalPages = Math.ceil(courses.length / PAGE_SIZE);
+
+
+  const paginatedCourses = courses.slice(
+    (page - 1) * PAGE_SIZE,
+    page * PAGE_SIZE
+  );
+
   if (loading || isLoading) return <LoadingSpinner />;
 
   const handleEdit = (id) => {
-   
-
- navigate(`/instructor/courses/${id}/edit`);
+    navigate(`/instructor/courses/${id}/edit`);
   };
 
   const toggleStatus = async (id) => {
     const course = courses.find((c) => c.id === id);
     if (!course) return;
     try {
-    await updateCourse({
+      await updateCourse({
         id,
         ...course,
-       isPublished: !course.isPublished,
+        isPublished: !course.isPublished,
       });
     } catch (err) {
       alert("Failed to update status");
@@ -65,7 +75,7 @@ const MyCourses = () => {
         <h2 className="text-xl font-bold mb-2">Manage Courses</h2>
         <p className="mb-4 text-gray-500">
           You have {courses.length} courses (
-          {courses.filter((c) => c.status === "Published").length} published)
+          {courses.filter((c) => c.isPublished).length} published)
         </p>
         <div className="overflow-auto">
           <table className="min-w-full table-auto border-collapse">
@@ -80,7 +90,7 @@ const MyCourses = () => {
               </tr>
             </thead>
             <tbody>
-              {courses.map((course) => (
+              {paginatedCourses.map((course) => (
                 <CourseRow
                   key={course.id}
                   course={course}
@@ -91,6 +101,26 @@ const MyCourses = () => {
               ))}
             </tbody>
           </table>
+        </div>
+        {/* Pagination controls */}
+        <div className="flex justify-center items-center gap-2 mt-4">
+          <button
+            className="px-3 py-1 rounded bg-gray-200 disabled:opacity-50"
+            onClick={() => setPage((p) => Math.max(1, p - 1))}
+            disabled={page === 1}
+          >
+            Prev
+          </button>
+          <span>
+            Page {page} of {totalPages}
+          </span>
+          <button
+            className="px-3 py-1 rounded bg-gray-200 disabled:opacity-50"
+            onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
+            disabled={page === totalPages}
+          >
+            Next
+          </button>
         </div>
       </div>
     </div>

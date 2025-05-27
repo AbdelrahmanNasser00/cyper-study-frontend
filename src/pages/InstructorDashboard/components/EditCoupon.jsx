@@ -1,23 +1,28 @@
 import React, { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom"; 
-import { updateCoupon } from "../api/couponApi"; 
+import { useParams, useNavigate } from "react-router-dom";
+import { getCoupon, updateCoupon } from "../api/couponApi"; 
 import LoadingSpinner from "@/components/common/loadingSpinner";
+import { useGetInstructorCoursesQuery } from "../../../services/coursesApi";
 
 const EditCoupon = () => {
   const { id } = useParams(); 
-  const [formData, setFormData] = useState(null);
- const navigate = useNavigate();
-  // Dummy course data
-  const dummyCourses = [
-    { id: 11, title: "React Basics" },
-    { id: 12, title: "Advanced Node.js" },
-    { id: 13, title: "UI/UX Fundamentals" },
-  ];
+  const [formData, setFormData] = useState({
+    code: "",
+    courseId: "",
+    usageLimit: "",
+    expiresAt: "",
+    discount: "",
+  });
+  const navigate = useNavigate();
 
- useEffect(() => {
+
+  const { data: courses = [], isLoading: coursesLoading } = useGetInstructorCoursesQuery();
+
+  useEffect(() => {
     const fetchCoupon = async () => {
       try {
         const { data } = await getCoupon(id);
+        console.log("Fetched coupon data:", data);
         setFormData(data);
       } catch (err) {
         alert("Failed to fetch coupon data");
@@ -31,18 +36,29 @@ const EditCoupon = () => {
     setFormData({ ...formData, [name]: value });
   };
 
-const handleSubmit = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await updateCoupon(id, formData);
+
+   
+   const { code, courseId, usageLimit, expiresAt, discount } = formData;
+    const payload = {
+      code,
+      courseId: Number(courseId),
+      usageLimit: Number(usageLimit),
+      expiresAt,
+      discount: Number(discount),
+    };
+    await updateCoupon(id, payload);
+
       alert("Coupon updated!");
       navigate("/instructor/coupons"); 
     } catch (err) {
-      alert("Failed to update coupon");
+      alert(err?.response?.data?.message || "Failed to update coupon");
     }
   };
 
-  if (!formData) return <LoadingSpinner />;
+  if (!formData || coursesLoading) return <LoadingSpinner />;
 
   return (
     <div className="max-w-3xl mx-auto p-6 bg-white rounded-lg shadow mt-10">
@@ -96,7 +112,7 @@ const handleSubmit = async (e) => {
             <input
               type="date"
               name="expiresAt"
-              value={formData.expiresAt}
+              value={formData.expiresAt ? formData.expiresAt.slice(0, 10) : ""}
               onChange={handleChange}
               required
               className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-green-500 focus:border-green-500 p-2"
@@ -111,10 +127,10 @@ const handleSubmit = async (e) => {
             value={formData.courseId}
             onChange={handleChange}
             required
-            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-green-500 focus:border-green-500 p-2"
+            className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-green-500 focus:border-green-500 text-sm p-1"
           >
             <option value="">-- Select Course --</option>
-            {dummyCourses.map((course) => (
+            {courses.map((course) => (
               <option key={course.id} value={course.id}>
                 {course.title}
               </option>

@@ -11,7 +11,7 @@ const CreateCourse = () => {
     thumbnail: "",
     description: "",
     duration: "",
-   isPublished: false,
+    isPublished: false,
   });
   const [createCourse, { isLoading }] = useCreateCourseMutation();
   const navigate = useNavigate();
@@ -39,11 +39,15 @@ const CreateCourse = () => {
 
   return (
     <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow mt-10">
-      <h2 className="text-2xl font-bold mb-6 text-gray-800">Create New Course</h2>
+      <h2 className="text-2xl font-bold mb-6 text-gray-800">
+        Create New Course
+      </h2>
       <form onSubmit={handleSubmit} className="space-y-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
-            <label className="block text-sm font-medium text-gray-700">Course Title</label>
+            <label className="block text-sm font-medium text-gray-700">
+              Course Title
+            </label>
             <input
               type="text"
               name="title"
@@ -56,7 +60,9 @@ const CreateCourse = () => {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700">Price ($)</label>
+            <label className="block text-sm font-medium text-gray-700">
+              Price ($)
+            </label>
             <input
               type="number"
               name="price"
@@ -71,7 +77,9 @@ const CreateCourse = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
-            <label className="block text-sm font-medium text-gray-700">Experience Level</label>
+            <label className="block text-sm font-medium text-gray-700">
+              Experience Level
+            </label>
             <select
               name="level"
               value={formData.level}
@@ -86,7 +94,9 @@ const CreateCourse = () => {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700">Category</label>
+            <label className="block text-sm font-medium text-gray-700">
+              Category
+            </label>
             <select
               name="categoryId"
               value={formData.categoryId}
@@ -94,16 +104,22 @@ const CreateCourse = () => {
               className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 p-2"
             >
               <option value="">Select Category</option>
-              <option value="1">Web Development</option>
-              <option value="2">Design</option>
-              <option value="3">Marketing</option>
-              <option value="4">AI & Data</option>
+              <option value="1">Design</option>
+              <option value="2">Data Science</option>
+              <option value="3">Language Learning</option>
+              <option value="4">Finance & Accounting</option>
+              <option value="5">Health & Fitness</option>
+              <option value="6">Music</option>
+              <option value="7">Development</option>
+              <option value="8">Cybersecurity</option>
             </select>
           </div>
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700">Course Image URL</label>
+          <label className="block text-sm font-medium text-gray-700">
+            Course Image URL
+          </label>
           <input
             type="text"
             name="thumbnail"
@@ -115,7 +131,9 @@ const CreateCourse = () => {
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700">Duration (minutes)</label>
+          <label className="block text-sm font-medium text-gray-700">
+            Duration (minutes)
+          </label>
           <input
             type="number"
             name="duration"
@@ -135,13 +153,18 @@ const CreateCourse = () => {
             onChange={handleChange}
             className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
           />
-          <label htmlFor="publishCourse" className="ml-2 block text-sm text-gray-700">
+          <label
+            htmlFor="publishCourse"
+            className="ml-2 block text-sm text-gray-700"
+          >
             Publish this course
           </label>
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700">Course Description</label>
+          <label className="block text-sm font-medium text-gray-700">
+            Course Description
+          </label>
           <textarea
             name="description"
             rows="4"

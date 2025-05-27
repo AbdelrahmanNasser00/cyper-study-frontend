@@ -1,12 +1,7 @@
 import React, { useState } from "react";
 import { createCoupon } from "../api/couponApi"; 
 import { useNavigate } from "react-router-dom";   
-
-const dummyCourses = [
-  { id: 11, title: "Complete Web Development" },
-  { id: 12, title: "Advanced React Native" },
-  { id: 13, title: "Advanced TypeScript" },
-];
+import { useGetInstructorCoursesQuery } from "../../../services/coursesApi";
 
 const CreateCoupon = () => {
   const [formData, setFormData] = useState({
@@ -17,6 +12,8 @@ const CreateCoupon = () => {
     discount: "",
   });
   const navigate = useNavigate(); 
+
+  const { data: courses = [] } = useGetInstructorCoursesQuery();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -104,7 +101,7 @@ const CreateCoupon = () => {
             className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:ring-green-500 focus:border-green-500 p-2"
           >
             <option value="">-- Select Course --</option>
-            {dummyCourses.map((course) => (
+            {courses.map((course) => (
               <option key={course.id} value={course.id}>
                 {course.title}
               </option>
