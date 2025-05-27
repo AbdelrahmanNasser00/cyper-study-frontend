@@ -2,7 +2,7 @@ import { NavLink } from "react-router-dom";
 import img from "/instructor-removebg-preview.png";
 import { HomeIcon, ChevronRightIcon, User, Shield } from "lucide-react";
 
-function ProfileSideBar() {
+function ProfileSideBar({ profileImage, name, email, role }) {
   const navItems = [
     {
       name: "Details",
@@ -16,7 +16,7 @@ function ProfileSideBar() {
     },
     {
       name: "Dashboard",
-      to: "/student/dashboard",
+      to: role === "student" ? "/student/dashboard" : "/instructor/dashboard", // Dynamic dashboard link
       icon: <HomeIcon size={18} />,
     },
   ];
@@ -25,19 +25,19 @@ function ProfileSideBar() {
       {/* image */}
       <div className="flex justify-center mb-1 ">
         <img
-          src={img}
+          src={profileImage || img}
           alt="user image"
           className="w-20 h-20 lg:mx-0 rounded-full  overflow-hidden border-4 border-mainColor flex-shrink-0"
         />
       </div>
       {/* image */}
       <div className="text-center">
-        <h4>Alex Johnson</h4>
-        <p className="text-gray-400">alex.johnson@example.com</p>
+        <h4>{name}</h4>
+        <p className="text-gray-400">{email}</p>
       </div>
       {/* lable */}
       <div className="rounded-full mb-10 mt-2 bg-blue-300/30 text-blue-800 text-center w-fit mx-auto text-sm font-semibold px-3 py-0.5">
-        Student
+        {role}
       </div>
       {/* lable */}
       {/* links */}
@@ -52,7 +52,8 @@ function ProfileSideBar() {
                     ? "bg-blue-600 text-white font-semibold"
                     : "text-gray-700 hover:bg-gray-100"
                 }`
-              }>
+              }
+            >
               <div className="flex items-center space-x-2">
                 {item.icon}
                 <span>{item.name}</span>

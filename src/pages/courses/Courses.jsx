@@ -6,7 +6,7 @@ import CourseCard from "@/components/common/CourseCard";
 import { Button } from "@/components/ui/button";
 import React, { useEffect, useState } from "react";
 import { useGetCoursesByCategoryQuery } from "@/services/coursesApi";
-import { data, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import LoadingSpinner from "@/components/common/loadingSpinner";
 
 function Courses() {
@@ -15,7 +15,7 @@ function Courses() {
   const [selectedRatings, setSelectedRatings] = useState([]);
   const [selectedLevels, setSelectedLevels] = useState([]);
   const [selectedPriceTypes, setSelectedPriceTypes] = useState([]);
-  const [priceRange, setPriceRange] = useState([0, 100]);
+  const [priceRange, setPriceRange] = useState([0, 500]);
 
   const { categoryId } = useParams();
   const {
@@ -114,7 +114,7 @@ function Courses() {
     setSelectedRatings([]);
     setSelectedLevels([]);
     setSelectedPriceTypes([]);
-    setPriceRange([0, 100]);
+    setPriceRange([0, 500]);
   }
 
   return (

@@ -1,11 +1,13 @@
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
+import { useUpdatePasswordMutation } from "../../../services/profileApi";
 
 function ProfileSecurity() {
   const [password, setPassword] = useState("");
   const [newPassword, setnewPassword] = useState("");
   const [confirmNewPassword, setConfirmNewPassword] = useState("");
   const [errors, setErrors] = useState({});
+  const [updatePassword, { isLoading }] = useUpdatePasswordMutation(); // Use the mutation
 
   function validateForm() {
     const newErrors = {};
@@ -26,11 +28,23 @@ function ProfileSecurity() {
     return Object.keys(newErrors).length === 0;
   }
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
     if (validateForm()) {
-      console.log("Form submitted successfully");
-      // Add logic to handle form submission (e.g., API call)
+      try {
+        await updatePassword({
+          currentPassword: password,
+          newPassword,
+        }).unwrap();
+        alert("Password updated successfully!");
+        setPassword("");
+        setnewPassword("");
+        setConfirmNewPassword("");
+        setErrors({});
+      } catch (error) {
+        console.error("Error updating password:", error);
+        alert("Failed to update password. Please try again.");
+      }
     }
   }
 
@@ -47,7 +61,7 @@ function ProfileSecurity() {
           <label htmlFor="password">Current Password:</label>
           <input
             id="password"
-            type="text"
+            type="password"
             className="border-2 mt-1 border-gray-200 block w-full p-2 rounded-lg"
             placeholder="Enter your password"
             value={password}
@@ -61,7 +75,7 @@ function ProfileSecurity() {
           <label htmlFor="new_password">New Password:</label>
           <input
             id="new_password"
-            type="text"
+            type="password"
             className="border-2 mt-1 border-gray-200 block w-full p-2 rounded-lg"
             placeholder="Enter your new password"
             value={newPassword}
@@ -75,7 +89,7 @@ function ProfileSecurity() {
           <label htmlFor="confirm_password">Confirm New Password:</label>
           <input
             id="confirm_password"
-            type="text"
+            type="password"
             className="border-2 mt-1 border-gray-200 block w-full p-2 rounded-lg"
             placeholder="Confirm your new password"
             value={confirmNewPassword}
@@ -90,8 +104,9 @@ function ProfileSecurity() {
         <Button
           type="submit"
           className="bg-mainColor border-2 border-gray-50 hover:border-gray-300 hover:bg-white hover:border-2 hover:text-black"
+          disabled={isLoading}
         >
-          Update
+          {isLoading ? "Updating..." : "Update"}
         </Button>
       </form>
       {/* text */}
