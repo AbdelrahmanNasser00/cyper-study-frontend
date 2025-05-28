@@ -5,6 +5,7 @@ import { useGetCourseByIdQuery } from "@/services/coursesApi";
 import { useRemoveFromWishlistMutation } from "@/services/wishlistApi";
 import { Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom"; // Import Link
 
 const WishlistItem = ({ wishlistItem, onRemove }) => {
   const dispatch = useDispatch();
@@ -90,16 +91,20 @@ const WishlistItem = ({ wishlistItem, onRemove }) => {
       >
         <Heart className="h-5 w-5 fill-red-500 text-red-500" />
       </Button>
-      <img
-        src={course.thumbnail}
-        alt={course.title}
-        className="w-full h-40 object-cover mb-4 rounded"
-      />
-      <h2 className="text-xl font-semibold">{course.title}</h2>
-      <p className="text-sm text-gray-600">By {instructorName}</p>
-      <p className="mt-2 text-lg font-bold text-blue-600">
-        ${parseFloat(course.price || 0).toFixed(2)}
-      </p>
+      <Link to={`/courses/${course.id}`} className="block">
+        {" "}
+        {/* Add Link */}
+        <img
+          src={course.thumbnail}
+          alt={course.title}
+          className="w-full h-40 object-cover mb-4 rounded"
+        />
+        <h2 className="text-xl font-semibold">{course.title}</h2>
+        <p className="text-sm text-gray-600">By {instructorName}</p>
+        <p className="mt-2 text-lg font-bold text-blue-600">
+          ${parseFloat(course.price || 0).toFixed(2)}
+        </p>
+      </Link>
       <Button
         onClick={handleAddToCart}
         className="mt-4 w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition"
