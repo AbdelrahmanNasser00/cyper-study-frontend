@@ -15,26 +15,44 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAddToCartMutation } from "@/services/cartApi";
 
+import { useDispatch } from "react-redux";
+import { addToCart } from "@/store/Slices/cartSlice"; // Add this import
+
 function SmallCardDetails({
   price,
   discountedPrice,
   isEnrolled,
   progress,
   courseId,
+  title, // Add title prop
 }) {
-  const [addToCart] = useAddToCartMutation();
+  const [addToCartApi] = useAddToCartMutation();
+  const dispatch = useDispatch(); // Add this
   const [isWishlisted, setIsWishlisted] = useState(false);
   const navigate = useNavigate();
-  const handleAction = () => {
+
+  const handleAction = async () => {
+    // Make async
     if (isEnrolled) {
-      // Navigate to continue learning
       navigate(`/courses/${courseId}/lesson`);
     } else {
-      // Add to cart
-      addToCart(courseId);
+      try {
+        // Call API
+        await addToCartApi(courseId);
+
+        // Dispatch to Redux store
+        dispatch(
+          addToCart({
+            id: courseId,
+            title, // Make sure to pass title
+            price: discountedPrice || price,
+          })
+        );
+      } catch (error) {
+        console.error("Failed to add to cart:", error);
+      }
     }
   };
-
   // const displayPrice =
   //   discountedPrice < price ? (
   //     <div className="flex gap-2 items-center my-3">
@@ -76,7 +94,8 @@ function SmallCardDetails({
       <Button
         onClick={handleAction}
         className="w-full py-6 text-lg"
-        variant={isEnrolled ? "default" : "primary"}>
+        variant={isEnrolled ? "default" : "primary"}
+      >
         {isEnrolled ? (
           <>
             <PlayCircle className="mr-2" />
@@ -94,7 +113,8 @@ function SmallCardDetails({
         <Button
           variant="ghost"
           className="w-full"
-          onClick={() => setIsWishlisted(!isWishlisted)}>
+          onClick={() => setIsWishlisted(!isWishlisted)}
+        >
           <Heart className={isWishlisted ? "fill-red-500" : ""} />
           {isWishlisted ? "Remove from Wishlist" : "Add to Wishlist"}
         </Button>
