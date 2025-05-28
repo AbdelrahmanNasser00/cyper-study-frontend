@@ -6,7 +6,7 @@ import {
   AwardIcon,
 } from "lucide-react";
 
-const cards = [
+const defaultCards = [
   {
     key: "totalStudents",
     title: "Total Students",
@@ -37,7 +37,7 @@ const cards = [
   },
 ];
 
-const StatsCard = ({ stats }) => {
+const StatsCard = ({ stats, cards = defaultCards }) => {
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 p-6">
       {cards.map((card) => (
