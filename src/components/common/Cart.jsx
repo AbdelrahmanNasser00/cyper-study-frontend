@@ -8,8 +8,7 @@ import { FaCcPaypal, FaCcStripe } from "react-icons/fa";
 const Cart = () => {
   const { data, isLoading } = useGetCartQuery();
   const [removeFromCart] = useRemoveFromCartMutation();
-
-  // Ensure items is always an array, regardless of API response structure
+  console.log(data);
   let items = [];
   if (Array.isArray(data)) {
     items = data;
@@ -31,6 +30,7 @@ const Cart = () => {
   if (isLoading) {
     return <div className="p-6 max-w-7xl mx-auto">Loading cart...</div>;
   }
+  console.log(items);
 
   return (
     <div className="p-6 max-w-7xl mx-auto">
@@ -54,10 +54,9 @@ const Cart = () => {
             {items.map((item) => (
               <div
                 key={item.id}
-                className="flex items-start gap-4 border rounded-lg p-4 shadow-sm bg-white"
-              >
+                className="flex items-start gap-4 border rounded-lg p-4 shadow-sm bg-white">
                 <img
-                  src={item.image}
+                  src={item.thumbnail}
                   alt={item.title || "Course Image"}
                   className="w-32 h-24 object-cover rounded-md"
                 />
@@ -79,8 +78,7 @@ const Cart = () => {
                 </div>
                 <button
                   onClick={() => removeFromCart(item.id)}
-                  className="text-red-500 hover:text-red-600 flex items-center gap-1"
-                >
+                  className="text-red-500 cursor-pointer hover:bg-gray-100 p-2 rounded flex items-center gap-1">
                   <Trash2 className="w-5 h-5" />
                   <span className="sr-only">Remove</span>
                 </button>
