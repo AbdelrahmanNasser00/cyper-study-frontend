@@ -1,10 +1,16 @@
 import { Progress } from "@/components/ui/progress";
 import { Star } from "lucide-react";
-import { useGetCourseReviewsQuery } from "@/services/reviewsApi";
+import {
+  useGetCourseReviewsQuery,
+  useAddReviewMutation,
+} from "@/services/reviewsApi";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { ReviewDialog } from "./ReviewDialog";
+import { toast } from "sonner";
 
 function ReviewTab({ course }) {
-  const { data: reviewsData } = useGetCourseReviewsQuery(course.id);
+  const { data: reviewsData, refetch } = useGetCourseReviewsQuery(course.id);
+  const [addReview] = useAddReviewMutation();
   const reviews = reviewsData || [];
 
   // Calculate rating distribution
@@ -52,9 +58,34 @@ function ReviewTab({ course }) {
     return stars;
   };
 
+  const handleAddReview = async (reviewData) => {
+    try {
+      await addReview({
+        courseId: course.id,
+        rating: reviewData.rating,
+        comment: reviewData.comment,
+      }).unwrap();
+
+      await refetch(); // Refetch reviews after successful submission
+
+      toast.success("Review submitted successfully", {
+        description: "Thank you for your feedback!",
+      });
+    } catch (error) {
+      toast.error("Failed to submit review", {
+        description: "Please try again later",
+      });
+      console.error("Failed to add review:", error);
+    }
+  };
+
   return (
     <>
-      <h3 className="font-bold text-2xl my-5">Student Reviews</h3>
+      <div className="flex justify-between items-center mb-5">
+        <h3 className="font-bold text-2xl">Student Reviews</h3>
+        {course.isEnrolled && <ReviewDialog onSubmit={handleAddReview} />}
+      </div>
+
       <div className="flex gap-15 flex-wrap items-center mb-5">
         {/* Rating summary */}
         <div className="text-center mx-auto md:mx-0">
