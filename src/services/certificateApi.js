@@ -1,4 +1,4 @@
-import { baseApi } from "../baseApi";
+import { baseApi } from "@/services/baseApi"; // Updated import path
 
 export const certificatesApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({

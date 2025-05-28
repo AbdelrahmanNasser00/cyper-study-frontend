@@ -1,11 +1,10 @@
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import {
   Bell,
   Search,
   ShoppingCart,
-  ChevronDown,
   User,
   Menu,
   X,
@@ -22,18 +21,23 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { logout } from "@/store/Slices/authSlice";
 
 const Header = () => {
+  const dispatch = useDispatch();
+  const isLoggedIn = useSelector((state) => state.auth.isAuthenticated);
   const wishlistCount = useSelector((state) => state.wishlist.items.length);
   const cartItems = useSelector((state) => state.cart.items);
   const cartCount = cartItems.reduce((total, item) => total + item.quantity, 0);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const isLoggedIn = true;
+
+  const handleLogout = () => {
+    dispatch(logout());
+  };
 
   return (
     <header className="border-b sticky top-0 bg-white z-50">
       <div className="container">
-        {" "}
         <div className="w-[100%] px-[10px] py-4 mx-auto flex items-center justify-between">
           <Link
             to="/"
@@ -43,7 +47,7 @@ const Header = () => {
           </Link>
 
           <div className="hidden md:flex items-center space-x-8">
-            <DropdownMenu>
+            {/* <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" className="flex items-center gap-1">
                   Categories <ChevronDown className="h-4 w-4" />
@@ -63,7 +67,7 @@ const Header = () => {
                   <Link to="/courses/marketing">Marketing</Link>
                 </DropdownMenuItem>
               </DropdownMenuContent>
-            </DropdownMenu>
+            </DropdownMenu> */}
 
             <Link
               to="/courses"
@@ -92,7 +96,7 @@ const Header = () => {
                   )}
                 </Link>
 
-                <DropdownMenu>
+                {/* <DropdownMenu>
                   <DropdownMenuTrigger asChild>
                     <Button variant="ghost" className="p-0 h-auto relative">
                       <Bell className="h-5 w-5" />
@@ -123,7 +127,7 @@ const Header = () => {
                       </div>
                     </DropdownMenuItem>
                   </DropdownMenuContent>
-                </DropdownMenu>
+                </DropdownMenu> */}
 
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
@@ -139,11 +143,10 @@ const Header = () => {
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end" className="w-48">
-                    <DropdownMenuItem>
+                    {/* <DropdownMenuItem>
                       <Link
                         to="/student/dashboard"
-                        className="w-full flex items-center"
-                      >
+                        className="w-full flex items-center">
                         <BookOpen className="h-4 w-4 mr-2" />
                         Student Dashboard
                       </Link>
@@ -151,12 +154,11 @@ const Header = () => {
                     <DropdownMenuItem>
                       <Link
                         to="/instructor/dashboard"
-                        className="w-full flex items-center"
-                      >
+                        className="w-full flex items-center">
                         <User className="h-4 w-4 mr-2" />
                         Instructor Dashboard
                       </Link>
-                    </DropdownMenuItem>
+                    </DropdownMenuItem> */}
                     <DropdownMenuItem>
                       <Link to="/profile" className="w-full flex items-center">
                         <User className="h-4 w-4 mr-2" />
@@ -179,7 +181,10 @@ const Header = () => {
                       </Link>
                     </DropdownMenuItem>
                     <DropdownMenuItem>
-                      <button className="w-full text-left flex items-center">
+                      <button
+                        onClick={handleLogout}
+                        className="w-full text-left flex items-center"
+                      >
                         <LogOut className="h-4 w-4 mr-2" />
                         Logout
                       </button>
@@ -188,17 +193,19 @@ const Header = () => {
                 </DropdownMenu>
               </>
             ) : (
-              <div className="flex items-center gap-2">
+              <div className="flex flex-row gap-2">
                 <Link to="/login">
                   <Button
                     variant="outline"
-                    className="border-gray-300 text-black"
+                    className="border-gray-300 text-black w-full"
                   >
                     Login
                   </Button>
                 </Link>
                 <Link to="/register">
-                  <Button className="bg-[#3a57e8] text-white">Sign Up</Button>
+                  <Button className="bg-[#3a57e8] text-white w-full">
+                    Sign Up
+                  </Button>
                 </Link>
               </div>
             )}

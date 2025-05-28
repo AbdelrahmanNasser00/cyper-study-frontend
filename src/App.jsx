@@ -31,6 +31,8 @@ import Lesson from "./pages/Lesson/Lesson";
 import { StatsProvider } from "./context/statsContext";
 import EditCourse from "./pages/InstructorDashboard/components/EditCourse";
 import InstructorCourseDetails from "./pages/InstructorDashboard/instructorCourseDetails";
+import AllCourses from "./pages/courses/AllCourses";
+
 
 function App() {
   return (
@@ -63,6 +65,8 @@ function App() {
           <Route path="courses/:id" element={<InstructorCourseDetails/>} />
           <Route path="courses/:id/add-video" element={<AddVideo />} />
         </Route>
+
+        <Route path="/courses" element={<AllCourses />} />
 
         <Route path="/about" element={<AboutUs />} />
         <Route path="/join" element={<JoinUs />} />

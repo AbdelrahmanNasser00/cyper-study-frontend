@@ -35,7 +35,7 @@ export const coursesApi = baseApi.injectEndpoints({
         method: "POST",
         body: courseData,
       }),
-       invalidatesTags: [{ type: "Courses", id: "LIST" }],
+      invalidatesTags: [{ type: "Courses", id: "LIST" }],
     }),
     getInstructorCourses: builder.query({
       query: () => ({ url: "courses/my-courses", method: "GET" }),
@@ -66,7 +66,7 @@ export const coursesApi = baseApi.injectEndpoints({
         url: `courses/my-courses/${id}`,
         method: "DELETE",
       }),
-       invalidatesTags: (result, error, { id }) => [{ type: "Courses", id }],
+      invalidatesTags: (result, error, { id }) => [{ type: "Courses", id }],
     }),
 
     // Student routes

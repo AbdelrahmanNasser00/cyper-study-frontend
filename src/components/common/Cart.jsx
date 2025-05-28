@@ -1,20 +1,28 @@
 import React from "react";
-import { useGetCartQuery, useRemoveFromCartMutation } from "@/services/cartApi"; // Update path to match your file structure
+import { useGetCartQuery, useRemoveFromCartMutation } from "@/services/cartApi";
 import { Button } from "@/components/ui/button";
 import { Trash2 } from "lucide-react";
 import { Link } from "react-router";
 import { FaCcPaypal, FaCcStripe } from "react-icons/fa";
 
 const Cart = () => {
-  const { data: items = [], isLoading } = useGetCartQuery();
+  const { data, isLoading } = useGetCartQuery();
   const [removeFromCart] = useRemoveFromCartMutation();
+  console.log(data);
+  let items = [];
+  if (Array.isArray(data)) {
+    items = data;
+  } else if (Array.isArray(data?.items)) {
+    items = data.items;
+  }
 
   const totalOriginalPrice = items.reduce(
-    (acc, item) => acc + (item.originalPrice || 0) * (item.quantity || 1),
+    (acc, item) =>
+      acc + (Number(item.originalPrice) || 0) * (item.quantity || 1),
     0
   );
   const totalPrice = items.reduce(
-    (acc, item) => acc + (item.price || 0) * (item.quantity || 1),
+    (acc, item) => acc + (Number(item.price) || 0) * (item.quantity || 1),
     0
   );
   const totalDiscount = totalOriginalPrice - totalPrice;
@@ -22,6 +30,7 @@ const Cart = () => {
   if (isLoading) {
     return <div className="p-6 max-w-7xl mx-auto">Loading cart...</div>;
   }
+  console.log(items);
 
   return (
     <div className="p-6 max-w-7xl mx-auto">
@@ -47,7 +56,7 @@ const Cart = () => {
                 key={item.id}
                 className="flex items-start gap-4 border rounded-lg p-4 shadow-sm bg-white">
                 <img
-                  src={item.image}
+                  src={item.thumbnail}
                   alt={item.title || "Course Image"}
                   className="w-32 h-24 object-cover rounded-md"
                 />
@@ -60,16 +69,16 @@ const Cart = () => {
                   </p>
                   <div className="flex gap-2 mt-2">
                     <span className="text-lg font-bold text-gray-900">
-                      ${(item.price || 0).toFixed(2)}
+                      ${(Number(item.price) || 0).toFixed(2)}
                     </span>
                     <span className="text-sm text-gray-400 line-through">
-                      ${(item.originalPrice || 0).toFixed(2)}
+                      ${(Number(item.originalPrice) || 0).toFixed(2)}
                     </span>
                   </div>
                 </div>
                 <button
                   onClick={() => removeFromCart(item.id)}
-                  className="text-red-500 hover:text-red-600 flex items-center gap-1">
+                  className="text-red-500 cursor-pointer hover:bg-gray-100 p-2 rounded flex items-center gap-1">
                   <Trash2 className="w-5 h-5" />
                   <span className="sr-only">Remove</span>
                 </button>
