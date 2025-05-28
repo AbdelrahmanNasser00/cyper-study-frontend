@@ -14,6 +14,7 @@ import {
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAddToCartMutation } from "@/services/cartApi";
+import { useAddToWishlistMutation } from "@/services/wishlistApi"; // Import the mutation
 
 import { useDispatch } from "react-redux";
 import { addToCart } from "@/store/Slices/cartSlice"; // Add this import
@@ -27,6 +28,7 @@ function SmallCardDetails({
   title, // Add title prop
 }) {
   const [addToCartApi] = useAddToCartMutation();
+  const [addToWishlistApi] = useAddToWishlistMutation(); // Add this
   const dispatch = useDispatch(); // Add this
   const [isWishlisted, setIsWishlisted] = useState(false);
   const navigate = useNavigate();
@@ -53,6 +55,22 @@ function SmallCardDetails({
       }
     }
   };
+
+  const handleWishlistAction = async () => {
+    try {
+      if (!isWishlisted) {
+        // Call API to add to wishlist
+        await addToWishlistApi({ courseId, title });
+        setIsWishlisted(true); // Update local state
+      } else {
+        console.log("Wishlist removal not implemented yet.");
+        // Optionally, implement removal logic here
+      }
+    } catch (error) {
+      console.error("Failed to update wishlist:", error);
+    }
+  };
+
   // const displayPrice =
   //   discountedPrice < price ? (
   //     <div className="flex gap-2 items-center my-3">
@@ -113,7 +131,7 @@ function SmallCardDetails({
         <Button
           variant="ghost"
           className="w-full"
-          onClick={() => setIsWishlisted(!isWishlisted)}
+          onClick={handleWishlistAction} // Use the new handler
         >
           <Heart className={isWishlisted ? "fill-red-500" : ""} />
           {isWishlisted ? "Remove from Wishlist" : "Add to Wishlist"}
