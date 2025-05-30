@@ -10,7 +10,7 @@ function CourseCardInTab({ course }) {
 
   return (
     <div className="flex items-center gap-5 p-5 border-2 border-gray-100 rounded-2xl mb-5 flex-col md:flex-row">
-      <img
+      <img  
         src={course.thumbnail || "/default-course.jpg"}
         className="w-48 h-fit rounded-lg"
         alt="Course image"
