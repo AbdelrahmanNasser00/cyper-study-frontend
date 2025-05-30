@@ -1,6 +1,7 @@
 import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
 import { CirclePlay } from "lucide-react";
+import { Link } from "react-router-dom";
 
 function LearnCourseCard({ course }) {
   const instructorName =
@@ -13,7 +14,7 @@ function LearnCourseCard({ course }) {
       <div>
         <img
           className="w-full h-full object-fill"
-          src={course.image || "/default-course.jpg"}
+          src={course.thumbnail || "/default-course.jpg"}
           alt="course image"
         />
       </div>
@@ -26,18 +27,25 @@ function LearnCourseCard({ course }) {
         <div className="mb-10">
           <div className="flex justify-between -mb-2">
             <span className="font-semibold">Progress</span>
-            <span className="font-semibold">{course.progress}%</span>
+            <span className="font-semibold">
+              {course.Enrollments?.[0].progress}%
+            </span>
           </div>
-          <Progress value={course.progress} className="w-full my-3" />
+          <Progress
+            value={course.Enrollments?.[0].progress}
+            className="w-full my-3"
+          />
           <div className="-mt-2">
             {course.completedLessons} of {course.totalLessons} lessons completed
           </div>
         </div>
         {/* progress */}
-        <Button className="w-full bg-mainColor hover:bg-white hover:text-black hover:border-2 hover:border-gray-100">
-          <CirclePlay />
-          <span>Continue Learning</span>
-        </Button>
+        <Link to={`/courses/${course.id}/lesson`}>
+          <Button className="w-full bg-mainColor hover:bg-white hover:text-black hover:border-2 hover:border-gray-100">
+            <CirclePlay />
+            <span>Continue Learning</span>
+          </Button>
+        </Link>
       </div>
     </div>
   );

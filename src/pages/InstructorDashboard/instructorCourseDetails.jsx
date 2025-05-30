@@ -1,13 +1,12 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import StatsCard from "./components/StatsCard";
 import LoadingSpinner from "@/components/common/loadingSpinner";
 import { useGetCoursePerformanceQuery } from "../../services/dashboardApi";
-import CourseVideos from "./components/CourseVideos";
 import { UserIcon, DollarSignIcon, AwardIcon, StarIcon } from "lucide-react";
+import CourseVideos from "./components/courseVideos";
 
-const instructorCourseDetails = () => {
+const InstructorCourseDetails = () => {
   const { id } = useParams();
   const { data: course, isLoading } = useGetCoursePerformanceQuery(id);
 
@@ -96,4 +95,4 @@ const instructorCourseDetails = () => {
     </div>
   );
 };
-export default instructorCourseDetails;
+export default InstructorCourseDetails;
