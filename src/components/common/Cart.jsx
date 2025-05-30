@@ -8,7 +8,7 @@ import { FaCcPaypal, FaCcStripe } from "react-icons/fa";
 const Cart = () => {
   const { data, isLoading } = useGetCartQuery();
   const [removeFromCart] = useRemoveFromCartMutation();
-  console.log(data);
+
   let items = [];
   if (Array.isArray(data)) {
     items = data;
@@ -30,7 +30,6 @@ const Cart = () => {
   if (isLoading) {
     return <div className="p-6 max-w-7xl mx-auto">Loading cart...</div>;
   }
-  console.log(items);
 
   return (
     <div className="p-6 max-w-7xl mx-auto">

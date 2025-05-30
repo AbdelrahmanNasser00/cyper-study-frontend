@@ -4,12 +4,12 @@ import ProfileSideBar from "./Components/ProfileSideBar";
 
 function Profile() {
   const location = useLocation();
-  const [profileImage, setProfileImage] = useState(null); // State to hold the profile image
+  const [profileImage, setProfileImage] = useState(null);
   const [profileData, setProfileData] = useState({
     name: "",
     email: "",
     role: "",
-  }); // State to hold name, email, and role
+  });
 
   return (
     <div className="container my-10">

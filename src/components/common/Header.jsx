@@ -21,7 +21,11 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { logout } from "@/store/Slices/authSlice";
+import {
+  logout,
+  selectIsInstructor,
+  selectIsStudent,
+} from "@/store/Slices/authSlice";
 
 const Header = () => {
   const dispatch = useDispatch();
@@ -29,6 +33,8 @@ const Header = () => {
   const wishlistCount = useSelector((state) => state.wishlist.items.length);
   const cartItems = useSelector((state) => state.cart.items);
   const cartCount = cartItems.reduce((total, item) => total + item.quantity, 0);
+  const isInstructor = useSelector(selectIsInstructor);
+  const isStudent = useSelector(selectIsStudent);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const handleLogout = () => {
@@ -140,42 +146,52 @@ const Header = () => {
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end" className="w-48">
-                    <DropdownMenuItem>
-                      <Link
-                        to="/student/dashboard"
-                        className="w-full flex items-center">
-                        <BookOpen className="h-4 w-4 mr-2" />
-                        Student Dashboard
-                      </Link>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem>
-                      <Link
-                        to="/instructor/dashboard"
-                        className="w-full flex items-center">
-                        <User className="h-4 w-4 mr-2" />
-                        Instructor Dashboard
-                      </Link>
-                    </DropdownMenuItem>
+                    {isStudent && (
+                      <DropdownMenuItem>
+                        <Link
+                          to="/student/dashboard"
+                          className="w-full flex items-center">
+                          <BookOpen className="h-4 w-4 mr-2" />
+                          Student Dashboard
+                        </Link>
+                      </DropdownMenuItem>
+                    )}
+                    {isInstructor && (
+                      <DropdownMenuItem>
+                        <Link
+                          to="/instructor/dashboard"
+                          className="w-full flex items-center">
+                          <User className="h-4 w-4 mr-2" />
+                          Instructor Dashboard
+                        </Link>
+                      </DropdownMenuItem>
+                    )}
                     <DropdownMenuItem>
                       <Link to="/profile" className="w-full flex items-center">
                         <User className="h-4 w-4 mr-2" />
                         Profile
                       </Link>
                     </DropdownMenuItem>
-                    <DropdownMenuItem>
-                      <Link to="/wishlist" className="w-full flex items-center">
-                        <Heart className="h-4 w-4 mr-2" />
-                        Wishlist
-                      </Link>
-                    </DropdownMenuItem>
-                    <DropdownMenuItem>
-                      <Link
-                        to="/certificates"
-                        className="w-full flex items-center">
-                        <Award className="h-4 w-4 mr-2" />
-                        Certificates
-                      </Link>
-                    </DropdownMenuItem>
+                    {isStudent && (
+                      <DropdownMenuItem>
+                        <Link
+                          to="/wishlist"
+                          className="w-full flex items-center">
+                          <Heart className="h-4 w-4 mr-2" />
+                          Wishlist
+                        </Link>
+                      </DropdownMenuItem>
+                    )}
+                    {isStudent && (
+                      <DropdownMenuItem>
+                        <Link
+                          to="/certificates"
+                          className="w-full flex items-center">
+                          <Award className="h-4 w-4 mr-2" />
+                          Certificates
+                        </Link>
+                      </DropdownMenuItem>
+                    )}
                     <DropdownMenuItem>
                       <button
                         onClick={handleLogout}
@@ -261,42 +277,46 @@ const Header = () => {
 
             {isLoggedIn ? (
               <>
-                <Link to="/wishlist" className="flex items-center gap-2 py-2">
-                  <Heart className="h-4 w-4" />
-                  <span className="text-sm">Wishlist ({wishlistCount})</span>
-                </Link>
-                <Link to="/cart" className="flex items-center gap-2 py-2">
-                  <ShoppingCart className="h-4 w-4" />
-                  <span className="text-sm">Cart ({cartCount})</span>
-                </Link>
-                <Link
-                  to="/notifications"
-                  className="flex items-center gap-2 py-2">
-                  <Bell className="h-4 w-4" />
-                  <span className="text-sm">Notifications (2)</span>
-                </Link>
-                <Link
-                  to="/student/dashboard"
-                  className="flex items-center gap-2 py-2">
-                  <BookOpen className="h-4 w-4" />
-                  <span className="text-sm">Student Dashboard</span>
-                </Link>
-                <Link
-                  to="/instructor/dashboard"
-                  className="flex items-center gap-2 py-2">
-                  <User className="h-4 w-4" />
-                  <span className="text-sm">Instructor Dashboard</span>
-                </Link>
+                {isStudent && (
+                  <Link to="/wishlist" className="flex items-center gap-2 py-2">
+                    <Heart className="h-4 w-4" />
+                    <span className="text-sm">Wishlist ({wishlistCount})</span>
+                  </Link>
+                )}
+                {isStudent && (
+                  <Link to="/cart" className="flex items-center gap-2 py-2">
+                    <ShoppingCart className="h-4 w-4" />
+                    <span className="text-sm">Cart ({cartCount})</span>
+                  </Link>
+                )}
+                {isStudent && (
+                  <Link
+                    to="/student/dashboard"
+                    className="flex items-center gap-2 py-2">
+                    <BookOpen className="h-4 w-4" />
+                    <span className="text-sm">Student Dashboard</span>
+                  </Link>
+                )}
+                {isInstructor && (
+                  <Link
+                    to="/instructor/dashboard"
+                    className="flex items-center gap-2 py-2">
+                    <User className="h-4 w-4" />
+                    <span className="text-sm">Instructor Dashboard</span>
+                  </Link>
+                )}
                 <Link to="/profile" className="flex items-center gap-2 py-2">
                   <User className="h-4 w-4" />
                   <span className="text-sm">Profile</span>
                 </Link>
-                <Link
-                  to="/certificates"
-                  className="flex items-center gap-2 py-2">
-                  <Award className="h-4 w-4" />
-                  <span className="text-sm">Certificates</span>
-                </Link>
+                {isStudent && (
+                  <Link
+                    to="/certificates"
+                    className="flex items-center gap-2 py-2">
+                    <Award className="h-4 w-4" />
+                    <span className="text-sm">Certificates</span>
+                  </Link>
+                )}
                 <button className="text-sm text-left py-2 flex items-center gap-2">
                   <LogOut className="h-4 w-4" />
                   Logout

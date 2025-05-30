@@ -3,6 +3,7 @@ import img from "/instructor-removebg-preview.png";
 import { HomeIcon, ChevronRightIcon, User, Shield } from "lucide-react";
 
 function ProfileSideBar({ profileImage, name, email, role }) {
+  console.log(profileImage);
   const navItems = [
     {
       name: "Details",
@@ -25,7 +26,7 @@ function ProfileSideBar({ profileImage, name, email, role }) {
       {/* image */}
       <div className="flex justify-center mb-1 ">
         <img
-          src={profileImage || img}
+          src={profileImage}
           alt="user image"
           className="w-20 h-20 lg:mx-0 rounded-full  overflow-hidden border-4 border-mainColor flex-shrink-0"
         />
@@ -52,8 +53,7 @@ function ProfileSideBar({ profileImage, name, email, role }) {
                     ? "bg-blue-600 text-white font-semibold"
                     : "text-gray-700 hover:bg-gray-100"
                 }`
-              }
-            >
+              }>
               <div className="flex items-center space-x-2">
                 {item.icon}
                 <span>{item.name}</span>

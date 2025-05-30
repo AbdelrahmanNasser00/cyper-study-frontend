@@ -7,7 +7,7 @@ import {
 } from "../../../services/profileApi";
 
 function ProfileDetails() {
-  const { setProfileImage, setProfileData } = useOutletContext(); // Access setProfileData from context
+  const { setProfileImage, setProfileData } = useOutletContext();
   const [isOpen, setIsOpen] = useState(false);
   const [formData, setFormData] = useState({
     firstname: "",
@@ -21,6 +21,7 @@ function ProfileDetails() {
 
   // Fetch profile data
   const { data: profile, isLoading } = useGetProfileQuery();
+  console.log(profile);
   const [updateProfile] = useUpdateProfileMutation();
   const [updateProfilePicture] = useUpdateProfilePictureMutation();
 
@@ -199,14 +200,12 @@ function ProfileDetails() {
             <button
               type="button"
               onClick={handleCancel}
-              className="px-4 py-2 text-gray-500 border rounded hover:bg-gray-100"
-            >
+              className="px-4 py-2 text-gray-500 border rounded hover:bg-gray-100">
               Cancel
             </button>
             <button
               type="submit"
-              className="px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-600"
-            >
+              className="px-4 py-2 text-white bg-blue-500 rounded hover:bg-blue-600">
               Save Changes
             </button>
           </div>
@@ -246,8 +245,7 @@ function ProfileDetails() {
           <div className="mt-5 text-right">
             <button
               onClick={() => setIsOpen(true)}
-              className="text-blue-500 font-medium hover:underline cursor-pointer"
-            >
+              className="text-blue-500 font-medium hover:underline cursor-pointer">
               Edit
             </button>
           </div>
