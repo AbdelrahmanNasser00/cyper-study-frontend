@@ -4,11 +4,13 @@ import { useGetStudentEnrolledCoursesQuery } from "@/services/coursesApi";
 import StatsCard from "./components/StatsCard";
 import LearnCourseCard from "./components/LearnCourseCard";
 import TabsInDashboard from "./components/TabsInDashboard";
+import { useGetMyCertificatesQuery } from "@/services/certificateApi";
 
 function StudentDashboard() {
   const { data: enrolledCourses = [], isLoading } =
     useGetStudentEnrolledCoursesQuery();
-
+  const { data: certificates = [] } = useGetMyCertificatesQuery();
+  console.log(certificates);
   const totalHoursSpent = enrolledCourses.reduce(
     (sum, course) => sum + course.hoursSpent,
     0
@@ -38,7 +40,7 @@ function StudentDashboard() {
             <Clock className="text-green-500" />
           </div>
         </StatsCard>
-        <StatsCard value={1} title={"Certificates"}>
+        <StatsCard value={certificates.length} title={"Certificates"}>
           <div className="relative">
             <span className="absolute bg-yellow-400/30 w-10 h-10 -z-1 -top-2 -right-2 rounded-full"></span>
             <GraduationCap className="text-yellow-500" />

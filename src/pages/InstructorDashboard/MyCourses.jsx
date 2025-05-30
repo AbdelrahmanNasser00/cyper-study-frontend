@@ -10,7 +10,7 @@ import {
   useDeleteCourseMutation,
 } from "../../services/coursesApi";
 
-const PAGE_SIZE = 5; 
+const PAGE_SIZE = 5;
 
 const MyCourses = () => {
   const navigate = useNavigate();
@@ -22,7 +22,6 @@ const MyCourses = () => {
   // Pagination state
   const [page, setPage] = useState(1);
   const totalPages = Math.ceil(courses.length / PAGE_SIZE);
-
 
   const paginatedCourses = courses.slice(
     (page - 1) * PAGE_SIZE,
@@ -107,8 +106,7 @@ const MyCourses = () => {
           <button
             className="px-3 py-1 rounded bg-gray-200 disabled:opacity-50"
             onClick={() => setPage((p) => Math.max(1, p - 1))}
-            disabled={page === 1}
-          >
+            disabled={page === 1}>
             Prev
           </button>
           <span>
@@ -117,8 +115,7 @@ const MyCourses = () => {
           <button
             className="px-3 py-1 rounded bg-gray-200 disabled:opacity-50"
             onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
-            disabled={page === totalPages}
-          >
+            disabled={page === totalPages}>
             Next
           </button>
         </div>

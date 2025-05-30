@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import LessonList from "./Components/LessonList";
 import VideoPlayer from "./Components/VideoPlayer";
@@ -10,11 +10,20 @@ import { useGetLessonsByCourseQuery } from "@/services/lessonApi";
 
 const Lesson = () => {
   const { id } = useParams();
-  const [activeLesson, setActiveLesson] = useState(1);
+  const [activeLesson, setActiveLesson] = useState(null);
 
   const { data: courseData, isLoading, isError } = useGetCourseByIdQuery(id);
   const { data: progress } = useGetProgressQuery(id);
   const { data: lessons } = useGetLessonsByCourseQuery(id);
+
+  useEffect(() => {
+    if (lessons?.length) {
+      const firstLesson = lessons.reduce((prev, current) =>
+        prev.order < current.order ? prev : current
+      );
+      setActiveLesson(firstLesson.id);
+    }
+  }, [lessons]);
 
   if (isLoading) return <div>Loading...</div>;
   if (isError) return <div>Error loading course</div>;

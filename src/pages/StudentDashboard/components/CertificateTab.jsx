@@ -3,7 +3,7 @@ import { useGetMyCertificatesQuery } from "@/services/certificateApi";
 
 function CertificateTab() {
   const { data: certificates = [], isLoading } = useGetMyCertificatesQuery();
-
+  console.log(certificates);
   return (
     <div className="border-2 border-gray-100 rounded-lg p-5">
       <div className="mb-5">

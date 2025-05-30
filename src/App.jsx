@@ -32,7 +32,7 @@ import { StatsProvider } from "./context/statsContext";
 import EditCourse from "./pages/InstructorDashboard/components/EditCourse";
 import InstructorCourseDetails from "./pages/InstructorDashboard/instructorCourseDetails";
 import AllCourses from "./pages/courses/AllCourses";
-
+import Certificate from "./pages/certificate/Certificate";
 
 function App() {
   return (
@@ -52,8 +52,7 @@ function App() {
             <StatsProvider>
               <InstructorLayout />
             </StatsProvider>
-          }
-        >
+          }>
           <Route path="dashboard" element={<InstructorDashboard />} />
           <Route path="courses" element={<MyCourses />} />
           <Route path="earnings" element={<Earnings />} />
@@ -62,7 +61,7 @@ function App() {
           <Route path="coupon/edit-coupon/:id" element={<EditCoupon />} />
           <Route path="courses/new" element={<CreateCourse />} />
           <Route path="courses/:id/edit" element={<EditCourse />} />
-          <Route path="courses/:id" element={<InstructorCourseDetails/>} />
+          <Route path="courses/:id" element={<InstructorCourseDetails />} />
           <Route path="courses/:id/add-video" element={<AddVideo />} />
         </Route>
 
@@ -73,6 +72,7 @@ function App() {
 
         <Route path="/student">
           <Route path="dashboard" element={<StudentDashboard />} />
+          <Route path="certificate/:id" element={<Certificate />} />
         </Route>
 
         <Route path="/profile" element={<Profile />}>
