@@ -1,8 +1,9 @@
-import React, { useState } from "react";
 import {
   useCreatePaymentOrderMutation,
   useLazyVerifyPaymentQuery,
-} from "./enrollmentApi";
+} from "@/services/enrollmentApi";
+import React, { useState } from "react";
+
 import { useNavigate } from "react-router-dom";
 
 const Payment = ({ courseId }) => {

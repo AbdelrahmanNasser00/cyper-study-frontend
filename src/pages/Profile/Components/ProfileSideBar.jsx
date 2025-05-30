@@ -25,7 +25,7 @@ function ProfileSideBar({ profileImage, name, email, role }) {
       {/* image */}
       <div className="flex justify-center mb-1 ">
         <img
-          src={profileImage}
+          src={profileImage || img}
           alt="user image"
           className="w-20 h-20 lg:mx-0 rounded-full  overflow-hidden border-4 border-mainColor flex-shrink-0"
         />

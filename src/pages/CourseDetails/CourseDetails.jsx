@@ -18,6 +18,8 @@ import {
 } from "@/services/coursesApi";
 import { Skeleton } from "@/components/ui/skeleton";
 import LoadingSpinner from "@/components/common/loadingSpinner";
+import { useSelector } from "react-redux";
+import { selectIsStudent } from "@/store/Slices/authSlice";
 
 // Default course data structure
 const defaultCourse = {
@@ -51,6 +53,7 @@ function CourseDetails() {
   const { data: progress } = useGetProgressQuery(
     enrollmentData?.isEnrolled ? id : null
   );
+  const isStudent = useSelector(selectIsStudent);
 
   // console.log(courseData);
   // console.log(enrollmentData);
@@ -88,8 +91,7 @@ function CourseDetails() {
     <>
       <div
         style={{ backgroundImage: `url(${course.thumbnail || backgroundImg})` }}
-        className="bg-cover bg-center min-h-dvh flex items-center justify-center relative"
-      >
+        className="bg-cover bg-center min-h-dvh flex items-center justify-center relative">
         <div className="bg-black absolute size-full opacity-30"></div>
         {/* Course Card */}
         <div className="bg-white flex-wrap lg:flex-nowrap justify-center container relative top-5 rounded-2xl p-10 shadow-lg flex gap-10">
@@ -169,14 +171,15 @@ function CourseDetails() {
           </div>
 
           {/* Right Side Card */}
-          {/* Your course header */}
-          <SmallCardDetails
-            price={course.price}
-            discountedPrice={course.discountedPrice}
-            isEnrolled={course.isEnrolled}
-            progress={progress}
-            courseId={course.id}
-          />
+          {isStudent && (
+            <SmallCardDetails
+              price={course.price}
+              discountedPrice={course.discountedPrice}
+              isEnrolled={course.isEnrolled}
+              progress={progress}
+              courseId={course.id}
+            />
+          )}
         </div>
       </div>
 

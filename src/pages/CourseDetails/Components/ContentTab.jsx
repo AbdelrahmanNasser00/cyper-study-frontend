@@ -18,10 +18,7 @@ function ContentTab({ lessons }) {
       <ul>
         {/* lesson */}
         {lessons.map((lesson) => (
-          <LessonInLessonsList
-            key={lesson.title}
-            lesson={lesson}
-          ></LessonInLessonsList>
+          <LessonInLessonsList key={lesson.title} lesson={lesson} />
         ))}
 
         {/* lesson */}
