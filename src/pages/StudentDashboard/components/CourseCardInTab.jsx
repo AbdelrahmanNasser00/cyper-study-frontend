@@ -11,7 +11,7 @@ function CourseCardInTab({ course }) {
   return (
     <div className="flex items-center gap-5 p-5 border-2 border-gray-100 rounded-2xl mb-5 flex-col md:flex-row">
       <img
-        src={course.image || "/default-course.jpg"}
+        src={course.thumbnail || "/default-course.jpg"}
         className="w-48 h-fit rounded-lg"
         alt="Course image"
       />
@@ -26,9 +26,12 @@ function CourseCardInTab({ course }) {
         <div>
           <div className="flex justify-between -mb-2">
             <span>Progress</span>
-            <span>{course.progress}%</span>
+            <span>{course.Enrollments?.[0].progress}%</span>
           </div>
-          <Progress value={course.progress} className="w-full my-3" />
+          <Progress
+            value={course.Enrollments?.[0].progress}
+            className="w-full my-3"
+          />
         </div>
         {/* progress */}
       </div>

@@ -7,18 +7,35 @@ const LessonList = ({
   onLessonClick,
   progress = 0,
 }) => {
+  console.log(lessons);
+  const formatTime = (seconds) => {
+    if (isNaN(seconds) || seconds === Infinity) {
+      return "0:00";
+    }
+    const date = new Date(seconds * 1000);
+    const hh = date.getUTCHours();
+    const mm = date.getUTCMinutes();
+    const ss = date.getUTCSeconds().toString().padStart(2, "0");
+    if (hh) {
+      return `${hh}:${mm.toString().padStart(2, "0")}:${ss}`;
+    }
+    return `${mm}:${ss}`;
+  };
+
   return (
     <div className="w-full lg:w-1/3">
       <div className="bg-white rounded-xl shadow-md overflow-hidden">
         <div className="p-6 border-b">
           <h2 className="text-xl font-semibold">Course Content</h2>
           <div className="mt-2 flex items-center justify-between">
-            <div className="text-sm text-gray-500">{progress}% complete</div>
+            <div className="text-sm text-gray-500">
+              {progress.progressPercentage}% complete
+            </div>
             <div className="text-sm font-medium">
               {lessons?.length || 0} lessons
             </div>
           </div>
-          <Progress value={progress} className="mt-2" />
+          <Progress value={progress.progressPercentage} className="mt-2" />
         </div>
         <div className="divide-y max-h-[600px] overflow-auto">
           {lessons?.length > 0 ? (
@@ -51,7 +68,9 @@ const LessonList = ({
                     }`}>
                     {lesson.title}
                   </div>
-                  <div className="text-xs text-gray-500">{lesson.duration}</div>
+                  <div className="text-xs text-gray-500">
+                    {formatTime(lesson.duration)}
+                  </div>
                 </div>
                 {lesson.locked && (
                   <Lock className="h-4 w-4 text-gray-400 ml-2" />

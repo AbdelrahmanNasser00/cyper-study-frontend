@@ -327,10 +327,9 @@ const VideoPlayer = ({
             {lessons.length}
           </div>
           <div className="font-medium text-gray-600">
-            {/* Show actual duration from player once ready, fallback to lesson data */}
             {isReady && duration > 0
               ? formatTime(duration)
-              : currentLesson?.duration || "0:00"}
+              : formatTime(currentLesson?.duration) || "0:00"}
           </div>
         </div>
 
