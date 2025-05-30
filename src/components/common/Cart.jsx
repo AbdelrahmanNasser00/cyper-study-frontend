@@ -103,7 +103,7 @@ const Cart = () => {
                 <span>Total:</span>
                 <span>${totalPrice.toFixed(2)}</span>
               </div>
-              <Link to={`/payment/${courseId}`}>
+              <Link to={`/payment`}>
                 <Button className="mt-6 w-full bg-blue-600 hover:bg-blue-700 text-white rounded-lg">
                   Checkout
                 </Button>
