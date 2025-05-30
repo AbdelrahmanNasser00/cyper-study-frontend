@@ -103,9 +103,11 @@ const Cart = () => {
                 <span>Total:</span>
                 <span>${totalPrice.toFixed(2)}</span>
               </div>
-              <Button className="mt-6 w-full bg-blue-600 hover:bg-blue-700 text-white rounded-lg">
-                Checkout
-              </Button>
+              <Link to={`/payment/${courseId}`}>
+                <Button className="mt-6 w-full bg-blue-600 hover:bg-blue-700 text-white rounded-lg">
+                  Checkout
+                </Button>
+              </Link>
               <p className="text-center text-xs text-gray-400 mt-2">
                 🔒 Secure checkout
               </p>

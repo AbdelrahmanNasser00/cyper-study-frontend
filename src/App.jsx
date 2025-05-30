@@ -33,6 +33,9 @@ import EditCourse from "./pages/InstructorDashboard/components/EditCourse";
 import InstructorCourseDetails from "./pages/InstructorDashboard/instructorCourseDetails";
 import AllCourses from "./pages/courses/AllCourses";
 import Certificate from "./pages/certificate/Certificate";
+import Payment from "./pages/payment/Payment";
+import PaymentSuccess from "./pages/payment/PaymentSuccess";
+import PaymentFailed from "./pages/payment/PaymentFailed";
 
 function App() {
   return (
@@ -85,6 +88,11 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
       </Route>
+
+      <Route path="/payment" element={<Payment />} />
+      <Route path="/payment-success" element={<PaymentSuccess />} />
+      <Route path="/payment-failed" element={<PaymentFailed />} />
+
       <Route path="*" element={<NotFound />} />
     </Routes>
   );

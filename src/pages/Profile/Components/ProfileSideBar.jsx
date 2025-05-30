@@ -3,7 +3,6 @@ import img from "/instructor-removebg-preview.png";
 import { HomeIcon, ChevronRightIcon, User, Shield } from "lucide-react";
 
 function ProfileSideBar({ profileImage, name, email, role }) {
-  console.log(profileImage);
   const navItems = [
     {
       name: "Details",

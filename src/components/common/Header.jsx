@@ -26,6 +26,7 @@ import {
   selectIsInstructor,
   selectIsStudent,
 } from "@/store/Slices/authSlice";
+import { useGetProfileQuery } from "@/services/profileApi";
 
 const Header = () => {
   const dispatch = useDispatch();
@@ -36,7 +37,8 @@ const Header = () => {
   const isInstructor = useSelector(selectIsInstructor);
   const isStudent = useSelector(selectIsStudent);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-
+  const { data: profile } = useGetProfileQuery();
+  console.log(profile);
   const handleLogout = () => {
     dispatch(logout());
   };
@@ -139,7 +141,7 @@ const Header = () => {
                       variant="ghost"
                       className="p-0 h-7 w-7 rounded-full overflow-hidden">
                       <img
-                        src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d"
+                        src={profile?.profilePicture}
                         alt="User profile"
                         className="h-full w-full object-cover"
                       />
