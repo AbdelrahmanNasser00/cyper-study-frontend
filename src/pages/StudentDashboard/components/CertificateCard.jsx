@@ -1,5 +1,5 @@
 import { Medal } from "lucide-react";
-
+import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 
 function CertificateCard({ certificate }) {
@@ -18,9 +18,11 @@ function CertificateCard({ certificate }) {
         <img src={certificate.imageUrl} alt="Course certificate image" />
       </div>
       <div className="flex justify-between p-5">
-        <Button className="bg-mainColor border-2 border-gray-50 hover:border-gray-300 hover:bg-white hover:border-2 hover:text-black">
-          View
-        </Button>
+        <Link to={`/student/certificate/${certificate.id}`}>
+          <Button className="bg-mainColor border-2 border-gray-50 hover:border-gray-300 hover:bg-white hover:border-2 hover:text-black">
+            View
+          </Button>
+        </Link>
         <Button className="bg-mainColor border-2 border-gray-50 hover:border-gray-300 hover:bg-white hover:border-2 hover:text-black">
           Download
         </Button>

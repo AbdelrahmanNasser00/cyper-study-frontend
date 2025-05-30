@@ -7,7 +7,6 @@ const LessonList = ({
   onLessonClick,
   progress = 0,
 }) => {
-  console.log(lessons);
   const formatTime = (seconds) => {
     if (isNaN(seconds) || seconds === Infinity) {
       return "0:00";

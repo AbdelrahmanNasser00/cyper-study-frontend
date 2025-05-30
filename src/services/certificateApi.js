@@ -4,7 +4,7 @@ export const certificatesApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     generateCertificate: builder.mutation({
       query: (data) => ({
-        url: "/certificates",
+        url: "/certificate",
         method: "POST",
         body: data,
       }),
@@ -13,34 +13,34 @@ export const certificatesApi = baseApi.injectEndpoints({
 
     getAllCertificates: builder.query({
       query: () => ({
-        url: "/certificates",
+        url: "/certificate",
         method: "GET",
       }),
-      providesTags: ["Certificates"],
+      providesTags: ["certificate"],
     }),
 
     getMyCertificates: builder.query({
       query: () => ({
-        url: "/certificates/my-certificates",
+        url: "/certificate/my-certificates",
         method: "GET",
       }),
-      providesTags: ["Certificates"],
+      providesTags: ["certificate"],
     }),
 
     getCertificateById: builder.query({
       query: (id) => ({
-        url: `/certificates/${id}`,
+        url: `/certificate/${id}`,
         method: "GET",
       }),
-      providesTags: ["Certificates"],
+      providesTags: ["certificate"],
     }),
 
     deleteCertificate: builder.mutation({
       query: (id) => ({
-        url: `/certificates/${id}`,
+        url: `/certificate/${id}`,
         method: "DELETE",
       }),
-      invalidatesTags: ["Certificates"],
+      invalidatesTags: ["certificate"],
     }),
   }),
   overrideExisting: false,
