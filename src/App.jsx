@@ -33,13 +33,12 @@ import EditCourse from "./pages/InstructorDashboard/components/EditCourse";
 import InstructorCourseDetails from "./pages/InstructorDashboard/instructorCourseDetails";
 import AllCourses from "./pages/courses/AllCourses";
 import Certificate from "./pages/certificate/Certificate";
-<<<<<<< HEAD
 import EditVideo from "./pages/InstructorDashboard/components/EditVideo";
-=======
+
 import Payment from "./pages/payment/Payment";
 import PaymentSuccess from "./pages/payment/PaymentSuccess";
 import PaymentFailed from "./pages/payment/PaymentFailed";
->>>>>>> ae28e31aff29f326aa0f83a867785f2b60a653ed
+
 
 function App() {
   return (
