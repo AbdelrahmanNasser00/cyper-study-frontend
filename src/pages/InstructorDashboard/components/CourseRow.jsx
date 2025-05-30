@@ -4,19 +4,15 @@ import { FaEdit } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
 const CourseRow = ({ course, onEdit, onDelete, onToggleStatus }) => {
-  
   return (
     <tr className="border-b hover:bg-gray-50">
       <td className="p-2 flex items-center gap-2">
         <img
-        
           src={course.thumbnail}
           alt={course.title}
           className="w-10 h-10 rounded"
         />
-        <Link to={`/instructor/courses/${course.id}/add-video`}>
-          {course.title}
-        </Link>
+        <Link to={`/instructor/courses/${course.id}`}>{course.title}</Link>
       </td>
       <td className="p-2">{Number(course.students || 0).toLocaleString()}</td>
       <td className="p-2">{course.rating || "-"}</td>

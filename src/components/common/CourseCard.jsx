@@ -1,13 +1,15 @@
 import { Link } from "react-router-dom";
 import { Star, Heart } from "lucide-react";
+import { useDispatch } from "react-redux"; // Add Redux dispatch
 import { Button } from "../ui/button";
 import { Badge } from "../ui/badge";
 import {
   useGetWishlistQuery,
   useAddToWishlistMutation,
   useRemoveFromWishlistMutation,
-} from "@/services/wishlistApi"; // <-- ✅ Corrected import path
-import { toast } from "react-hot-toast"; // or your preferred toast library
+} from "@/services/wishlistApi";
+import { toggleItem } from "@/store/Slices/wishListSlice"; // Import Redux action
+import { toast } from "react-hot-toast";
 
 const CourseCard = ({
   id,
@@ -23,6 +25,9 @@ const CourseCard = ({
   category,
   studentsCount,
 }) => {
+  // Redux dispatch
+  const dispatch = useDispatch();
+
   // Fetch wishlist data from backend
   const { data: wishlistData, isLoading: wishlistLoading } =
     useGetWishlistQuery();
@@ -48,6 +53,21 @@ const CourseCard = ({
   const finalBestseller = bestseller || isBestseller;
   const finalThumbnail = thumbnail;
 
+  // Create course object for Redux
+  const courseData = {
+    id,
+    courseId: id, // Include both for compatibility
+    title,
+    instructor,
+    thumbnail: finalThumbnail,
+    price,
+    averageRating,
+    ratingCount,
+    level,
+    category,
+    studentsCount,
+  };
+
   const handleWishlistToggle = async () => {
     try {
       if (isWishlisted) {
@@ -56,11 +76,18 @@ const CourseCard = ({
           (item) => item.courseId === id || item.id === id
         );
         if (wishlistItem) {
+          // Update Redux store immediately (optimistic update)
+          dispatch(toggleItem(courseData));
+
+          // Make API call
           await removeFromWishlist(wishlistItem.id).unwrap();
           toast.success("Removed from wishlist");
         }
       } else {
-        // Add to wishlist
+        // Update Redux store immediately (optimistic update)
+        dispatch(toggleItem(courseData));
+
+        // Add to wishlist via API
         await addToWishlist({
           courseId: id,
           // Include any additional data your backend expects
@@ -69,6 +96,10 @@ const CourseCard = ({
       }
     } catch (error) {
       console.error("Wishlist operation failed:", error);
+
+      // Revert the Redux change if API call failed
+      dispatch(toggleItem(courseData));
+
       toast.error("Failed to update wishlist");
     }
   };
