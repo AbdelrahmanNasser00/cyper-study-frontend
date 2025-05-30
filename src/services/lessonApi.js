@@ -26,8 +26,8 @@ export const lessonApi = baseApi.injectEndpoints({
 
     // Update a lesson
     updateLesson: builder.mutation({
-      query: ({ id, ...data }) => ({
-        url: `/lessons/${id}`,
+      query: ({ lessonId, ...data }) => ({
+        url: `/lessons/${lessonId}`,
         method: "PUT",
         body: data,
       }),

@@ -64,6 +64,7 @@ const CourseVideos = ({ courseId }) => {
             {paginatedLessons.map((lesson, idx) => (
               <LessonRow
                 key={lesson.id}
+                courseId={courseId}
                 lesson={lesson}
                 index={(page - 1) * PAGE_SIZE + idx}
                 onDelete={handleDelete}

@@ -33,6 +33,7 @@ import EditCourse from "./pages/InstructorDashboard/components/EditCourse";
 import InstructorCourseDetails from "./pages/InstructorDashboard/instructorCourseDetails";
 import AllCourses from "./pages/courses/AllCourses";
 import Certificate from "./pages/certificate/Certificate";
+import EditVideo from "./pages/InstructorDashboard/components/EditVideo";
 
 function App() {
   return (
@@ -63,6 +64,7 @@ function App() {
           <Route path="courses/:id/edit" element={<EditCourse />} />
           <Route path="courses/:id" element={<InstructorCourseDetails />} />
           <Route path="courses/:id/add-video" element={<AddVideo />} />
+          <Route path="courses/:id/edit-video/:lessonId" element={<EditVideo />} />
         </Route>
 
         <Route path="/courses" element={<AllCourses />} />

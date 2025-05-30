@@ -5,11 +5,14 @@ import LoadingSpinner from "@/components/common/loadingSpinner";
 import { useGetCoursePerformanceQuery } from "../../services/dashboardApi";
 import { UserIcon, DollarSignIcon, AwardIcon, StarIcon } from "lucide-react";
 import CourseVideos from "./components/courseVideos";
+import { useGetCourseReviewsQuery } from "../../services/reviewsApi";
 
 const InstructorCourseDetails = () => {
   const { id } = useParams();
   const { data: course, isLoading } = useGetCoursePerformanceQuery(id);
-
+  const { data: reviews = [], isLoading: isLoadingReviews } =
+    useGetCourseReviewsQuery(id);
+console.log("reviews", reviews);  
   const coursePerformanceData = {
     totalStudents: course?.totalStudents || 0,
     totalEarnings: course?.totalEarnings || 0,
@@ -90,6 +93,41 @@ const InstructorCourseDetails = () => {
               </tbody>
             </table>
           </div>
+        </div>
+      )}
+
+      {isLoadingReviews ? (
+        <div>Loading reviews...</div>
+      ) : (
+        <div className="p-6 bg-white shadow rounded-lg mt-6">
+          <h2 className="text-lg font-bold mb-4">Course Reviews</h2>
+          {reviews.length === 0 ? (
+            <div className="text-gray-500">No reviews yet.</div>
+          ) : (
+            <ul className="divide-y divide-gray-200">
+              {reviews.map((review) => (
+                <li key={review.id} className="py-4 flex gap-4 items-start">
+                  <img
+                    src={review.User?.profilePicture || "/default-avatar.png"}
+                    alt="profile"
+                    className="w-10 h-10 rounded-full object-cover"
+                  />
+                  <div>
+                    <div className="font-semibold">
+                      {review.User?.firstname} {review.User?.lastname}
+                    </div>
+                    <div className="text-yellow-500">
+                      {"★".repeat(review.rating)}{" "}
+                      <span className="text-gray-500 text-xs">
+                        {new Date(review.createdAt).toLocaleDateString()}
+                      </span>
+                    </div>
+                    <div className="text-gray-700">{review.comment}</div>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
       )}
     </div>
