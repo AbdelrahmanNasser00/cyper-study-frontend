@@ -11,11 +11,13 @@ function CertificateCard({ certificate }) {
             <div className="flex justify-center">
               <Medal className="text-mainColor" />
             </div>
-            <span>{certificate.title}</span>
             <p className="text-center">Certificate of Completion</p>
           </div>
         </div>
-        <img src={certificate.imageUrl} alt="Course certificate image" />
+        <img
+          src={certificate.Course?.thumbnail}
+          alt="Course certificate image"
+        />
       </div>
       <div className="flex justify-between p-5">
         <Link to={`/student/certificate/${certificate.id}`}>
@@ -23,9 +25,6 @@ function CertificateCard({ certificate }) {
             View
           </Button>
         </Link>
-        <Button className="bg-mainColor border-2 border-gray-50 hover:border-gray-300 hover:bg-white hover:border-2 hover:text-black">
-          Download
-        </Button>
       </div>
     </div>
   );
