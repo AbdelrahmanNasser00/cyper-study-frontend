@@ -11,10 +11,16 @@ export const enrollmentApi = baseApi.injectEndpoints({
     }),
 
     verifyPayment: builder.query({
-      query: ({ orderId, token }) => ({
+      query: ({ token, orderId }) => ({
         url: `/orders/complete-order`,
         method: "GET",
-        params: { orderId, token },
+        params: {
+          ...(token && { token }),
+          ...(orderId && { orderId }),
+          // Handle different parameter names
+          session_id: token, // For Stripe
+          paymentId: token, // For PayPal alternative
+        },
       }),
     }),
 
@@ -25,6 +31,14 @@ export const enrollmentApi = baseApi.injectEndpoints({
         body: { orderId },
       }),
     }),
+
+    // Add a new endpoint to get order status
+    getOrderStatus: builder.query({
+      query: (orderId) => ({
+        url: `/orders/${orderId}/status`,
+        method: "GET",
+      }),
+    }),
   }),
 });
 
@@ -32,4 +46,6 @@ export const {
   useCreatePaymentOrderMutation,
   useLazyVerifyPaymentQuery,
   useCancelPaymentMutation,
+  useGetOrderStatusQuery,
+  useLazyGetOrderStatusQuery,
 } = enrollmentApi;
