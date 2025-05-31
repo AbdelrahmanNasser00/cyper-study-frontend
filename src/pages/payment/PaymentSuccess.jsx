@@ -1,48 +1,31 @@
 import React, { useEffect, useState } from "react";
 import { useSearchParams, useNavigate, Link } from "react-router-dom";
-import { useLazyVerifyPaymentQuery } from "@/services/enrollmentApi";
 import { CheckCircle, Loader2, XCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const PaymentSuccess = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
-  const [verifyPayment, { isLoading }] = useLazyVerifyPaymentQuery();
-  const [verificationStatus, setVerificationStatus] = useState("verifying"); // verifying, success, error
+  const [verificationStatus, setVerificationStatus] = useState("verifying");
   const [orderDetails, setOrderDetails] = useState(null);
 
   useEffect(() => {
     const verifyOrder = async () => {
       try {
-        const sessionId = searchParams.get("session_id"); // Stripe
         const orderId = searchParams.get("order_id");
         const status = searchParams.get("status");
 
-        if (!orderId) {
+        if (!orderId || !status) {
           setVerificationStatus("error");
           return;
         }
 
-        if (status && orderId) {
+        if (status === "success") {
           setVerificationStatus("success");
           setOrderDetails({
             status,
             orderId,
           });
-          return;
-        }
-
-        const verificationToken = sessionId || undefined;
-
-        const result = await verifyPayment({
-          token: verificationToken,
-          orderId,
-        }).unwrap();
-
-        console.log(result);
-        if (result.orderDetails?.status === "COMPLETED") {
-          setVerificationStatus("success");
-          setOrderDetails(result.orderDetails);
         } else {
           setVerificationStatus("error");
         }
@@ -53,9 +36,9 @@ const PaymentSuccess = () => {
     };
 
     verifyOrder();
-  }, [searchParams, verifyPayment]);
+  }, [searchParams]);
 
-  if (verificationStatus === "verifying" || isLoading) {
+  if (verificationStatus === "verifying") {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
         <div className="text-center">
@@ -115,7 +98,7 @@ const PaymentSuccess = () => {
           <div className="bg-white rounded-lg p-4 mb-6 text-left">
             <h3 className="font-semibold mb-2">Order Details:</h3>
             <p className="text-sm text-gray-600">
-              Payment ID: {orderDetails.paymentIntent || "N/A"}
+              Payment ID: {orderDetails.orderId || "N/A"}
             </p>
             <p className="text-sm text-gray-600">
               Status: {orderDetails.status}
