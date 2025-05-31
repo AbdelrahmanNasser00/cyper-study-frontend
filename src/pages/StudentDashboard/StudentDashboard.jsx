@@ -10,7 +10,6 @@ function StudentDashboard() {
   const { data: enrolledCourses = [], isLoading } =
     useGetStudentEnrolledCoursesQuery();
   const { data: certificates = [] } = useGetMyCertificatesQuery();
-  console.log(certificates);
   const totalHoursSpent = enrolledCourses.reduce(
     (sum, course) => sum + course.hoursSpent,
     0

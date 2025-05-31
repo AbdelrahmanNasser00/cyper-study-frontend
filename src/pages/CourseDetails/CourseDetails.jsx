@@ -55,9 +55,7 @@ function CourseDetails() {
   );
   const isStudent = useSelector(selectIsStudent);
 
-  // console.log(courseData);
-  // console.log(enrollmentData);
-  // console.log(progress);
+  console.log(progress);
 
   // Merge API data with defaults
   const course = {
@@ -66,8 +64,6 @@ function CourseDetails() {
     ...(enrollmentData?.course || {}),
     isEnrolled: enrollmentData?.isEnrolled || false,
   };
-
-  console.log(course);
 
   if (isLoading) {
     return <LoadingSpinner />;

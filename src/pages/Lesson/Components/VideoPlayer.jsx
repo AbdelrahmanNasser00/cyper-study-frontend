@@ -18,10 +18,14 @@ const VideoPlayer = ({
   activeLesson,
   lessons = [],
   onNavigate,
+  onMarkLessonCompleted,
+  getCompletionState,
 }) => {
   const playerRef = useRef(null);
   const playerWrapperRef = useRef(null);
   const controlsTimeoutRef = useRef(null);
+  const completionThreshold = useRef(0.9); // 90%
+  const hasTriggeredCompletion = useRef(false);
 
   const [playing, setPlaying] = useState(false);
   const [played, setPlayed] = useState(0);
@@ -32,8 +36,19 @@ const VideoPlayer = ({
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [volume, setVolume] = useState(0.8);
   const [muted, setMuted] = useState(false);
+  const [isNavigating, setIsNavigating] = useState(false); // New state to track navigation
 
-  // --- Fullscreen Handler ---
+  // Reset states when lesson changes
+  useEffect(() => {
+    hasTriggeredCompletion.current = false;
+    setPlayed(0);
+    setDuration(0);
+    setIsReady(false);
+    setPlaying(false);
+    setShowControls(true);
+  }, [activeLesson]);
+
+  // Fullscreen handler
   useEffect(() => {
     const handleFullscreenChange = () => {
       setIsFullscreen(!!document.fullscreenElement);
@@ -46,11 +61,7 @@ const VideoPlayer = ({
 
   const toggleFullScreen = () => {
     if (!document.fullscreenElement) {
-      playerWrapperRef.current?.requestFullscreen().catch((err) => {
-        console.error(
-          `Error attempting to enable full-screen mode: ${err.message} (${err.name})`
-        );
-      });
+      playerWrapperRef.current?.requestFullscreen().catch(console.error);
     } else {
       document.exitFullscreen();
     }
@@ -104,9 +115,28 @@ const VideoPlayer = ({
     }
   };
 
+  const tryMarkCompletion = async (lessonId) => {
+    if (!hasTriggeredCompletion.current && lessonId && !isNavigating) {
+      hasTriggeredCompletion.current = true;
+      const result = await onMarkLessonCompleted(lessonId);
+      if (!result.success && result.reason !== "already_completed") {
+        hasTriggeredCompletion.current = false;
+      }
+    }
+  };
+
   const handleProgress = (state) => {
-    if (!seeking) {
+    if (!seeking && !isNavigating) {
       setPlayed(state.played);
+      if (
+        state.played >= completionThreshold.current &&
+        state.played > 0.05 &&
+        !hasTriggeredCompletion.current &&
+        activeLesson &&
+        !getCompletionState(activeLesson).completed
+      ) {
+        tryMarkCompletion(activeLesson);
+      }
     }
   };
 
@@ -121,6 +151,9 @@ const VideoPlayer = ({
   const handlePlayerEnded = () => {
     setPlaying(false);
     setShowControls(true);
+    if (!hasTriggeredCompletion.current && activeLesson && !isNavigating) {
+      tryMarkCompletion(activeLesson);
+    }
   };
 
   const handleSeekMouseDown = () => {
@@ -159,12 +192,21 @@ const VideoPlayer = ({
   };
 
   const handleNavigation = (direction) => {
-    onNavigate(direction);
+    setIsNavigating(true); // Set navigation flag
     setPlaying(false);
     setIsReady(false);
     setPlayed(0);
     setDuration(0);
     setShowControls(true);
+    hasTriggeredCompletion.current = false;
+
+    // Call onNavigate and wait for it to complete
+    Promise.resolve(onNavigate(direction)).then(() => {
+      // Reset navigation flag after navigation is complete
+      setTimeout(() => {
+        setIsNavigating(false);
+      }, 100); // Small delay to ensure state updates
+    });
   };
 
   return (
@@ -189,7 +231,7 @@ const VideoPlayer = ({
           height="100%"
           playing={playing}
           volume={volume}
-          // muted={muted}
+          muted={muted}
           onReady={handlePlayerReady}
           onPlay={() => setPlaying(true)}
           onPause={() => setPlaying(false)}
@@ -269,7 +311,6 @@ const VideoPlayer = ({
               </div>
 
               <div className="flex items-center gap-2 sm:gap-3">
-                Optional: Volume Control
                 <button
                   onClick={() => setMuted(!muted)}
                   className="text-white hover:text-[#00c1d4]">
@@ -312,7 +353,6 @@ const VideoPlayer = ({
         )}
       </div>
 
-      {/* Lesson Info */}
       <div className="p-4 sm:p-6">
         <h1 className="text-xl sm:text-2xl font-semibold mb-2">
           {currentLesson ? currentLesson.title : "Select a lesson"}
@@ -333,7 +373,6 @@ const VideoPlayer = ({
           </div>
         </div>
 
-        {/* Navigation Buttons */}
         <div className="flex items-center justify-between mt-4 sm:mt-6">
           <Button
             variant="outline"
