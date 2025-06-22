@@ -10,10 +10,10 @@ function StudentDashboard() {
   const { data: enrolledCourses = [], isLoading } =
     useGetStudentEnrolledCoursesQuery();
   const { data: certificates = [] } = useGetMyCertificatesQuery();
-  const totalHoursSpent = enrolledCourses.reduce(
-    (sum, course) => sum + course.hoursSpent,
-    0
-  );
+  // const totalHoursSpent = enrolledCourses.reduce(
+  //   (sum, course) => sum + course.hoursSpent,
+  //   0
+  // );
   console.log(enrolledCourses);
   return (
     <div className="min-h-dvh container my-10">
