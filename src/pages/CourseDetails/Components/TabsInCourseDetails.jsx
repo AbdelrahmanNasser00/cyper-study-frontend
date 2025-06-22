@@ -17,22 +17,26 @@ function TabsInCourseDetails({ course, lessons }) {
         <TabsList className="mb-3 grid mx-auto lg:mx-0 grid-cols-1 sm:grid-cols-4">
           <TabsTrigger
             className="text-lg p-2 w-[350px] sm:w-full"
-            value="content">
+            value="content"
+          >
             Course Content
           </TabsTrigger>
           <TabsTrigger
             className="text-lg p-2 w-[350px] sm:w-full"
-            value="description">
+            value="description"
+          >
             Description
           </TabsTrigger>
           <TabsTrigger
             className="text-lg p-2 w-[350px] sm:w-full"
-            value="reviews">
+            value="reviews"
+          >
             Reviews
           </TabsTrigger>
           <TabsTrigger
             className="text-lg p-2 w-[350px] sm:w-full"
-            value="instructor">
+            value="instructor"
+          >
             Instructor
           </TabsTrigger>
         </TabsList>
