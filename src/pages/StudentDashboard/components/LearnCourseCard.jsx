@@ -11,7 +11,7 @@ function LearnCourseCard({ course }) {
 
   return (
     <div className="border-2 border-gray-100 shadow-lg rounded-2xl transition hover:-translate-y-1">
-      <div>
+      <div className="w-full h-64 rounded-t-2xl overflow-hidden relative">
         <img
           className="w-full h-full object-fill"
           src={course.thumbnail || "/default-course.jpg"}

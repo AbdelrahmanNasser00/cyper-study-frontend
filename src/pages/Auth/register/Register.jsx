@@ -95,16 +95,19 @@ const Register = () => {
                 render={({ field }) => (
                   <Tabs
                     defaultValue={field.value}
-                    onValueChange={field.onChange}>
-                    <TabsList className="w-full rounded-md h-11">
+                    onValueChange={field.onChange}
+                  >
+                    {/* <TabsList className="w-full rounded-md h-11">
                       <TabsTrigger
                         value="student"
-                        className="text-muted-foreground rounded-md data-[state=active]:text-primary cursor-pointer">
+                        className="text-muted-foreground rounded-md data-[state=active]:text-primary cursor-pointer"
+                      >
                         Student
                       </TabsTrigger>
                       <TabsTrigger
                         value="instructor"
-                        className="text-muted-foreground rounded-md data-[state=active]:text-primary cursor-pointer">
+                        className="text-muted-foreground rounded-md data-[state=active]:text-primary cursor-pointer"
+                      >
                         Instructor
                       </TabsTrigger>
                     </TabsList>
@@ -119,7 +122,7 @@ const Register = () => {
                         Create an instructor account to publish courses and
                         reach students worldwide.
                       </p>
-                    </TabsContent>
+                    </TabsContent> */}
                   </Tabs>
                 )}
               />
@@ -172,7 +175,8 @@ const Register = () => {
                   className="text-xs text-indigo-600 cursor-pointer mt-1"
                   onClick={() =>
                     setShowPasswordRequirements(!showPasswordRequirements)
-                  }>
+                  }
+                >
                   {showPasswordRequirements ? "Hide" : "Show"} password
                   requirements
                 </div>
@@ -203,7 +207,8 @@ const Register = () => {
               <Button
                 type="submit"
                 disabled={isLoading}
-                className="bg-indigo-600 hover:bg-indigo-500 w-full cursor-pointer">
+                className="bg-indigo-600 hover:bg-indigo-500 w-full cursor-pointer"
+              >
                 {isLoading ? "Creating account..." : "Create account"}
               </Button>
             </form>

@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-
+import { Link } from "react-router-dom";
 
 function BecomeInstructorSection() {
   return (
@@ -22,18 +22,22 @@ function BecomeInstructorSection() {
                 difference.
               </p>
               <div className="flex flex-wrap gap-4">
-                <Button
-                  className="bg-white text-[#3a57e8] hover:bg-white/90"
-                  size="lg"
-                >
-                  Start Teaching Today
-                </Button>
-                <Button
-                  variant="outline"
-                  className="bg-transparent border-white text-white hover:bg-white/10"
-                >
-                  Learn More
-                </Button>
+                <Link to="/join">
+                  <Button
+                    className="bg-white text-[#3a57e8] hover:bg-white/90"
+                    size="lg"
+                  >
+                    Start Teaching Today
+                  </Button>
+                </Link>
+                <Link to="/join">
+                  <Button
+                    variant="outline"
+                    className="bg-transparent border-white text-white hover:bg-white/10"
+                  >
+                    Learn More
+                  </Button>
+                </Link>
               </div>
 
               <div className="flex items-center gap-4 mt-8">

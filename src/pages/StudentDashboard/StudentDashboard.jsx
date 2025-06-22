@@ -14,7 +14,7 @@ function StudentDashboard() {
     (sum, course) => sum + course.hoursSpent,
     0
   );
-
+  console.log(enrolledCourses);
   return (
     <div className="min-h-dvh container my-10">
       {/* start header */}
@@ -26,19 +26,19 @@ function StudentDashboard() {
       </div>
       {/* end header */}
       {/* start stats */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 my-10">
+      <div className="grid grid-cols-1 md:grid-cols-2  gap-5 my-10">
         <StatsCard value={enrolledCourses.length} title={"Enrolled Courses"}>
           <div className="relative">
             <span className="absolute bg-blue-400/30 w-10 h-10 -z-1 -top-2 -right-2 rounded-full"></span>
             <BookOpen className="text-blue-500" />
           </div>
         </StatsCard>
-        <StatsCard value={totalHoursSpent} title={"Hours Spent"}>
+        {/* <StatsCard value={totalHoursSpent} title={"Hours Spent"}>
           <div className="relative">
             <span className="absolute bg-green-400/30 w-10 h-10 -z-1 -top-2 -right-2 rounded-full"></span>
             <Clock className="text-green-500" />
           </div>
-        </StatsCard>
+        </StatsCard> */}
         <StatsCard value={certificates.length} title={"Certificates"}>
           <div className="relative">
             <span className="absolute bg-yellow-400/30 w-10 h-10 -z-1 -top-2 -right-2 rounded-full"></span>

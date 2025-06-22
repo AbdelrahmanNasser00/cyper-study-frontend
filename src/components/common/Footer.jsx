@@ -10,10 +10,12 @@ const Footer = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
             {/* About */}
             <div>
-              <h3 className="font-poppins font-bold text-lg mb-4">Learnify</h3>
+              <h3 className="font-poppins font-bold text-lg mb-4">
+                Cyber Study
+              </h3>
               <p className="text-gray-600 mb-4">
                 Empowering minds through accessible, quality education. Join
-                thousands of students learning on Learnify.
+                thousands of students learning on Cyber Study.
               </p>
               <div className="flex space-x-4">
                 <a
@@ -161,7 +163,7 @@ const Footer = () => {
                 </li>
                 <li>
                   <Link
-                    to="/become-instructor"
+                    to="/join"
                     className="text-gray-600 hover:text-brand-blue transition-colors"
                   >
                     Become an Instructor
@@ -182,7 +184,8 @@ const Footer = () => {
           {/* Copyright */}
           <div className="border-t pt-8 text-center">
             <p className="text-gray-600">
-              &copy; {new Date().getFullYear()} Learnify. All rights reserved.
+              &copy; {new Date().getFullYear()} Cyber Study. All rights
+              reserved.
             </p>
           </div>
         </div>

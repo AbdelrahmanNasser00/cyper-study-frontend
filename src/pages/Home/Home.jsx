@@ -34,7 +34,7 @@ const Home = () => {
     },
     {
       title: "Language Learning",
-       icon: "book-open",
+      icon: "book-open",
       courseCount: 6,
       slug: "Language Learning",
       color: "bg-gradient-to-br from-yellow-500 to-yellow-600",
@@ -74,8 +74,6 @@ const Home = () => {
       slug: "Cybersecurity",
       color: "bg-gradient-to-br from-teal-500 to-teal-600",
     },
- 
-    
   ];
 
   const testimonials = [
@@ -85,7 +83,7 @@ const Home = () => {
       role: "Software Developer",
       company: "Google",
       testimonial:
-        "The web development courses on Learnify helped me land my dream job. The instructors are engaging and the content is current with industry standards.",
+        "The web development courses on Cyber Study helped me land my dream job. The instructors are engaging and the content is current with industry standards.",
       rating: 5,
     },
     {
