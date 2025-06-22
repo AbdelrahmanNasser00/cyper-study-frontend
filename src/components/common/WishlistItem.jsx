@@ -6,6 +6,7 @@ import { useRemoveFromWishlistMutation } from "@/services/wishlistApi";
 import { Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom"; // Import Link
+import { useAddToCartMutation } from "@/services/cartApi";
 
 const WishlistItem = ({ wishlistItem, onRemove }) => {
   const dispatch = useDispatch();
@@ -16,6 +17,7 @@ const WishlistItem = ({ wishlistItem, onRemove }) => {
   } = useGetCourseByIdQuery(wishlistItem.courseId);
   const [removeFromWishlist, { isLoading: isRemoving }] =
     useRemoveFromWishlistMutation();
+  const [addToCartApi] = useAddToCartMutation();
 
   const handleRemove = async () => {
     try {
@@ -26,7 +28,7 @@ const WishlistItem = ({ wishlistItem, onRemove }) => {
     }
   };
 
-  const handleAddToCart = () => {
+  const handleAddToCart = async () => {
     if (course) {
       const cartItem = {
         id: course.id,
@@ -35,6 +37,7 @@ const WishlistItem = ({ wishlistItem, onRemove }) => {
         image: course.thumbnail,
         price: course.price,
       };
+      await addToCartApi(course.id);
       dispatch(addToCart(cartItem));
     }
   };
