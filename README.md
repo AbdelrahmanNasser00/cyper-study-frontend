@@ -1,12 +1,69 @@
-# React + Vite
+# 🎓 CyperStudy
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+**CyperStudy** is a web-based learning platform that allows instructors to create and publish courses, and enables learners to browse, enroll, and benefit from educational content across various fields — similar to platforms like Udemy.  
+It aims to provide an engaging and user-friendly experience for both educators and students.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 📸 Screenshots
 
-## Expanding the ESLint configuration
+![Home Page Screenshot](./src/assets/Screenshot%202025-08-09%20224140.png)
 
-If you are developing a production application, we recommend using TypeScript and enable type-aware lint rules. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+---
+
+## 📜 Features
+
+### 👩‍🏫 For Instructors
+
+- Create, update, and publish courses.
+- Upload course content (videos, documents, quizzes).
+- Manage enrolled students.
+
+### 📚 For Learners
+
+- Browse courses by category or keyword.
+- Enroll in free or paid courses.
+- Access course materials and track progress.
+
+### ⚙ Platform Features
+
+- Secure authentication using JWT.
+- Payment integration with PayPal and Stripe.
+- Fully responsive and accessible design.
+- Modern UI with Tailwind CSS and ShadCN.
+- Efficient data fetching and caching with RTK Query.
+
+---
+
+## 🛠 Technologies Used
+
+**🎨 Design**
+
+- Figma
+
+**💻 Frontend**
+
+- React.js
+- Tailwind CSS
+- ShadCN UI
+- RTK Query (Redux Toolkit Query)
+
+**🖥 Backend**
+
+- Node.js
+- Express.js
+
+**🗄 Database**
+
+- MySQL
+
+**🔒 Authentication**
+
+- JWT (JSON Web Token)
+
+**💳 Payments**
+
+- PayPal
+- Stripe
+
+---

@@ -223,7 +223,8 @@ const VideoPlayer = ({
               () => setShowControls(false),
               500
             );
-        }}>
+        }}
+      >
         <ReactPlayer
           ref={playerRef}
           url={currentLesson?.videoUrl}
@@ -263,7 +264,8 @@ const VideoPlayer = ({
             onClick={handlePlayPause}
             className="absolute inset-0 flex items-center justify-center z-10
                        focus:outline-none"
-            aria-label="Play video">
+            aria-label="Play video"
+          >
             <Play className="h-16 w-16 text-white opacity-80 hover:opacity-100 transition-opacity" />
           </button>
         )}
@@ -271,7 +273,8 @@ const VideoPlayer = ({
         {(showControls || !playing) && isReady && (
           <div
             className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 via-black/50 to-transparent p-3 sm:p-4 z-20"
-            onMouseMove={(e) => e.stopPropagation()}>
+            onMouseMove={(e) => e.stopPropagation()}
+          >
             <div className="flex items-center gap-2 sm:gap-3 mb-1 sm:mb-2">
               <input
                 type="range"
@@ -298,7 +301,8 @@ const VideoPlayer = ({
                 <button
                   onClick={handlePlayPause}
                   className="text-white hover:text-[#00c1d4] transition-colors focus:outline-none"
-                  aria-label={playing ? "Pause video" : "Play video"}>
+                  aria-label={playing ? "Pause video" : "Play video"}
+                >
                   {playing ? (
                     <Pause className="h-5 w-5 sm:h-6 sm:w-6" />
                   ) : (
@@ -313,7 +317,8 @@ const VideoPlayer = ({
               <div className="flex items-center gap-2 sm:gap-3">
                 <button
                   onClick={() => setMuted(!muted)}
-                  className="text-white hover:text-[#00c1d4]">
+                  className="text-white hover:text-[#00c1d4]"
+                >
                   {muted || volume === 0 ? (
                     <VolumeX className="h-5 w-5" />
                   ) : (
@@ -340,7 +345,8 @@ const VideoPlayer = ({
                   className="text-white hover:text-[#00c1d4] transition-colors focus:outline-none"
                   aria-label={
                     isFullscreen ? "Exit fullscreen" : "Enter fullscreen"
-                  }>
+                  }
+                >
                   {isFullscreen ? (
                     <Minimize className="h-5 w-5 sm:h-6 sm:w-6" />
                   ) : (
@@ -378,7 +384,8 @@ const VideoPlayer = ({
             variant="outline"
             className="px-3 sm:px-4 flex items-center gap-2 text-xs sm:text-sm"
             disabled={!lessons.length || activeLesson === lessons[0]?.id}
-            onClick={() => handleNavigation("previous")}>
+            onClick={() => handleNavigation("previous")}
+          >
             <SkipBack className="h-4 w-4" />
             Previous
           </Button>
@@ -388,7 +395,8 @@ const VideoPlayer = ({
               !lessons.length ||
               activeLesson === lessons[lessons.length - 1]?.id
             }
-            onClick={() => handleNavigation("next")}>
+            onClick={() => handleNavigation("next")}
+          >
             Next
             <SkipForward className="h-4 w-4" />
           </Button>

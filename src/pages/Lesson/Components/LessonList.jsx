@@ -42,7 +42,8 @@ const LessonList = ({
             onRetryCompletion?.(lesson.id);
           }}
           className="w-6 h-6 rounded-full mr-3 flex items-center justify-center bg-red-100 hover:bg-red-200 transition-colors"
-          title={`Error: ${completionState.error}. Click to retry.`}>
+          title={`Error: ${completionState.error}. Click to retry.`}
+        >
           <AlertCircle className="h-3 w-3 text-red-600" />
         </button>
       );
@@ -96,13 +97,15 @@ const LessonList = ({
                     activeLesson === lesson.id ? "bg-gray-100" : ""
                   }`}
                   onClick={() => onLessonClick(lesson.id, lesson.locked)}
-                  disabled={lesson.locked}>
+                  disabled={lesson.locked}
+                >
                   {renderLessonStatus(lesson)}
                   <div className="text-left flex-1 flex flex-col">
                     <div
                       className={`${
                         lesson.locked ? "text-gray-400" : "text-gray-800"
-                      } ${completionState.completed ? "font-medium" : ""}`}>
+                      } ${completionState.completed ? "font-medium" : ""}`}
+                    >
                       {lesson.title}
                     </div>
                     <div className="text-xs text-gray-500">
